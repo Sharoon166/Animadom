@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+html,
+body {
+  scroll-behavior: smooth;
+}
+::selection {
+  background-color: rgb(177, 177, 28);
+  color: rgb(4, 72, 49);
+}
+#search-results{
+  scrollbar-width: thin;
+  scrollbar-color: rgb(177, 177, 28) rgb(4, 72, 49);
+  
+}
+::-webkit-scrollbar{
+  width: 10px;
+}
+::-webkit-scrollbar-thumb{
+  border-radius: 100px;
+  background-color: rgb(177, 177, 28);
+}
