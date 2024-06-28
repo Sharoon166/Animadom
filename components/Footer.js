@@ -4,7 +4,7 @@ import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin } from "react-icons/fa";
 const Footer = () => {
   return (
     <div>
-      <div className="flex justify-evenly items-center p-6 bg-[#121212] border-t text-white flex-col md:flex-row gap-3">
+      <div className="flex justify-evenly items-center bg-[#121212] border-t text-white flex-col md:flex-row gap-3">
         <div className="size-24 overflow-hidden invert">
           <Link href="/" className="text-2xl">
             <img src="/logo.png" alt="" />
@@ -46,6 +46,15 @@ const Footer = () => {
       <a href="https://dribbble.com/shots/22982773-Kurosaw-Anime-Streaming-Web-App" target="_blank" className="text-gray-200 
       pb-6 hover:underline">The Inspiration was taken from Dribble</a>
       </div>
+    
+        <div className="">
+
+  <p className="text-white text-center ">© 2024. All rights reserved. Website designed and developed in   <img src="/next.svg" alt="" className="size-14 mx-2 invert inline-block"/> 
+    by Haider & Sharoon.</p>
+
+        </div>
+
+
     </div>
   );
 };
