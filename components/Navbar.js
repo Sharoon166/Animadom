@@ -117,8 +117,8 @@ const Navbar = () => {
         </nav>
         <div
           className={`${
-            menuOpen ? "h-[270px]" : "max-h-0"
-          }  transition-max-height duration-300 md:hidden`}
+            menuOpen ? "h-[270px] " : "max-h-0 overflow-hidden"
+          }  transition-max-height duration-300 md:hidden `}
         >
           <ul className="flex flex-col items-center gap-4 p-4">
             <Link href="/">
