@@ -3,17 +3,17 @@ import Link from 'next/link';
 
 const LoginPage = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center ">
-      <div className="rounded-lg bg-gradient-to-tr from-[#121212] via-[#292929] to-[#101010] shadow-lg flex items-center">
-        <div className="w-1/2 ">
+    <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="bg-gradient-to-tr from-[#121212] via-[#292929] to-[#101010] shadow-lg flex flex-col md:flex-row items-center rounded-lg max-w-4xl w-full">
+        <div className="md:w-1/2 w-full">
           <img
             src="/Login.png"
             alt="Login Image"
-            className=" object-cover rounded-l-lg"
+            className="object-cover w-full h-full rounded-t-lg md:rounded-l-lg md:rounded-t-none"
           />
         </div>
-        <div className="w-1/2 p-8 ">
-          <h2 className="text-3xl font-bold mb-6">Login</h2>
+        <div className="md:w-1/2 w-full p-8">
+          <h2 className="text-3xl font-bold mb-6 text-center md:text-left">Login</h2>
           <form>
             <div className="mb-4">
               <label htmlFor="email" className="block font-semibold pb-2">
@@ -43,10 +43,9 @@ const LoginPage = () => {
             >
               Login
             </button>
-            <h2 className='text-center pt-6'>Dont have an account?</h2>
+            <h2 className='text-center pt-6'>Don't have an account?</h2>
             <div className='flex items-center justify-center mt-5'>
-
-            <Link href="/signup" className='hover:underline transition-all duration-100 text-yellow-400 text-lg hover:text-yellow-300'>Sign up</Link>
+              <Link href="/signup" className='hover:underline transition-all duration-100 text-yellow-400 text-lg hover:text-yellow-300'>Sign up</Link>
             </div>
           </form>
         </div>
