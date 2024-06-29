@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { topAnime } from "@/constants";
 import { Swiper, SwiperSlide } from "swiper/react";
+import Card from "./Card";
 import "swiper/css";
 import SwiperCore, {
   Autoplay,
