@@ -39,41 +39,55 @@ const AnimeDescription = ({ params }) => {
 
   useEffect(() => {
     if (animeData) {
-      gsap.from(imageRef.current, {
-        opacity: 0,
-        x: -100,
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: imageRef.current,
-          start: "top center+=100",
-          toggleActions: "play none none reset"
+      gsap.fromTo(
+        imageRef.current,
+        { opacity: 0, x: -100 },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 1,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: imageRef.current,
+            start: "top center+=100",
+            toggleActions: "play pause resume reverse",
+          },
         }
-      });
+      );
 
-      gsap.from(detailsRef.current, {
-        opacity: 0,
-        y: 100,
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: detailsRef.current,
-          start: "top center+=100",
-          toggleActions: "play none none reset"
+      gsap.fromTo(
+        detailsRef.current,
+        { opacity: 0, y: 100 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: detailsRef.current,
+            start: "top 90%",
+            end: "bottom 20%",
+            toggleActions: "play pause resume reverse",
+          },
         }
-      });
+      );
 
-      gsap.from(charactersRef.current, {
-        opacity: 0,
-        y: 100,
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: charactersRef.current,
-          start: "top center+=100",
-          toggleActions: "play none none reset"
+      gsap.fromTo(
+        charactersRef.current,
+        { opacity: 0, y: 100 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: charactersRef.current,
+            start: "top 90%",
+            end: "bottom 20%",
+            toggleActions: "play pause resume reverse",
+          },
         }
-      });
+      );
     }
   }, [animeData]);
 
