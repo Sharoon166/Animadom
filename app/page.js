@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
@@ -123,7 +123,10 @@ export default function Home() {
       </div>
       <div>
         <h1 className="text-4xl font-bold text-white m-8">Trending Anime</h1>
-        <div className="flex flex-wrap justify-center items-center" ref={trendingRef}>
+        <div
+          className="flex flex-wrap justify-center items-center"
+          ref={trendingRef}
+        >
           {trending.map((anime) => (
             <div key={anime.id} className="m-4">
               <AnimeCard
@@ -146,6 +149,13 @@ export default function Home() {
       <div ref={moreAnimeRef}>
         <MoreAnime />
       </div>
+      <Link
+        href="/seasonsdetails"
+        className="text-center text-yellow-400 text-2xl font-bold m-10 hover:text-white transition-all duration-200 "
+      >
+        {" "}
+        Learn about More Seasons
+      </Link>
     </>
   );
 }
