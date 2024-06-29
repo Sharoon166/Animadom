@@ -98,12 +98,12 @@ const Navbar = () => {
           </ul>
           <div className="flex gap-4 items-center">
             <Link href="/signup">
-              <button className="font-semibold px-4 py-2 rounded-full bg-zinc-800 hover:bg-zinc-800/50 transition-colors duration-100">
+              <button className="font-semibold px-4 py-2 rounded-full bg-zinc-800 hover:bg-zinc-800/50 transition-colors duration-300">
                 Sign Up
               </button>
             </Link>
             <Link href="/login">
-              <button className="font-semibold px-4 py-2 rounded-full bg-zinc-800 hover:bg-zinc-800/50 transition-colors duration-100">
+              <button className="font-semibold px-4 py-2 rounded-full bg-zinc-800 hover:bg-zinc-800/50 transition-colors duration-300">
                 Log In
               </button>
             </Link>
@@ -117,8 +117,8 @@ const Navbar = () => {
         </nav>
         <div
           className={`${
-            menuOpen ? "h-[270px] " : "max-h-0 overflow-hidden"
-          }  transition-max-height duration-300 md:hidden `}
+            menuOpen ? "h-[270px]" : "h-0 overflow-hidden"
+          } transition-all duration-300 md:hidden `}
         >
           <ul className="flex flex-col items-center gap-4 p-4">
             <Link href="/">
@@ -137,7 +137,7 @@ const Navbar = () => {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search"
-                className="bg-transparent text-white p-2 outline-none  w-full"
+                className="bg-transparent text-white p-2 outline-none w-full"
                 title="Type Slowly, it's a free API 💀"
               />
               {searchResults?.length > 0 && (
