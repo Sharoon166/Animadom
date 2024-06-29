@@ -1,7 +1,11 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { FaRegStar } from "react-icons/fa";
 import Loading from "@/loading";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const fm = Intl.DateTimeFormat("en", {
   dateStyle: "long",
@@ -10,6 +14,10 @@ const fm = Intl.DateTimeFormat("en", {
 const AnimeDescription = ({ params }) => {
   const [animeData, setAnimeData] = useState();
   const [animeCharacters, setAnimeCharacters] = useState([]);
+
+  const detailsRef = useRef(null);
+  const charactersRef = useRef(null);
+  const imageRef = useRef(null);
 
   useEffect(() => {
     fetch(`https://api.jikan.moe/v4/anime/${parseInt(params.animeId)}`, {
@@ -26,10 +34,48 @@ const AnimeDescription = ({ params }) => {
           data?.data?.filter((character) => character.role == "Main")
         )
       )
-    
-
       .catch((err) => console.log(err));
   }, []);
+
+  useEffect(() => {
+    if (animeData) {
+      gsap.from(imageRef.current, {
+        opacity: 0,
+        x: -100,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: imageRef.current,
+          start: "top center+=100",
+          toggleActions: "play none none reset"
+        }
+      });
+
+      gsap.from(detailsRef.current, {
+        opacity: 0,
+        y: 100,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: detailsRef.current,
+          start: "top center+=100",
+          toggleActions: "play none none reset"
+        }
+      });
+
+      gsap.from(charactersRef.current, {
+        opacity: 0,
+        y: 100,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: charactersRef.current,
+          start: "top center+=100",
+          toggleActions: "play none none reset"
+        }
+      });
+    }
+  }, [animeData]);
 
   if (!animeData) return <Loading />;
 
@@ -45,15 +91,17 @@ const AnimeDescription = ({ params }) => {
     season,
     studios,
     images: {
-      webp: { image_url},
+      webp: { image_url },
     },
     trailer: { embed_url },
   } = animeData;
+
   return (
     <>
       <div className="container mx-auto my-14 space-y-16 text-gray-300 px-10">
         <div className="flex flex-col md:flex-row items-center gap-10 md:gap-24">
           <img
+            ref={imageRef}
             src={image_url}
             alt={`${title} cover image`}
             className="rounded-lg"
@@ -70,12 +118,15 @@ const AnimeDescription = ({ params }) => {
         </div>
 
         <div className="flex flex-col md:flex-row items-center gap-10">
-          <div className="space-y-5  md:w-1/2  rounded-xl px-4 py-6 bg-zinc-800">
+          <div
+            ref={detailsRef}
+            className="space-y-5 md:w-1/2 rounded-xl px-4 py-6 bg-zinc-800"
+          >
             <h2 className="text-3xl font-semibold">Anime Details</h2>
             <table className="*:*:p-2">
               <tr>
                 <td className="text-lg font-semibold">Episodes</td>
-                <td>{episodes ?? "un-known"}</td>
+                <td>{episodes ?? "unknown"}</td>
               </tr>
               <tr>
                 <td className="text-lg font-semibold">Aired</td>
@@ -90,7 +141,7 @@ const AnimeDescription = ({ params }) => {
               </tr>
               <tr>
                 <td className="text-lg font-semibold">Season</td>
-                <td>{season ?? "un-kown"}</td>
+                <td>{season ?? "unknown"}</td>
               </tr>
               <tr>
                 <td className="text-lg font-semibold">Studios</td>
@@ -111,26 +162,24 @@ const AnimeDescription = ({ params }) => {
               className="aspect-video mx-auto w-full max-w-3xl"
               src={embed_url}
               title="YouTube video player"
-              frameborder="0"
+              frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
             ></iframe>
           </div>
         </div>
       </div>
-      <div className="space-y-10 container mx-auto mb-20 px-10">
+      <div ref={charactersRef} className="space-y-10 container mx-auto mb-20 px-10">
         <h2 className="text-3xl font-semibold">Main Characters</h2>
-        <div className="grid grid-cols-1  sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-          {!animeCharacters && "No Characters"}
+        <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+          {!animeCharacters.length && "No Characters"}
           {animeCharacters.map((character) => {
             const {
               character: {
                 mal_id,
                 url,
-                images: {
-                  webp: { image_url },
-                },
+                images: { webp: { image_url } },
                 name,
               },
             } = character;
@@ -158,7 +207,6 @@ const AnimeDescription = ({ params }) => {
           })}
         </div>
       </div>
-   
     </>
   );
 };
