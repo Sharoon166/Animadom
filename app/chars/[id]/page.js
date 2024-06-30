@@ -139,6 +139,7 @@ const CharacterPage = ({ params,data }) => {
             const {
               role,
               anime: {
+                mal_id,
                 images: {
                   webp: { image_url },
                 },
