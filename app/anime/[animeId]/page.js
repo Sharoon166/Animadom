@@ -4,6 +4,7 @@ import { FaRegStar } from "react-icons/fa";
 import Loading from "@/loading";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import Link from "next/link";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -12,6 +13,7 @@ const fm = Intl.DateTimeFormat("en", {
 });
 
 const AnimeDescription = ({ params }) => {
+  console.log(params.animeId)
   const [animeData, setAnimeData] = useState();
   const [animeCharacters, setAnimeCharacters] = useState([]);
 
@@ -198,10 +200,9 @@ const AnimeDescription = ({ params }) => {
               },
             } = character;
             return (
-              <a
+              <Link
                 key={mal_id}
-                href={url}
-                target="_blank"
+                href={`/chars/${mal_id}`}
                 className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition duration-300 ease-in-out"
                 style={{ height: "350px" }}
               >
@@ -216,10 +217,15 @@ const AnimeDescription = ({ params }) => {
                     {name}
                   </h2>
                 </div>
-              </a>
+              </Link>
             );
           })}
         </div>
+      </div>
+      <div className="text-1xl md:text-2xl text-yellow-400 m-8 flex justify-around items-center">
+
+      <Link href={`/episodes/${params.animeId}`}><h3 >Get Episodes</h3></Link>
+      <Link href={`/recs/${params.animeId}`}>Get Recommendations</Link>
       </div>
     </>
   );

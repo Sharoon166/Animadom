@@ -95,7 +95,7 @@ export default function Home() {
         ease: "elastic.out(1, 0.5)",
         scrollTrigger: {
           trigger: moreAnimeRef.current,
-          start: "top center+=100",
+          start: "top 90%",
         },
       }
     );
@@ -151,7 +151,7 @@ export default function Home() {
       </div>
       <Link
         href="/seasonsdetails"
-        className="text-center text-yellow-400 text-2xl font-bold m-10 hover:text-white transition-all duration-200 "
+        className="text-center text-yellow-400 text-1xl md:text-2xl font-bold m-10 hover:text-white transition-all duration-200 "
       >
         {" "}
         Learn about More Seasons

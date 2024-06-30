@@ -41,20 +41,44 @@ const Footer = () => {
           </li>
         </ul>
       </div>
-      <div className=" text-center">
-
-      <a href="https://dribbble.com/shots/22982773-Kurosaw-Anime-Streaming-Web-App" target="_blank" className="text-gray-200 
-      pb-6 hover:underline">The Inspiration was taken from Dribble</a>
+      <div className=" text-center text-gray-200">
+        <p>
+          The Inspiration was taken from { " "}
+          <a
+            href="https://dribbble.com/shots/22982773-Kurosaw-Anime-Streaming-Web-App"
+            target="_blank"
+            className=" 
+           hover:underline"
+          >
+           Dribble
+          </a>
+        </p>
+        <br />
       </div>
-    
-        <div className="">
 
-  <p className="text-white text-center ">© 2024. All rights reserved. Website designed and developed in   <img src="/next.svg" alt="" className="size-14 mx-2 invert inline-block"/> 
-    by Haider & Sharoon.</p>
-
-        </div>
-
-
+      <div className="text-white text-center">
+        <p>
+          Special thanks to{" "}
+          <a
+            href="https://jikan.moe/"
+            target="_blank"
+            className="hover:underline"
+          >
+            Jikan API
+          </a>{" "}
+          for providing anime data.
+        </p>
+        
+        <p className=" ">
+          © 2024. All rights reserved. Website designed and developed in{" "}
+          <img
+            src="/next.svg"
+            alt=""
+            className="size-14 mx-2 invert inline-block"
+          />
+          by Haider & Sharoon.
+        </p>
+      </div>
     </div>
   );
 };

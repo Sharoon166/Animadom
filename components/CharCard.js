@@ -1,12 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import Link from "next/link";
-import { FaArrowRight } from "react-icons/fa";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const AnimeCard = ({ mal_id, name, imageUrl, year, genre }) => {
+const AnimeCard = ({ id, name, imageUrl, favs, nicks }) => {
   const cardRef = useRef(null);
 
   useEffect(() => {
@@ -55,14 +54,14 @@ const AnimeCard = ({ mal_id, name, imageUrl, year, genre }) => {
         <div className="items-left duration-600 absolute p-4 flex flex-col gap-3 left-0 translate-y-[100%] justify-between font-nunito text-[hsl(0,0%,85%)] group-hover:translate-y-0">
           <div className="items-left flex flex-col justify-center">
             <Link
-              href={`/anime/${mal_id}`}
+              href={`/chars/${id}`}
               className="text-lg font-bold leading-[0.8em] hover:cursor-pointer hover:underline"
             >
               {name}
             </Link>
           </div>
-          <p className="text-[0.7em]">
-            {year}, {genre}
+          <p className="text-[1em]">
+            {favs}, {nicks}
           </p>
         </div>
       </div>
