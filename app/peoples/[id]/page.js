@@ -1,18 +1,11 @@
 "use client";
 import React, { useEffect, useState, useRef } from "react";
-import { FaRegStar, FaMicrophone } from "react-icons/fa";
+import { FaRegStar } from "react-icons/fa";
 import Loading from "@/loading";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import Card from "@/components/CharCard";
 import Link from "next/link";
-import dynamic from "next/dynamic";
-
-const CharacterGallery = dynamic(
-  () => import("@/components/CharacterGallery"),
-  {
-    ssr: false,
-  }
-);
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -21,21 +14,14 @@ const fm = Intl.DateTimeFormat("en", {
 });
 
 const CharacterPage = ({ params, data }) => {
-  console.log(params.id);
   const [characterData, setCharacterData] = useState();
-  const [animeData, setAnimeData] = useState([]);
   const charactersRef = useRef(null);
+
   useEffect(() => {
-    fetch(`https://api.jikan.moe/v4/characters/${params.id}`)
+    fetch(`https://api.jikan.moe/v4/people/${params.id}/full`)
       .then((res) => res.json())
       .then((data) => setCharacterData(data?.data));
-    fetch(`https://api.jikan.moe/v4/characters/${params.id}/anime`)
-      .then((res) => res.json())
-      .then((data) => {
-        setAnimeData(data?.data);
-        console.log(data.data);
-      });
-  }, []);
+  }, [params.id]);
 
   const detailsRef = useRef(null);
   const imageRef = useRef(null);
@@ -82,15 +68,13 @@ const CharacterPage = ({ params, data }) => {
 
   const {
     name,
-    name_kanji,
-    nicknames,
+    alternate_names,
     favorites,
     about,
     mal_id,
     url,
-    images: {
-      webp: { image_url },
-    },
+    birthday,
+    images: { jpg: { image_url } },
   } = characterData;
 
   return (
@@ -104,19 +88,9 @@ const CharacterPage = ({ params, data }) => {
             className="rounded-lg"
           />
           <div className="space-y-1 text-center md:text-left">
-            <div className="flex items-center justify-center md:justify-normal text-lg text-yellow-500">
-              <h2 className="text-3xl md:text-5xl text-white font-bold">
-                {name}
-              </h2>
-
-              <Link href={`/va/${params.id}`} className=" flex items-center justify-center gap-2 text-yellow-400 p-6 hover:underline">
-               
-                  <FaMicrophone className=" text-xl"/>
-                <div className="text-2xl">Voice Actors</div>
-                
-              </Link>
-
-            </div>
+            <h2 className="text-3xl md:text-5xl text-white font-bold">
+              {name}
+            </h2>
             <div className="flex items-center justify-center md:justify-normal gap-3 text-lg text-yellow-500">
               <FaRegStar /> {favorites} Favorites
             </div>
@@ -142,68 +116,39 @@ const CharacterPage = ({ params, data }) => {
           <table className="table-auto w-full">
             <tbody>
               <tr>
-                <td className="text-lg font-semibold">Name (Kanji)</td>
-                <td>{name_kanji}</td>
-              </tr>
-              <tr>
-                <td className="text-lg font-semibold">Nicknames</td>
-                <td>{nicknames.join(", ")}</td>
+                <td className="text-lg font-semibold">Another Name</td>
+                <td>{alternate_names.join(", ")}</td>
               </tr>
               <tr>
                 <td className="text-lg font-semibold">Mal ID</td>
                 <td>{mal_id}</td>
               </tr>
-              {/* Add more details as needed */}
+              <tr>
+                <td className="text-lg font-semibold">Birthday</td>
+                <td>{fm.format(new Date(birthday))}</td>
+              </tr>
             </tbody>
           </table>
         </div>
-
         <div
           ref={charactersRef}
           className="space-y-10 container mx-auto mb-20 px-10"
         >
-          <h2 className="text-3xl font-semibold">Anime Starring {name}</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-            {!animeData.length && "No Anime"}
-            {animeData.map((character) => {
-              const {
-                role,
-                anime: {
-                  mal_id,
-                  images: {
-                    webp: { image_url },
-                  },
-                  title,
-                },
-              } = character;
-              return (
-                <Link
-                  key={mal_id}
-                  href={`/anime/${mal_id}`}
-                  className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition duration-300 ease-in-out"
-                  style={{ height: "350px" }}
-                >
-                  <img
-                    src={image_url}
-                    alt={title}
-                    className="w-full h-full object-cover transform group-hover:scale-110 transition duration-300 ease-in-out"
-                  />
-                  <div className="absolute inset-0 bg-black opacity-50 group-hover:opacity-0 transition duration-300 ease-in-out"></div>
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 ease-in-out">
-                    <h2 className="text-white text-1xl font-bold text-center">
-                      {title} <br />
-                      {role}
-                    </h2>
-                  </div>
-                </Link>
-              );
-            })}
+          <h2 className="text-3xl font-semibold">
+            Anime Characters Voiced by {name}
+          </h2>
+          <div className="flex flex-wrap gap-5 justify-center items-center">
+            {!characterData.voices.length && "No Characters"}
+            {characterData.voices.map((character) => (
+              <Card
+                key={character.character.mal_id}
+                id={character.character.mal_id}
+                name={character.character.name}
+                imageUrl={character.character.images.jpg.image_url}
+                favs={character.role}
+              />
+            ))}
           </div>
-        </div>
-
-        <div>
-          <h2 className="text-3xl font-semibold p-8">Character Gallery</h2>
-          <CharacterGallery characterId={mal_id} />
         </div>
       </div>
     </>
