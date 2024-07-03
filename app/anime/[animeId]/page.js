@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
-import { FaRegStar } from "react-icons/fa";
+import { FaRegStar,FaArrowRight } from "react-icons/fa";
 import Loading from "@/loading";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
@@ -194,7 +194,6 @@ const AnimeDescription = ({ params }) => {
             const {
               character: {
                 mal_id,
-                url,
                 images: { webp: { image_url } },
                 name,
               },
@@ -221,6 +220,12 @@ const AnimeDescription = ({ params }) => {
             );
           })}
         </div>
+      <Link
+          href={`/all_chars/${params.animeId}`}
+          className="flex justify-center items-center text-center px-2 py-3 rounded-lg bg-slate-500 mx-auto w-20"
+        >
+          <FaArrowRight className="text-yellow-400 text-2xl transition-all duration-200" />
+        </Link>
       </div>
       <div className="text-1xl md:text-2xl text-yellow-400 m-8 flex justify-around items-center">
 
