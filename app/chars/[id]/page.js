@@ -109,13 +109,13 @@ const CharacterPage = ({ params, data }) => {
                 {name}
               </h2>
 
-              <Link href={`/va/${params.id}`} className=" flex items-center justify-center gap-2 text-yellow-400 p-6 hover:underline">
-               
-                  <FaMicrophone className=" text-xl"/>
+              <Link
+                href={`/va/${params.id}`}
+                className=" flex items-center justify-center gap-2 text-yellow-400 p-6 hover:underline"
+              >
+                <FaMicrophone className=" text-xl" />
                 <div className="text-2xl">Voice Actors</div>
-                
               </Link>
-
             </div>
             <div className="flex items-center justify-center md:justify-normal gap-3 text-lg text-yellow-500">
               <FaRegStar /> {favorites} Favorites

@@ -9,17 +9,22 @@ const Navbar = () => {
   let [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    if (search.length >= 3) {
-      fetch(
-        `https://api.jikan.moe/v4/anime?q=${search}&sfw&limit=8&order_by=popularity`
-      )
+    if (search.length === 0) {
+      setSearchResults([]);
+      return;
+    }
+
+    const time = setTimeout(() => {
+      fetch(`https://api.jikan.moe/v4/anime?q=${search}&limit=8`)
         .then((res) => res.json())
         .then((data) => {
           setSearchResults(data?.data);
         });
-    } else if (search.length === 0) {
-      setSearchResults([]);
-    }
+    }, 300);
+
+    return () => {
+      clearTimeout(time);
+    };
   }, [search]);
 
   const handleClearSearch = () => {
