@@ -14,7 +14,7 @@ const CharSearch = () => {
     }
 
     const time = setTimeout(() => {
-      fetch(`https://api.jikan.moe/v4/characters?q=${search}&limit=8`)
+      fetch(`https://api.jikan.moe/v4/characters?q=${search}&limit=5`)
         .then((res) => res.json())
         .then((data) => {
           setSearchResults(data?.data);
