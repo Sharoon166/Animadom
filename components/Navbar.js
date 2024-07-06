@@ -54,10 +54,10 @@ const Navbar = () => {
               <li className="hover:text-white">About</li>
             </Link>
             <li>
-              <Link href="/upcoming">Upcoming</Link>
+              <Link href="/upcoming" className="hover:text-white">Upcoming</Link>
             </li>
             <li>
-              <Link href="/top_chars">Top Characters</Link>
+              <Link href="/top_chars" className="hover:text-white">Top Characters</Link>
             </li>
             <li className="bg-gray-200/25 flex items-center justify-center px-2 rounded-full gap-1 relative">
               <FaSearch />
@@ -125,7 +125,7 @@ const Navbar = () => {
         </nav>
         <div
           className={`${
-            menuOpen ? "h-[270px]" : "h-0 overflow-hidden"
+            menuOpen ? "h-[310px]" : "h-0 overflow-hidden"
           } transition-all duration-300 md:hidden `}
         >
           <ul className="flex flex-col items-center gap-4 p-4">
@@ -137,6 +137,9 @@ const Navbar = () => {
             </Link>
             <Link href="/upcoming">
               <li className="hover:text-white">Upcoming</li>
+            </Link>
+            <Link href="/top_chars">
+              <li className="hover:text-white">Top Characters</li>
             </Link>
             <li className="bg-gray-200/25 flex items-center justify-center px-2 rounded-full gap-1 relative w-full max-w-44">
               <FaSearch />
