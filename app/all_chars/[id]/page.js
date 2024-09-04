@@ -32,6 +32,56 @@ const Page = ({ params }) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const pageCount = Math.ceil(characters.length / charactersPerPage);
+
+  const renderPaginationButtons = () => {
+    const buttons = [];
+    const maxVisibleButtons = 5;
+
+    let startPage = Math.max(1, currentPage - Math.floor(maxVisibleButtons / 2));
+    let endPage = Math.min(pageCount, startPage + maxVisibleButtons - 1);
+
+    if (endPage - startPage + 1 < maxVisibleButtons) {
+      startPage = Math.max(1, endPage - maxVisibleButtons + 1);
+    }
+
+    if (startPage > 1) {
+      buttons.push(
+        <button key="first" onClick={() => paginate(1)} className="bg-pink-500 text-white px-4 py-2 rounded-full hover:bg-pink-600 transition duration-200 ease-in-out ml-2">
+          1
+        </button>
+      );
+      if (startPage > 2) {
+        buttons.push(<span key="ellipsis1" className="px-2">...</span>);
+      }
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      buttons.push(
+        <button
+          key={i}
+          onClick={() => paginate(i)}
+          className={`${currentPage === i ? 'bg-pink-600' : 'bg-pink-500'} text-white px-4 py-2 rounded-full hover:bg-pink-600 transition duration-200 ease-in-out ml-2`}
+        >
+          {i}
+        </button>
+      );
+    }
+
+    if (endPage < pageCount) {
+      if (endPage < pageCount - 1) {
+        buttons.push(<span key="ellipsis2" className="px-2">...</span>);
+      }
+      buttons.push(
+        <button key="last" onClick={() => paginate(pageCount)} className="bg-pink-500 text-white px-4 py-2 rounded-full hover:bg-pink-600 transition duration-200 ease-in-out ml-2">
+          {pageCount}
+        </button>
+      );
+    }
+
+    return buttons;
+  };
+
   return (
     <>
       <div className="pb-3">
@@ -51,15 +101,7 @@ const Page = ({ params }) => {
           ))}
         </div>
         <div className="flex justify-center mt-8">
-          {Array.from({ length: Math.ceil(characters.length / charactersPerPage) }, (_, i) => (
-            <button
-              key={i}
-              onClick={() => paginate(i + 1)}
-              className="bg-pink-500 text-white px-4 py-2 rounded-full hover:bg-pink-600 transition duration-200 ease-in-out ml-2"
-            >
-              {i + 1}
-            </button>
-          ))}
+          {renderPaginationButtons()}
         </div>
       </div>
     </>
