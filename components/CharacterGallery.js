@@ -8,7 +8,7 @@ const CharacterGallery = async ({ characterId }) => {
     return (
       <div>  
         <div className="flex justify-center items-center flex-wrap  gap-10 mb-20">
-          {data?.data.map((picture) => {
+          {data?.data?.map((picture) => {
             const {
               jpg: { image_url },
             } = picture;

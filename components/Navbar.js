@@ -115,6 +115,11 @@ const Navbar = () => {
                 Log In
               </button>
             </Link>
+            <Link href="https://mangadom.vercel.app" target="_blank" rel="noopener noreferrer">
+              <button className="font-semibold px-4 py-2 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 transition-colors duration-300 text-white shadow-lg transform hover:scale-105 hover:rotate-1 active:scale-95 active:rotate-0">
+                Mangadom
+              </button>
+            </Link>
           </div>
           <button
             className="md:hidden text-white focus:outline-none"
@@ -185,6 +190,11 @@ const Navbar = () => {
                 )}
               </div>
             </li>
+            <Link href="https://mangadom.vercel.app" target="_blank" rel="noopener noreferrer">
+              <button className="font-semibold px-4 py-2 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 transition-colors duration-300 text-white shadow-lg transform hover:scale-105 hover:rotate-1 active:scale-95 active:rotate-0">
+                Mangadom
+              </button>
+            </Link>
           </ul>
         </div>
       </div>

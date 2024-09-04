@@ -9,21 +9,15 @@ const AnimeCard = ({ id, name, imageUrl, favs, nicks }) => {
   const cardRef = useRef(null);
 
   useEffect(() => {
-    gsap.fromTo(
-      cardRef.current,
-      { opacity: 0, y: 50 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: cardRef.current,
-          start: "top 90%",
-          toggleActions: "play pause resume reverse"
-        },
-      }
-    );
+    const card = cardRef.current;
+    gsap.set(card, { opacity: 0, y: 50 });
+
+    ScrollTrigger.create({
+      trigger: card,
+      start: "top 90%",
+      onEnter: () => gsap.to(card, { opacity: 1, y: 0, duration: 1, ease: "power3.out" }),
+      onLeaveBack: () => gsap.to(card, { opacity: 0, y: 50, duration: 1, ease: "power3.in" }),
+    });
   }, []);
 
   return (

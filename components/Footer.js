@@ -4,7 +4,7 @@ import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin } from "react-icons/fa";
 const Footer = () => {
   return (
     <div>
-      <div className="flex justify-evenly items-center bg-[#121212] border-t text-white flex-col md:flex-row gap-3">
+      <div className="flex justify-evenly items-center bg-[#121212] mt-8 border-t text-white flex-col md:flex-row gap-3">
         <div className="size-24 overflow-hidden invert">
           <Link href="/" className="text-2xl">
             <img src="/logo.png" alt="" />
