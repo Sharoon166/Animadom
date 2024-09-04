@@ -16,7 +16,7 @@ export default function Home() {
   const videoRef = useRef(null);
   const carouselRef = useRef(null);
   const collectionRef = useRef(null);
-  const trendingRef = useRef(null);
+
   const moreAnimeRef = useRef(null);
 
   useEffect(() => {
@@ -66,39 +66,6 @@ export default function Home() {
         },
       }
     );
-
-    // Trending anime animation
-    gsap.fromTo(
-      trendingRef.current.children,
-      { y: 100, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        stagger: 0.1,
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: trendingRef.current,
-          start: "top center+=100",
-        },
-      }
-    );
-
-    // More Anime animation
-    gsap.fromTo(
-      moreAnimeRef.current,
-      { scale: 0.8, opacity: 0 },
-      {
-        scale: 1,
-        opacity: 1,
-        duration: 1.5,
-        ease: "elastic.out(1, 0.5)",
-        scrollTrigger: {
-          trigger: moreAnimeRef.current,
-          start: "top 90%",
-        },
-      }
-    );
   }, []);
 
   return (
@@ -123,10 +90,11 @@ export default function Home() {
       </div>
       <div>
         <h1 className="text-4xl font-bold text-white m-8">Trending Anime</h1>
-        <div
-          className="flex flex-wrap justify-center items-center"
-          ref={trendingRef}
-        >
+
+
+
+
+        <div className="flex flex-wrap justify-center items-center">
           {trending.map((anime) => (
             <div key={anime.id} className="m-4">
               <AnimeCard
@@ -149,13 +117,14 @@ export default function Home() {
       <div ref={moreAnimeRef}>
         <MoreAnime />
       </div>
-      <Link
-        href="/seasonsdetails"
-        className="text-center text-yellow-400 text-1xl md:text-2xl font-bold m-10 hover:text-white transition-all duration-200 "
-      >
-        {" "}
-        Learn about More Seasons
-      </Link>
+      <div className="flex justify-center">
+        <Link
+          href="/seasonsdetails"
+          className="text-center text-yellow-400 text-1xl md:text-2xl font-bold m-10 hover:text-white transition-all duration-200 bg-slate-700 px-6 py-3 rounded-lg hover:bg-slate-600"
+        >
+          Learn about More Seasons
+        </Link>
+      </div>
     </>
   );
 }
