@@ -20,6 +20,9 @@ export default function Home() {
   const moreAnimeRef = useRef(null);
 
   useEffect(() => {
+    // Scroll to top on page load or refresh
+    window.scrollTo(0, 0);
+
     // Video animation
     gsap.fromTo(
       videoRef.current,
