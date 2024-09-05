@@ -7,7 +7,7 @@ import Carousel from "@/components/Crousal";
 import { trending } from "@/constants";
 import AnimeCard from "@/components/Trending";
 import MoreAnime from "@/components/MoreAnime";
-import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
+import { FaArrowRight } from "react-icons/fa";
 import Link from "next/link";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -17,8 +17,6 @@ export default function Home() {
   const carouselRef = useRef(null);
   const collectionRef = useRef(null);
   const moreAnimeRef = useRef(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 4;
 
   useEffect(() => {
     // Scroll to top on page load or refresh
@@ -72,34 +70,6 @@ export default function Home() {
     );
   }, []);
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = trending.slice(indexOfFirstItem, indexOfLastItem);
-
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  const PaginationButtons = () => (
-    <div className="flex justify-between items-center w-full md:w-auto md:justify-center mt-4 md:mt-8">
-      <button
-        onClick={() => paginate(currentPage - 1)}
-        disabled={currentPage === 1}
-        className="px-4 py-2 bg-slate-500 text-yellow-400 rounded-lg hover:bg-slate-400 transition-all duration-200 disabled:opacity-50"
-      >
-        <FaArrowLeft />
-      </button>
-      <span className="mx-4 text-white">
-        Page {currentPage} of {Math.ceil(trending.length / itemsPerPage)}
-      </span>
-      <button
-        onClick={() => paginate(currentPage + 1)}
-        disabled={currentPage === Math.ceil(trending.length / itemsPerPage)}
-        className="px-4 py-2 bg-slate-500 text-yellow-400 rounded-lg hover:bg-slate-400 transition-all duration-200 disabled:opacity-50"
-      >
-        <FaArrowRight />
-      </button>
-    </div>
-  );
-
   return (
     <>
       <div className="-m-[5rem] mx-auto overflow-hidden relative shadow-[0_20px_80px_#888] pointer-events-none 2xl:w-screen 2xl:max-w-none">
@@ -123,10 +93,8 @@ export default function Home() {
       <div>
         <h1 className="text-4xl font-bold text-white m-8">Trending Anime</h1>
 
-        <PaginationButtons />
-
         <div className="flex flex-wrap justify-center items-center">
-          {currentItems.map((anime) => (
+          {trending.map((anime) => (
             <div key={anime.id} className="m-4">
               <AnimeCard
                 mal_id={anime.id}
@@ -138,8 +106,6 @@ export default function Home() {
             </div>
           ))}
         </div>
-
-        <PaginationButtons />
 
         <Link
           href="/now"

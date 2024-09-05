@@ -19,10 +19,10 @@ const AboutUs = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center py-10 ">
-      <div ref={aboutRef} className="max-w-4xl mx-auto space-y-8 ">
-        <h1 className="text-4xl font-bold text-center">About Us</h1>
-        <p className="text-lg text-gray-300">
+    <div className="min-h-screen flex flex-col items-center justify-center py-10 px-4 sm:px-6 md:px-8">
+      <div ref={aboutRef} className="max-w-4xl mx-auto space-y-8">
+        <h1 className="text-3xl sm:text-4xl font-bold text-center">About Us</h1>
+        <p className="text-base sm:text-lg text-gray-300">
           I created this website because of my love for anime and my desire to
           build something that I enjoy. This project serves as a fantastic
           practice for honing my skills in Next.js, providing a hands-on
@@ -36,27 +36,25 @@ const AboutUs = () => {
           not only reflects my interests but also helps others discover and
           appreciate anime.
         </p>
-        <div className="flex  items-center justify-evenly gap-4">
-          <p className="text-2xl">
+        <div className="flex flex-col sm:flex-row items-center justify-evenly gap-4">
+          <p className="text-xl sm:text-2xl">
             <a
               href="https://dribbble.com/shots/22982773-Kurosaw-Anime-Streaming-Web-App"
               target="_blank"
-              className=" 
-              hover:underline"
+              className="hover:underline"
             >
               Design Inspiration
-              <FaDribbble className="inline-block text-2xl text-gray-300 mx-3" />
+              <FaDribbble className="inline-block text-xl sm:text-2xl text-gray-300 mx-3" />
             </a>
           </p>
-          <p className="text-2xl">
+          <p className="text-xl sm:text-2xl">
             <a
               href="https://docs.api.jikan.moe"
               target="_blank"
-              className=" 
-              hover:underline"
+              className="hover:underline"
             >
               Jikan API
-              <span className="inline-block rounded-md p-1 m-1 text-center size-10 bg-indigo-800">
+              <span className="inline-block rounded-md p-1 m-1 text-center size-8 sm:size-10 bg-indigo-800">
                 J
               </span>
             </a>
@@ -74,16 +72,16 @@ const AboutUs = () => {
             <img
               src="/sharoon.png"
               alt="Sharoon's Profile Picture"
-              className="w-32 h-32 object-cover rounded-full mb-4"
+              className="w-24 h-24 sm:w-32 sm:h-32 object-cover rounded-full mb-4"
             />
-            <h2 className="text-2xl font-bold text-white  ">Sharoon</h2>
-            <p className="text-gray-300 text-center mt-4">
+            <h2 className="text-xl sm:text-2xl font-bold text-white">Sharoon</h2>
+            <p className="text-sm sm:text-base text-gray-300 text-center mt-4">
               Hi, I'm Sharoon, currently pursuing my degree in Computer Science.
               I have a strong passion for web development and design. From
               creating interactive animations to building scalable applications,
               I enjoy every aspect of crafting digital experiences
             </p>
-            <div className="text-3xl flex items-center gap-12 mt-6">
+            <div className="text-2xl sm:text-3xl flex items-center gap-8 sm:gap-12 mt-6">
               <a
                 href="https://www.linkedin.com/in/sharoon-shaleem-0a7a85226/"
                 target="_blank"
@@ -109,16 +107,16 @@ const AboutUs = () => {
             <img
               src="/haider.jpg"
               alt="Haider's Profile Picture"
-              className="w-32 h-32 object-cover rounded-full mb-4"
+              className="w-24 h-24 sm:w-32 sm:h-32 object-cover rounded-full mb-4"
             />
-            <h2 className="text-2xl font-bold text-gray-300">Haider</h2>
-            <p className="text-gray-730 text-center mt-4">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-300">Haider</h2>
+            <p className="text-sm sm:text-base text-gray-730 text-center mt-4">
               Hey, I'm Haider, a passionate web developer and student of
               Computer Science. I am fascinated by the intersection of design
               and technology, striving to create websites that not only look
               great but also provide intuitive user experiences.
             </p>
-            <div className="text-3xl flex items-center gap-12 mt-6">
+            <div className="text-2xl sm:text-3xl flex items-center gap-8 sm:gap-12 mt-6">
               <a
                 href="https://www.linkedin.com/in/haider-ahmad-439317164/"
                 target="_blank"

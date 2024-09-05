@@ -9,23 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 const AnimeCard = ({ mal_id, name, imageUrl, year, genre }) => {
   const cardRef = useRef(null);
 
-  useEffect(() => {
-    gsap.fromTo(
-      cardRef.current,
-      { opacity: 0, y: 50 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: cardRef.current,
-          start: "top 90%",
-          toggleActions: "play pause resume reverse"
-        },
-      }
-    );
-  }, []);
+ 
 
   return (
     <div ref={cardRef} className="relative flex h-96 w-52 rounded-[1.5em] text-lime-300 overflow-hidden">

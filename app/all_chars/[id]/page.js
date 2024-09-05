@@ -83,28 +83,26 @@ const Page = ({ params }) => {
   };
 
   return (
-    <>
-      <div className="pb-3 px-4 sm:px-6 md:px-8">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white my-4 sm:my-6 md:my-8">
-          All Characters Featured in {title}
-        </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-5 justify-items-center container mx-auto">
-          {currentCharacters.map((char) => (
-            <AnimeCard
-              key={char.character.mal_id}
-              id={char.character.mal_id}
-              name={char.character.name}
-              imageUrl={char.character.images.jpg.image_url}
-              favs={`Favorites: ${char.favorites}`}
-              nicks={char.role}
-            />
-          ))}
-        </div>
-        <div className="flex justify-center mt-6 sm:mt-8">
-          {renderPaginationButtons()}
-        </div>
+    <div className="container mx-auto px-4 sm:px-6 md:px-8">
+      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white my-4 sm:my-6 md:my-8">
+        All Characters Featured in {title}
+      </h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6 md:gap-8">
+        {currentCharacters.map((char) => (
+          <AnimeCard
+            key={char.character.mal_id}
+            id={char.character.mal_id}
+            name={char.character.name}
+            imageUrl={char.character.images.jpg.image_url}
+            favs={`Favorites: ${char.favorites}`}
+            nicks={char.role}
+          />
+        ))}
       </div>
-    </>
+      <div className="flex flex-wrap justify-center mt-6 sm:mt-8">
+        {renderPaginationButtons()}
+      </div>
+    </div>
   );
 };
 

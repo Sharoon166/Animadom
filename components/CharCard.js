@@ -6,22 +6,8 @@ import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const AnimeCard = ({ id, name, imageUrl, favs, nicks }) => {
-  const cardRef = useRef(null);
-
-  useEffect(() => {
-    const card = cardRef.current;
-    gsap.set(card, { opacity: 0, y: 50 });
-
-    ScrollTrigger.create({
-      trigger: card,
-      start: "top 90%",
-      onEnter: () => gsap.to(card, { opacity: 1, y: 0, duration: 1, ease: "power3.out" }),
-      onLeaveBack: () => gsap.to(card, { opacity: 0, y: 50, duration: 1, ease: "power3.in" }),
-    });
-  }, []);
-
   return (
-    <div ref={cardRef} className="relative flex h-96 w-52 rounded-[1.5em] text-lime-300 overflow-hidden">
+    <div className="relative flex h-96 w-52 rounded-[1.5em] text-lime-300 overflow-hidden">
       <div className="group absolute left-1/2 top-1/2 flex h-[3em] w-[3em] -translate-x-1/2 -translate-y-1/2 items-center justify-center overflow-hidden rounded-[1.5em] border-[1px] border-[#ffffffaa] bg-[#8988885c] backdrop-blur-[6px] duration-[500ms] hover:h-80 hover:w-48 hover:rounded-[1.5em]">
         <svg
           className="h-[1.5em] w-[1.5em] duration-300 group-hover:opacity-0"
