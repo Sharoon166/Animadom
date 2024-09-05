@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import CharCard from '@/components/CharCard';
-import {loading} from '@/loading';
+import { loading } from '@/loading';
 
 const CharacterPage = () => {
   const [characters, setCharacters] = useState([]);
@@ -33,7 +33,7 @@ const CharacterPage = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6 text-center text-white">Search Results for: {name}</h1>
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 justify-items-center">
         {characters.map(char => (
           <CharCard
             key={char.mal_id}
@@ -45,13 +45,13 @@ const CharacterPage = () => {
           />
         ))}
       </div>
-      {characters.length === 0 && (   loading )}
+      {characters.length === 0 && loading}
       {totalPages > 1 && (
-        <div className="flex justify-center mt-8">
+        <div className="flex flex-wrap justify-center items-center mt-8 space-y-2 sm:space-y-0">
           <button
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded-full mr-2 transform hover:scale-105 transition duration-300 ease-in-out shadow-lg"
+            className="w-full sm:w-auto bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded-full mr-2 transform hover:scale-105 transition duration-300 ease-in-out shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Previous
           </button>
@@ -61,7 +61,7 @@ const CharacterPage = () => {
           <button
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded-full ml-2 transform hover:scale-105 transition duration-300 ease-in-out shadow-lg"
+            className="w-full sm:w-auto bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded-full ml-2 transform hover:scale-105 transition duration-300 ease-in-out shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Next
           </button>

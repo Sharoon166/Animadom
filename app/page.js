@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import Collection from "@/components/Collection";
@@ -7,7 +7,7 @@ import Carousel from "@/components/Crousal";
 import { trending } from "@/constants";
 import AnimeCard from "@/components/Trending";
 import MoreAnime from "@/components/MoreAnime";
-import { FaArrowRight } from "react-icons/fa";
+import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import Link from "next/link";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -16,8 +16,9 @@ export default function Home() {
   const videoRef = useRef(null);
   const carouselRef = useRef(null);
   const collectionRef = useRef(null);
-
   const moreAnimeRef = useRef(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 4;
 
   useEffect(() => {
     // Scroll to top on page load or refresh
@@ -71,13 +72,41 @@ export default function Home() {
     );
   }, []);
 
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = trending.slice(indexOfFirstItem, indexOfLastItem);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const PaginationButtons = () => (
+    <div className="flex justify-between items-center w-full md:w-auto md:justify-center mt-4 md:mt-8">
+      <button
+        onClick={() => paginate(currentPage - 1)}
+        disabled={currentPage === 1}
+        className="px-4 py-2 bg-slate-500 text-yellow-400 rounded-lg hover:bg-slate-400 transition-all duration-200 disabled:opacity-50"
+      >
+        <FaArrowLeft />
+      </button>
+      <span className="mx-4 text-white">
+        Page {currentPage} of {Math.ceil(trending.length / itemsPerPage)}
+      </span>
+      <button
+        onClick={() => paginate(currentPage + 1)}
+        disabled={currentPage === Math.ceil(trending.length / itemsPerPage)}
+        className="px-4 py-2 bg-slate-500 text-yellow-400 rounded-lg hover:bg-slate-400 transition-all duration-200 disabled:opacity-50"
+      >
+        <FaArrowRight />
+      </button>
+    </div>
+  );
+
   return (
     <>
-      <div className="-m-[5rem] mx-auto overflow-hidden relative shadow-[0_20px_80px_#888] pointer-events-none">
+      <div className="-m-[5rem] mx-auto overflow-hidden relative shadow-[0_20px_80px_#888] pointer-events-none 2xl:w-screen 2xl:max-w-none">
         <video
           ref={videoRef}
           src="/main_page.mp4"
-          className="object-cover object-center min-h-[75vh]"
+          className="object-cover object-center min-h-[75vh] w-full"
           autoPlay
           loop
           muted
@@ -94,11 +123,10 @@ export default function Home() {
       <div>
         <h1 className="text-4xl font-bold text-white m-8">Trending Anime</h1>
 
-
-
+        <PaginationButtons />
 
         <div className="flex flex-wrap justify-center items-center">
-          {trending.map((anime) => (
+          {currentItems.map((anime) => (
             <div key={anime.id} className="m-4">
               <AnimeCard
                 mal_id={anime.id}
@@ -110,6 +138,9 @@ export default function Home() {
             </div>
           ))}
         </div>
+
+        <PaginationButtons />
+
         <Link
           href="/now"
           className="flex justify-center items-center text-center px-2 py-3 rounded-lg bg-slate-500 mx-auto w-20 hover:bg-slate-400 transition-all duration-200 text-yellow-400 hover:text-yellow-600 text-2xl font-bold m-10"

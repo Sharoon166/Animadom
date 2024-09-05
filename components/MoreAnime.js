@@ -1,12 +1,11 @@
 "use client";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import AnimeCard from "./Trending";
 
 const MoreAnime = () => {
   const [anime, setAnime] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const topAnimeRef = useRef(null);
 
   useEffect(() => {
     fetchAnime(currentPage);
@@ -18,14 +17,15 @@ const MoreAnime = () => {
       .then((data) => {
         setAnime(data.data);
         setTotalPages(data.pagination.last_visible_page);
-        if (topAnimeRef.current) {
-          topAnimeRef.current.scrollIntoView({ behavior: 'smooth' });
-        }
       });
   };
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+    const topAnimeSection = document.getElementById('top-anime-section');
+    if (topAnimeSection) {
+      topAnimeSection.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   const renderPagination = () => {
@@ -43,7 +43,7 @@ const MoreAnime = () => {
         <button
           key={i}
           onClick={() => handlePageChange(i)}
-          className={`bg-pink-500 text-white px-4 py-2 rounded-full hover:bg-pink-600 transition duration-200 ease-in-out ml-2 ${
+          className={`bg-pink-500 text-white px-2 sm:px-4 py-1 sm:py-2 rounded-full hover:bg-pink-600 transition duration-200 ease-in-out ml-1 sm:ml-2 text-xs sm:text-base ${
             currentPage === i ? 'bg-pink-600' : ''
           }`}
         >
@@ -57,7 +57,7 @@ const MoreAnime = () => {
 
   return (
     <>
-      <h2 ref={topAnimeRef} className="text-4xl font-bold text-white m-8">Top Anime</h2>
+      <h2 id="top-anime-section" className="text-4xl font-bold text-white m-8">Top Anime</h2>
       <div className="flex flex-wrap justify-center items-center">
         {anime?.map((anime) => {
           const { mal_id, images, title, year, genres } = anime;
@@ -74,11 +74,11 @@ const MoreAnime = () => {
           );
         })}
       </div>
-      <div className="flex justify-center mt-8 mb-8">
+      <div className="flex flex-wrap justify-center mt-8 mb-8">
         <button
           onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
           disabled={currentPage === 1}
-          className="bg-pink-500 text-white px-4 py-2 rounded-full hover:bg-pink-600 transition duration-200 ease-in-out ml-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-pink-500 text-white px-2 sm:px-4 py-1 sm:py-2 rounded-full hover:bg-pink-600 transition duration-200 ease-in-out ml-1 sm:ml-2 text-xs sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Previous
         </button>
@@ -86,7 +86,7 @@ const MoreAnime = () => {
         <button
           onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
           disabled={currentPage === totalPages}
-          className="bg-pink-500 text-white px-4 py-2 rounded-full hover:bg-pink-600 transition duration-200 ease-in-out ml-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-pink-500 text-white px-2 sm:px-4 py-1 sm:py-2 rounded-full hover:bg-pink-600 transition duration-200 ease-in-out ml-1 sm:ml-2 text-xs sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Next
         </button>

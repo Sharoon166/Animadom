@@ -24,18 +24,33 @@ const CharacterPage = ({ params, data }) => {
   console.log(params.id);
   const [characterData, setCharacterData] = useState();
   const [animeData, setAnimeData] = useState([]);
+  const [page, setPage] = useState(1);
+  const [hasNextPage, setHasNextPage] = useState(true);
   const charactersRef = useRef(null);
+
   useEffect(() => {
     fetch(`https://api.jikan.moe/v4/characters/${params.id}`)
       .then((res) => res.json())
       .then((data) => setCharacterData(data?.data));
-    fetch(`https://api.jikan.moe/v4/characters/${params.id}/anime`)
+
+    
+    fetchAnimeData();
+  }, []);
+
+  const fetchAnimeData = () => {
+    fetch(`https://api.jikan.moe/v4/characters/${params.id}/anime?page=${page}`)
       .then((res) => res.json())
       .then((data) => {
-        setAnimeData(data?.data);
+
+        if (data?.data) {
+          setAnimeData(prevData => [...prevData, ...data.data]);
+          setHasNextPage(data.pagination.has_next_page);
+          setPage(prevPage => prevPage + 1);
+        }
         console.log(data.data);
       });
-  }, []);
+
+  };
 
   const detailsRef = useRef(null);
   const imageRef = useRef(null);
@@ -199,6 +214,14 @@ const CharacterPage = ({ params, data }) => {
               );
             })}
           </div>
+          {hasNextPage && (
+            <button
+              onClick={fetchAnimeData}
+              className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300"
+            >
+              Load More
+            </button>
+          )}
         </div>
 
         <div>

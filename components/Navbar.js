@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { FaSearch, FaRegTimesCircle, FaBars, FaTimes } from "react-icons/fa";
+import { FaSearch, FaRegTimesCircle, FaBars, FaTimes, FaHome, FaInfoCircle, FaCalendarAlt, FaUserAlt } from "react-icons/fa";
 import React, { useEffect, useState } from "react";
 
 const Navbar = () => {
@@ -105,20 +105,14 @@ const Navbar = () => {
             </li>
           </ul>
           <div className="flex gap-4 items-center">
-            <Link href="/signup">
-              <button className="font-semibold px-4 py-2 rounded-full bg-zinc-800 hover:bg-zinc-800/50 transition-colors duration-300">
-                Sign Up
-              </button>
+            <Link href="/signup" className="hidden sm:block font-semibold px-4 py-2 rounded-full bg-zinc-800 hover:bg-zinc-800/50 transition-colors duration-300">
+              Sign Up
             </Link>
-            <Link href="/login">
-              <button className="font-semibold px-4 py-2 rounded-full bg-zinc-800 hover:bg-zinc-800/50 transition-colors duration-300">
-                Log In
-              </button>
+            <Link href="/login" className="hidden sm:block font-semibold px-4 py-2 rounded-full bg-zinc-800 hover:bg-zinc-800/50 transition-colors duration-300">
+              Log In
             </Link>
-            <Link href="https://mangadom.vercel.app" target="_blank" rel="noopener noreferrer">
-              <button className="font-semibold px-4 py-2 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 transition-colors duration-300 text-white shadow-lg transform hover:scale-105 hover:rotate-1 active:scale-95 active:rotate-0">
-                Mangadom
-              </button>
+            <Link href="https://mangadom.vercel.app" target="_blank" rel="noopener noreferrer" className="hidden md:block font-semibold px-4 py-2 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 transition-colors duration-300 text-white shadow-lg transform hover:scale-105 hover:rotate-1 active:scale-95 active:rotate-0">
+              Mangadom
             </Link>
           </div>
           <button
@@ -130,22 +124,24 @@ const Navbar = () => {
         </nav>
         <div
           className={`${
-            menuOpen ? "h-[310px]" : "h-0 overflow-hidden"
+            menuOpen ? "h-[420px]" : "h-0 overflow-hidden"
           } transition-all duration-300 md:hidden `}
         >
           <ul className="flex flex-col items-center gap-4 p-4">
-            <Link href="/">
-              <li className="hover:text-white">Home</li>
-            </Link>
-            <Link href="/about">
-              <li className="hover:text-white">About</li>
-            </Link>
-            <Link href="/upcoming">
-              <li className="hover:text-white">Upcoming</li>
-            </Link>
-            <Link href="/top_chars">
-              <li className="hover:text-white">Top Characters</li>
-            </Link>
+            <div className="flex justify-center gap-8 w-full">
+              <Link href="/">
+                <li className="hover:text-white flex items-center gap-2"><FaHome /></li>
+              </Link>
+              <Link href="/about">
+                <li className="hover:text-white flex items-center gap-2"><FaInfoCircle /></li>
+              </Link>
+              <Link href="/upcoming">
+                <li className="hover:text-white flex items-center gap-2"><FaCalendarAlt /></li>
+              </Link>
+              <Link href="/top_chars">
+                <li className="hover:text-white flex items-center gap-2"><FaUserAlt /></li>
+              </Link>
+            </div>
             <li className="bg-gray-200/25 flex items-center justify-center px-2 rounded-full gap-1 relative w-full max-w-44">
               <FaSearch />
               <input
@@ -190,10 +186,14 @@ const Navbar = () => {
                 )}
               </div>
             </li>
-            <Link href="https://mangadom.vercel.app" target="_blank" rel="noopener noreferrer">
-              <button className="font-semibold px-4 py-2 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 transition-colors duration-300 text-white shadow-lg transform hover:scale-105 hover:rotate-1 active:scale-95 active:rotate-0">
-                Mangadom
-              </button>
+            <Link href="/signup" className="font-semibold px-4 py-2 rounded-full bg-zinc-800 hover:bg-zinc-800/50 transition-colors duration-300">
+              Sign Up
+            </Link>
+            <Link href="/login" className="font-semibold px-4 py-2 rounded-full bg-zinc-800 hover:bg-zinc-800/50 transition-colors duration-300">
+              Log In
+            </Link>
+            <Link href="https://mangadom.vercel.app" target="_blank" rel="noopener noreferrer" className="font-semibold px-4 py-2 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 transition-colors duration-300 text-white shadow-lg transform hover:scale-105 hover:rotate-1 active:scale-95 active:rotate-0">
+              Mangadom
             </Link>
           </ul>
         </div>
