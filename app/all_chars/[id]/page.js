@@ -47,12 +47,12 @@ const Page = ({ params }) => {
 
     if (startPage > 1) {
       buttons.push(
-        <button key="first" onClick={() => paginate(1)} className="bg-pink-500 text-white px-4 py-2 rounded-full hover:bg-pink-600 transition duration-200 ease-in-out ml-2">
+        <button key="first" onClick={() => paginate(1)} className="bg-pink-500 text-white px-2 py-1 sm:px-4 sm:py-2 rounded-full hover:bg-pink-600 transition duration-200 ease-in-out ml-1 sm:ml-2 text-sm sm:text-base">
           1
         </button>
       );
       if (startPage > 2) {
-        buttons.push(<span key="ellipsis1" className="px-2">...</span>);
+        buttons.push(<span key="ellipsis1" className="px-1 sm:px-2">...</span>);
       }
     }
 
@@ -61,7 +61,7 @@ const Page = ({ params }) => {
         <button
           key={i}
           onClick={() => paginate(i)}
-          className={`${currentPage === i ? 'bg-pink-600' : 'bg-pink-500'} text-white px-4 py-2 rounded-full hover:bg-pink-600 transition duration-200 ease-in-out ml-2`}
+          className={`${currentPage === i ? 'bg-pink-600' : 'bg-pink-500'} text-white px-2 py-1 sm:px-4 sm:py-2 rounded-full hover:bg-pink-600 transition duration-200 ease-in-out ml-1 sm:ml-2 text-sm sm:text-base`}
         >
           {i}
         </button>
@@ -70,10 +70,10 @@ const Page = ({ params }) => {
 
     if (endPage < pageCount) {
       if (endPage < pageCount - 1) {
-        buttons.push(<span key="ellipsis2" className="px-2">...</span>);
+        buttons.push(<span key="ellipsis2" className="px-1 sm:px-2">...</span>);
       }
       buttons.push(
-        <button key="last" onClick={() => paginate(pageCount)} className="bg-pink-500 text-white px-4 py-2 rounded-full hover:bg-pink-600 transition duration-200 ease-in-out ml-2">
+        <button key="last" onClick={() => paginate(pageCount)} className="bg-pink-500 text-white px-2 py-1 sm:px-4 sm:py-2 rounded-full hover:bg-pink-600 transition duration-200 ease-in-out ml-1 sm:ml-2 text-sm sm:text-base">
           {pageCount}
         </button>
       );
@@ -84,11 +84,11 @@ const Page = ({ params }) => {
 
   return (
     <>
-      <div className="pb-3">
-        <h2 className="text-4xl font-bold text-white m-8">
+      <div className="pb-3 px-4 sm:px-6 md:px-8">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white my-4 sm:my-6 md:my-8">
           All Characters Featured in {title}
         </h2>
-        <div className="grid grid-cols-5 gap-5 justify-items-center container mx-auto">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-5 justify-items-center container mx-auto">
           {currentCharacters.map((char) => (
             <AnimeCard
               key={char.character.mal_id}
@@ -100,7 +100,7 @@ const Page = ({ params }) => {
             />
           ))}
         </div>
-        <div className="flex justify-center mt-8">
+        <div className="flex justify-center mt-6 sm:mt-8">
           {renderPaginationButtons()}
         </div>
       </div>
