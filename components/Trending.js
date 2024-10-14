@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import Link from "next/link";
-import { FaArrowRight } from "react-icons/fa";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 

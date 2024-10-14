@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Pagination from "@/components/Pagination";
 
 const AnimeEpisodesPage = ({ params }) => {
   const [episodes, setEpisodes] = useState([]);
@@ -65,18 +66,11 @@ const AnimeEpisodesPage = ({ params }) => {
           </div>
         ))}
       </div>
-      <div className="flex justify-center mt-8">
-        {Array.from({ length: Math.ceil(episodes.length / episodesPerPage) }, (_, i) => (
-          <button
-            key={i}
-            onClick={() => paginate(i + 1)}
-            className="ml-2 bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded-full mr-2 transform hover:scale-105 transition duration-300 ease-in-out shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-            disabled={currentPage === i + 1}
-          >
-            {i + 1}
-          </button>
-        ))}
-      </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={Math.ceil(episodes.length / episodesPerPage)}
+        onPageChange={paginate}
+      />
     </div>
   );
 };

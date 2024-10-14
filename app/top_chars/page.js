@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import AnimeCard from "@/components/CharCard";
 import Search from "@/components/CharSearch";
+import Pagination from "@/components/Pagination";
 
 const Page = () => {
   const [characters, setCharacters] = useState([]);
@@ -44,36 +45,11 @@ const Page = () => {
           />
         ))}
       </div>
-      <div className="flex justify-center mt-4 mb-8">
-        <button
-          onClick={() => paginate(currentPage - 1)}
-          disabled={currentPage === 1}
-          className="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded-full mr-2 transform hover:scale-105 transition duration-300 ease-in-out shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          Prev
-        </button>
-        {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-          const pageNumber = currentPage + i - 2;
-          return pageNumber > 0 && pageNumber <= totalPages ? (
-            <button
-              key={pageNumber}
-              onClick={() => paginate(pageNumber)}
-              className={`px-4 py-2 mx-1 ${
-                currentPage === pageNumber ? 'bg-pink-500' : 'bg-pink-500'
-              } hover:bg-pink-600 text-white font-bold py-2 px-4 rounded-full mr-2 transform hover:scale-105 transition duration-300 ease-in-out shadow-lg`}
-            >
-              {pageNumber}
-            </button>
-          ) : null;
-        })}
-        <button
-          onClick={() => paginate(currentPage + 1)}
-          disabled={currentPage === totalPages}
-          className=" ml-2 bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded-full mr-2 transform hover:scale-105 transition duration-300 ease-in-out shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          Next
-        </button>
-      </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        paginate={paginate}
+      />
     </div>
   );
 };

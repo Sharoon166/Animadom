@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import Pagination from "@/components/Pagination";
 
 const CharacterGallery = dynamic(
   () => import("@/components/CharacterGallery"),
@@ -24,8 +25,6 @@ const CharacterPage = ({ params, data }) => {
   console.log(params.id);
   const [characterData, setCharacterData] = useState();
   const [animeData, setAnimeData] = useState([]);
-  const [page, setPage] = useState(1);
-  const [hasNextPage, setHasNextPage] = useState(true);
   const charactersRef = useRef(null);
 
   useEffect(() => {
@@ -33,24 +32,15 @@ const CharacterPage = ({ params, data }) => {
       .then((res) => res.json())
       .then((data) => setCharacterData(data?.data));
 
-    
-    fetchAnimeData();
-  }, []);
-
-  const fetchAnimeData = () => {
-    fetch(`https://api.jikan.moe/v4/characters/${params.id}/anime?page=${page}`)
+    fetch(`https://api.jikan.moe/v4/characters/${params.id}/anime`)
       .then((res) => res.json())
       .then((data) => {
-
         if (data?.data) {
-          setAnimeData(prevData => [...prevData, ...data.data]);
-          setHasNextPage(data.pagination.has_next_page);
-          setPage(prevPage => prevPage + 1);
+          setAnimeData(data.data);
         }
         console.log(data.data);
       });
-
-  };
+  }, []);
 
   const detailsRef = useRef(null);
   const imageRef = useRef(null);
@@ -60,10 +50,10 @@ const CharacterPage = ({ params, data }) => {
       setCharacterData(data[0]);
       gsap.fromTo(
         imageRef.current,
-        { opacity: 0, x: -100 },
+        { opacity: 0, y: -100 },
         {
           opacity: 1,
-          x: 0,
+          y: 0,
           duration: 1,
           ease: "power3.out",
           scrollTrigger: {
@@ -76,10 +66,10 @@ const CharacterPage = ({ params, data }) => {
 
       gsap.fromTo(
         detailsRef.current,
-        { opacity: 0, y: 100 },
+        { opacity: 0, x: 100 },
         {
           opacity: 1,
-          y: 0,
+          x: 0,
           duration: 1,
           ease: "power3.out",
           scrollTrigger: {
@@ -109,127 +99,105 @@ const CharacterPage = ({ params, data }) => {
   } = characterData;
 
   return (
-    <>
-      <div className="container mx-auto my-14 space-y-16 text-gray-300 px-10">
-        <div className="flex flex-col md:flex-row items-start gap-10 md:gap-24">
+    <div className="container mx-auto my-14 space-y-16 text-gray-300 px-4 md:px-10">
+      <div className="flex flex-col lg:flex-row gap-10">
+        <div className="flex flex-col items-center lg:items-start lg:w-1/3">
           <img
             ref={imageRef}
             src={image_url}
             alt={`${name} character image`}
-            className="rounded-lg"
+            className="rounded-lg w-full max-w-md"
           />
-          <div className="space-y-1 text-center md:text-left">
-            <div className="flex items-center justify-center md:justify-normal text-lg text-yellow-500">
-              <h2 className="text-3xl md:text-5xl text-white font-bold">
-                {name}
-              </h2>
-
-              <Link
-                href={`/va/${params.id}`}
-                className=" flex items-center justify-center gap-2 text-yellow-400 p-6 hover:underline"
-              >
-                <FaMicrophone className=" text-xl" />
-                <div className="text-2xl">Voice Actors</div>
-              </Link>
-            </div>
-            <div className="flex items-center justify-center md:justify-normal gap-3 text-lg text-yellow-500">
-              <FaRegStar /> {favorites} Favorites
-            </div>
-            <p className="pt-6 max-w-3xl text-lg text-balance">{about}</p>
-            <div className="mt-4">
-              <a
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500 hover:underline"
-              >
-                More Info on MyAnimeList
-              </a>
-            </div>
+          <Link
+            href={`/va/${params.id}`}
+            className="mt-4 flex items-center justify-center gap-2 text-yellow-400 p-3 border border-yellow-400 rounded-full hover:bg-yellow-400 hover:text-black transition duration-300 w-full max-w-md"
+          >
+            <FaMicrophone className="text-xl" />
+            <div className="text-lg">Voice Actors</div>
+          </Link>
+        </div>
+        <div className="space-y-6 lg:w-2/3">
+          <h2 className="text-3xl md:text-5xl text-white font-bold">{name}</h2>
+          <div className="flex items-center gap-3 text-lg text-yellow-500">
+            <FaRegStar /> {favorites} Favorites
           </div>
-        </div>
-
-        <div
-          ref={detailsRef}
-          className="space-y-5 md:w-1/2 rounded-xl px-4 py-6 bg-zinc-800"
-        >
-          <h2 className="text-3xl font-semibold">Character Details</h2>
-          <table className="table-auto w-full">
-            <tbody>
-              <tr>
-                <td className="text-lg font-semibold">Name (Kanji)</td>
-                <td>{name_kanji}</td>
-              </tr>
-              <tr>
-                <td className="text-lg font-semibold">Nicknames</td>
-                <td>{nicknames.join(", ")}</td>
-              </tr>
-              <tr>
-                <td className="text-lg font-semibold">Mal ID</td>
-                <td>{mal_id}</td>
-              </tr>
-              {/* Add more details as needed */}
-            </tbody>
-          </table>
-        </div>
-
-        <div
-          ref={charactersRef}
-          className="space-y-10 container mx-auto mb-20 px-10"
-        >
-          <h2 className="text-3xl font-semibold">Anime Starring {name}</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-            {!animeData.length && "No Anime"}
-            {animeData.map((character) => {
-              const {
-                role,
-                anime: {
-                  mal_id,
-                  images: {
-                    webp: { image_url },
-                  },
-                  title,
-                },
-              } = character;
-              return (
-                <Link
-                  key={mal_id}
-                  href={`/anime/${mal_id}`}
-                  className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition duration-300 ease-in-out"
-                  style={{ height: "350px" }}
-                >
-                  <img
-                    src={image_url}
-                    alt={title}
-                    className="w-full h-full object-cover transform group-hover:scale-110 transition duration-300 ease-in-out"
-                  />
-                  <div className="absolute inset-0 bg-black opacity-50 group-hover:opacity-0 transition duration-300 ease-in-out"></div>
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 ease-in-out">
-                    <h2 className="text-white text-1xl font-bold text-center">
-                      {title} <br />
-                      {role}
-                    </h2>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
-          {hasNextPage && (
-            <button
-              onClick={fetchAnimeData}
-              className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300"
-            >
-              Load More
-            </button>
-          )}
-        </div>
-
-        <div>
-          <h2 className="text-3xl font-semibold p-8">Character Gallery</h2>
-          <CharacterGallery characterId={mal_id} />
+          <p className="text-lg">{about}</p>
+          <a
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block text-blue-500 hover:underline border border-blue-500 rounded-full px-4 py-2 transition duration-300 hover:bg-blue-500 hover:text-white"
+          >
+            More Info on MyAnimeList
+          </a>
         </div>
       </div>
-    </>
+
+      <div
+        ref={detailsRef}
+        className="space-y-5 rounded-xl px-4 py-6 bg-zinc-800"
+      >
+        <h2 className="text-3xl font-semibold">Character Details</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div>
+            <p className="text-lg font-semibold">Name (Kanji)</p>
+            <p>{name_kanji}</p>
+          </div>
+          <div>
+            <p className="text-lg font-semibold">Nicknames</p>
+            <p>{nicknames.join(", ")}</p>
+          </div>
+          <div>
+            <p className="text-lg font-semibold">Mal ID</p>
+            <p>{mal_id}</p>
+          </div>
+        </div>
+      </div>
+
+      <div ref={charactersRef} className="space-y-10">
+        <h2 className="text-3xl font-semibold">Anime Starring {name}</h2>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+          {!animeData.length && "No Anime"}
+          {animeData.map((character) => {
+            const {
+              role,
+              anime: {
+                mal_id,
+                images: {
+                  webp: { image_url },
+                },
+                title,
+              },
+            } = character;
+            return (
+              <Link
+                key={mal_id}
+                href={`/anime/${mal_id}`}
+                className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition duration-300 ease-in-out"
+                style={{ paddingBottom: "150%" }}
+              >
+                <img
+                  src={image_url}
+                  alt={title}
+                  className="absolute w-full h-full object-cover transform group-hover:scale-110 transition duration-300 ease-in-out"
+                />
+                <div className="absolute inset-0 bg-black opacity-50 group-hover:opacity-75 transition duration-300 ease-in-out"></div>
+                <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
+                  <h2 className="text-white text-lg font-bold text-center mb-2">{title}</h2>
+                  <p className="text-white text-sm text-center">{role}</p>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      </div>
+
+      <div>
+        <h2 className="text-3xl font-semibold mb-8">Character Gallery</h2>
+        <CharacterGallery characterId={mal_id} />
+      </div>
+    </div>
   );
 };
 

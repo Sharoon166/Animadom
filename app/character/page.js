@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import CharCard from '@/components/CharCard';
 import { loading } from '@/loading';
+import Pagination from '@/components/Pagination';
 
 const CharacterPage = () => {
   const [characters, setCharacters] = useState([]);
@@ -47,25 +48,11 @@ const CharacterPage = () => {
       </div>
       {characters.length === 0 && loading}
       {totalPages > 1 && (
-        <div className="flex flex-wrap justify-center items-center mt-8 space-y-2 sm:space-y-0">
-          <button
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-            className="w-full sm:w-auto bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded-full mr-2 transform hover:scale-105 transition duration-300 ease-in-out shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Previous
-          </button>
-          <span className="text-white py-2 px-4">
-            Page {currentPage} of {totalPages}
-          </span>
-          <button
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-            className="w-full sm:w-auto bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded-full ml-2 transform hover:scale-105 transition duration-300 ease-in-out shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Next
-          </button>
-        </div>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       )}
     </div>
   );

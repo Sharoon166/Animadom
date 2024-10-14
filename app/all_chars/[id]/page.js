@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import AnimeCard from "@/components/CharCard";
+import Pagination from "@/components/Pagination";
 
 const Page = ({ params }) => {
   const [characters, setCharacters] = useState([]);
@@ -32,55 +33,7 @@ const Page = ({ params }) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const pageCount = Math.ceil(characters.length / charactersPerPage);
-
-  const renderPaginationButtons = () => {
-    const buttons = [];
-    const maxVisibleButtons = 5;
-
-    let startPage = Math.max(1, currentPage - Math.floor(maxVisibleButtons / 2));
-    let endPage = Math.min(pageCount, startPage + maxVisibleButtons - 1);
-
-    if (endPage - startPage + 1 < maxVisibleButtons) {
-      startPage = Math.max(1, endPage - maxVisibleButtons + 1);
-    }
-
-    if (startPage > 1) {
-      buttons.push(
-        <button key="first" onClick={() => paginate(1)} className="bg-pink-500 text-white px-2 py-1 sm:px-4 sm:py-2 rounded-full hover:bg-pink-600 transition duration-200 ease-in-out ml-1 sm:ml-2 text-sm sm:text-base">
-          1
-        </button>
-      );
-      if (startPage > 2) {
-        buttons.push(<span key="ellipsis1" className="px-1 sm:px-2">...</span>);
-      }
-    }
-
-    for (let i = startPage; i <= endPage; i++) {
-      buttons.push(
-        <button
-          key={i}
-          onClick={() => paginate(i)}
-          className={`${currentPage === i ? 'bg-pink-600' : 'bg-pink-500'} text-white px-2 py-1 sm:px-4 sm:py-2 rounded-full hover:bg-pink-600 transition duration-200 ease-in-out ml-1 sm:ml-2 text-sm sm:text-base`}
-        >
-          {i}
-        </button>
-      );
-    }
-
-    if (endPage < pageCount) {
-      if (endPage < pageCount - 1) {
-        buttons.push(<span key="ellipsis2" className="px-1 sm:px-2">...</span>);
-      }
-      buttons.push(
-        <button key="last" onClick={() => paginate(pageCount)} className="bg-pink-500 text-white px-2 py-1 sm:px-4 sm:py-2 rounded-full hover:bg-pink-600 transition duration-200 ease-in-out ml-1 sm:ml-2 text-sm sm:text-base">
-          {pageCount}
-        </button>
-      );
-    }
-
-    return buttons;
-  };
+  const totalPages = Math.ceil(characters.length / charactersPerPage);
 
   return (
     <div className="container mx-auto px-4 sm:px-6 md:px-8">
@@ -99,9 +52,7 @@ const Page = ({ params }) => {
           />
         ))}
       </div>
-      <div className="flex flex-wrap justify-center mt-6 sm:mt-8">
-        {renderPaginationButtons()}
-      </div>
+      <Pagination currentPage={currentPage} totalPages={totalPages} paginate={paginate} />
     </div>
   );
 };

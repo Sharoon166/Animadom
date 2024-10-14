@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Trending from "@/components/Trending";
+import Pagination from "@/components/Pagination";
 
 const recs = ({ params }) => {
   const [recommendations, setRecommendations] = useState([]);
@@ -48,42 +49,11 @@ const recs = ({ params }) => {
           );
         })}
       </div>
-      <div className="flex justify-center mt-4">
-        {currentPage > 1 && (
-          <button
-            onClick={() => paginate(currentPage - 1)}
-            className="ml-2 bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded-full mr-2 transform hover:scale-105 transition duration-300 ease-in-out shadow-lg"
-          >
-            Previous
-          </button>
-        )}
-        {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-          const pageNumber = currentPage - 2 + i;
-          if (pageNumber > 0 && pageNumber <= totalPages) {
-            return (
-              <button
-                key={pageNumber}
-                onClick={() => paginate(pageNumber)}
-                className={`ml-2 bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded-full mr-2 transform hover:scale-105 transition duration-300 ease-in-out shadow-lg ${
-                  currentPage === pageNumber ? 'opacity-50 cursor-not-allowed' : ''
-                }`}
-                disabled={currentPage === pageNumber}
-              >
-                {pageNumber}
-              </button>
-            );
-          }
-          return null;
-        })}
-        {currentPage < totalPages && (
-          <button
-            onClick={() => paginate(currentPage + 1)}
-            className="ml-2 bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded-full mr-2 transform hover:scale-105 transition duration-300 ease-in-out shadow-lg"
-          >
-            Next
-          </button>
-        )}
-      </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        paginate={paginate}
+      />
     </>
   );
 };

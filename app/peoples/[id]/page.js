@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState, useRef } from "react";
-import { FaRegStar } from "react-icons/fa";
+import { FaRegStar, FaInfoCircle, FaBirthdayCake, FaIdCard } from "react-icons/fa";
 import Loading from "@/loading";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
@@ -31,10 +31,10 @@ const CharacterPage = ({ params, data }) => {
       setCharacterData(data[0]);
       gsap.fromTo(
         imageRef.current,
-        { opacity: 0, x: -100 },
+        { opacity: 0, scale: 0.8 },
         {
           opacity: 1,
-          x: 0,
+          scale: 1,
           duration: 1,
           ease: "power3.out",
           scrollTrigger: {
@@ -47,7 +47,7 @@ const CharacterPage = ({ params, data }) => {
 
       gsap.fromTo(
         detailsRef.current,
-        { opacity: 0, y: 100 },
+        { opacity: 0, y: 50 },
         {
           opacity: 1,
           y: 0,
@@ -78,80 +78,80 @@ const CharacterPage = ({ params, data }) => {
   } = characterData;
 
   return (
-    <>
-      <div className="container mx-auto my-14 space-y-16 text-gray-300 px-10">
-        <div className="flex flex-col md:flex-row items-start gap-10 md:gap-24">
+    <div className="container mx-auto my-14 px-4 sm:px-6 lg:px-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-1">
           <img
             ref={imageRef}
             src={image_url}
             alt={`${name} character image`}
-            className="rounded-lg"
+            className="rounded-lg w-full h-auto object-cover shadow-lg"
           />
-          <div className="space-y-1 text-center md:text-left">
-            <h2 className="text-3xl md:text-5xl text-white font-bold">
-              {name}
-            </h2>
-            <div className="flex items-center justify-center md:justify-normal gap-3 text-lg text-yellow-500">
-              <FaRegStar /> {favorites} Favorites
-            </div>
-            <p className="pt-6 max-w-3xl text-lg text-balance">{about}</p>
-            <div className="mt-4">
-              <a
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500 hover:underline"
-              >
-                More Info on MyAnimeList
-              </a>
+        </div>
+        <div className="lg:col-span-2 space-y-6">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl text-white font-bold">{name}</h1>
+          <div className="flex items-center gap-3 text-lg text-yellow-500">
+            <FaRegStar /> <span>{favorites} Favorites</span>
+          </div>
+          <p className="text-gray-300 text-lg leading-relaxed">{about}</p>
+          <a
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block bg-blue-500 text-white px-6 py-2 rounded-full hover:bg-blue-600 transition duration-300"
+          >
+            <FaInfoCircle className="inline mr-2" /> More Info on MyAnimeList
+          </a>
+        </div>
+      </div>
+
+      <div ref={detailsRef} className="mt-12 bg-zinc-800 rounded-xl p-6 shadow-lg">
+        <h2 className="text-2xl sm:text-3xl font-semibold text-white mb-6">Character Details</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="flex items-center gap-3">
+            <FaIdCard className="text-gray-300" />
+            <div>
+              <p className="text-sm text-gray-400">Another Name</p>
+              <p className="text-lg text-gray-200">{alternate_names.join(", ")}</p>
             </div>
           </div>
-        </div>
-
-        <div
-          ref={detailsRef}
-          className="space-y-5 md:w-1/2 rounded-xl px-4 py-6 bg-zinc-800"
-        >
-          <h2 className="text-3xl font-semibold">Character Details</h2>
-          <table className="table-auto w-full">
-            <tbody>
-              <tr>
-                <td className="text-lg font-semibold">Another Name</td>
-                <td>{alternate_names.join(", ")}</td>
-              </tr>
-              <tr>
-                <td className="text-lg font-semibold">Mal ID</td>
-                <td>{mal_id}</td>
-              </tr>
-              <tr>
-                <td className="text-lg font-semibold">Birthday</td>
-                <td>{fm.format(new Date(birthday))}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div
-          ref={charactersRef}
-          className="space-y-10 container mx-auto mb-20 px-10"
-        >
-          <h2 className="text-3xl font-semibold">
-            Anime Characters Voiced by {name}
-          </h2>
-          <div className="flex flex-wrap gap-5 justify-center items-center">
-            {!characterData.voices.length && "No Characters"}
-            {characterData.voices.map((character) => (
-              <Card
-                key={character.character.mal_id}
-                id={character.character.mal_id}
-                name={character.character.name}
-                imageUrl={character.character.images.jpg.image_url}
-                favs={character.role}
-              />
-            ))}
+          <div className="flex items-center gap-3">
+            <FaIdCard className="text-gray-300" />
+            <div>
+              <p className="text-sm text-gray-400">Mal ID</p>
+              <p className="text-lg text-gray-200">{mal_id}</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <FaBirthdayCake className="text-gray-300" />
+            <div>
+              <p className="text-sm text-gray-400">Birthday</p>
+              <p className="text-lg text-gray-200">{fm.format(new Date(birthday))}</p>
+            </div>
           </div>
         </div>
       </div>
-    </>
+
+      <div ref={charactersRef} className="mt-16">
+        <h2 className="text-2xl sm:text-3xl font-semibold text-white mb-8">
+          Anime Characters Voiced by {name}
+        </h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+          {!characterData.voices.length && (
+            <p className="col-span-full text-center text-gray-400">No Characters</p>
+          )}
+          {characterData.voices.map((character) => (
+            <Card
+              key={character.character.mal_id}
+              id={character.character.mal_id}
+              name={character.character.name}
+              imageUrl={character.character.images.jpg.image_url}
+              favs={character.role}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
   );
 };
 

@@ -4,7 +4,6 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import Collection from "@/components/Collection";
 import Carousel from "@/components/Crousal";
-import { trending } from "@/constants";
 import AnimeCard from "@/components/Trending";
 import MoreAnime from "@/components/MoreAnime";
 import { FaArrowRight } from "react-icons/fa";
@@ -17,6 +16,7 @@ export default function Home() {
   const carouselRef = useRef(null);
   const collectionRef = useRef(null);
   const moreAnimeRef = useRef(null);
+  const [trendingAnime, setTrendingAnime] = useState([]);
 
   useEffect(() => {
     // Scroll to top on page load or refresh
@@ -68,6 +68,14 @@ export default function Home() {
         },
       }
     );
+
+    // Fetch trending anime
+    fetch('https://api.jikan.moe/v4/seasons/now')
+      .then(response => response.json())
+      .then(data => {
+        setTrendingAnime(data.data.slice(0, 10)); // Limiting to 10 anime for example
+      })
+      .catch(error => console.error('Error fetching trending anime:', error));
   }, []);
 
   return (
@@ -94,14 +102,14 @@ export default function Home() {
         <h1 className="text-4xl font-bold text-white m-8">Trending Anime</h1>
 
         <div className="flex flex-wrap justify-center items-center">
-          {trending.map((anime) => (
-            <div key={anime.id} className="m-4">
+          {trendingAnime.map((anime) => (
+            <div key={anime.mal_id} className="m-4">
               <AnimeCard
-                mal_id={anime.id}
-                name={anime.name}
-                imageUrl={anime.imageUrl}
-                year={anime.year}
-                genre={anime.genre}
+                mal_id={anime.mal_id}
+                name={anime.title}
+                imageUrl={anime.images.jpg.image_url}
+                year={new Date(anime.aired.from).getFullYear()}
+                genre={anime.genres[0]?.name || 'N/A'}
               />
             </div>
           ))}
