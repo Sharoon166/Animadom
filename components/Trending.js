@@ -8,13 +8,11 @@ gsap.registerPlugin(ScrollTrigger);
 const AnimeCard = ({ mal_id, name, imageUrl, year, genre }) => {
   const cardRef = useRef(null);
 
- 
-
   return (
-    <div ref={cardRef} className="relative flex h-96 w-52 rounded-[1.5em] text-lime-300 overflow-hidden">
-      <div className="group absolute left-1/2 top-1/2 flex h-[3em] w-[3em] -translate-x-1/2 -translate-y-1/2 items-center justify-center overflow-hidden rounded-[1.5em] border-[1px] border-[#ffffffaa] bg-[#8988885c] backdrop-blur-[6px] duration-[500ms] hover:h-80 hover:w-48 hover:rounded-[1.5em]">
+    <div ref={cardRef} className="relative flex h-72 w-40 sm:h-96 sm:w-52 rounded-[1.5em] text-lime-300 overflow-hidden">
+      <div className="group absolute left-1/2 top-1/2 flex h-[2.5em] w-[2.5em] sm:h-[3em] sm:w-[3em] -translate-x-1/2 -translate-y-1/2 items-center justify-center overflow-hidden rounded-[1.5em] border-[1px] border-[#ffffffaa] bg-[#8988885c] backdrop-blur-[6px] duration-[500ms] hover:h-64 hover:w-36 sm:hover:h-80 sm:hover:w-48 hover:rounded-[1.5em]">
         <svg
-          className="h-[1.5em] w-[1.5em] duration-300 group-hover:opacity-0"
+          className="h-[1.2em] w-[1.2em] sm:h-[1.5em] sm:w-[1.5em] duration-300 group-hover:opacity-0"
           viewBox="0 0 48 48"
           fill="none"
           height="48"
@@ -35,16 +33,16 @@ const AnimeCard = ({ mal_id, name, imageUrl, year, genre }) => {
             </clipPath>
           </defs>
         </svg>
-        <div className="items-left duration-600 absolute p-4 flex flex-col gap-3 left-0 translate-y-[100%] justify-between font-nunito text-[hsl(0,0%,85%)] group-hover:translate-y-0">
+        <div className="items-left duration-600 absolute p-3 sm:p-4 flex flex-col gap-2 sm:gap-3 left-0 translate-y-[100%] justify-between font-nunito text-[hsl(0,0%,85%)] group-hover:translate-y-0">
           <div className="items-left flex flex-col justify-center">
             <Link
               href={`/anime/${mal_id}`}
-              className="text-lg font-bold leading-[0.8em] hover:cursor-pointer hover:underline"
+              className="text-base sm:text-lg font-bold leading-[0.8em] hover:cursor-pointer hover:underline"
             >
               {name}
             </Link>
           </div>
-          <p className="text-[0.7em]">
+          <p className="text-[0.9em] sm:text-[1em]">
             {year}, {genre}
           </p>
         </div>

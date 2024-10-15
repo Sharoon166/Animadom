@@ -34,7 +34,7 @@ const recs = ({ params }) => {
         Anime Recommendations
       </h2>
 
-      <div className="grid grid-cols-5 gap-5 container mx-auto justify-items-center">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6 md:gap-8 justify-items-center">
         {currentItems.map((recommendation) => {
           const { entry, url, votes } = recommendation;
           const { mal_id, title, images } = entry;

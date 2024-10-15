@@ -28,11 +28,11 @@ function page({ params }) {
   };
 
   return (
-    <div className="container mx-auto space-y-10 mb-20">
-      <h2 className="text-2xl mt-10 p-8 ">
+    <div className="container mx-auto space-y-10 mb-20 px-4 sm:px-6 lg:px-8">
+      <h2 className="text-xl sm:text-2xl mt-6 sm:mt-10 p-4 sm:p-8">
         Search Results for "{searchQuery}"{" "}
       </h2>
-      <div className="grid grid-cols-5 gap-5 justify-items-center">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-5 justify-items-center">
         {searchResults.map((search) => {
           const {
             mal_id,

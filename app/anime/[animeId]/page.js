@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { FaRegStar, FaArrowRight, FaPlay, FaInfoCircle } from "react-icons/fa";
+import { FaRegStar, FaArrowRight, FaPlay, FaInfoCircle, FaTv, FaCalendarAlt, FaCheckCircle, FaFilm, FaBook, FaTheaterMasks, FaBuilding, FaExclamationCircle, FaClock } from "react-icons/fa";
 import Loading from "@/loading";
 import Link from "next/link";
 
@@ -65,9 +65,6 @@ const AnimeDescription = ({ params }) => {
     type,
     source,
     status,
-    popularity,
-    members,
-    favorites,
   } = animeData;
 
   return (
@@ -76,19 +73,21 @@ const AnimeDescription = ({ params }) => {
         <img src={coverImage || "/banner404.jpg"} alt="Anime Cover" className="w-full h-64 md:h-96 object-cover rounded-lg" />
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-end p-6">
           <div className="flex items-center space-x-4">
-            <img src={posterImage || "/poster404.jpg"} alt={`${title} poster`} className="w-40 h-60 object-cover rounded-lg shadow-lg" />
+            <img src={posterImage || "/poster404.jpg"} alt={`${title} poster`} className="w-24 h-36 sm:w-40 sm:h-60 object-cover rounded-lg shadow-lg" />
             <div>
-              <h1 className="text-3xl md:text-4xl text-white font-bold mb-2">{title}</h1>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl text-white font-bold mb-2">{title}</h1>
               <div className="flex items-center mb-2">
                 <FaRegStar className="text-yellow-500 mr-2" />
                 <span className="text-yellow-500 font-semibold">{score} / 10</span>
               </div>
               <div className="flex space-x-2">
-                <Link href={`/episodes/${params.animeId}`} className="bg-blue-500 text-white py-2 px-4 rounded-lg flex items-center">
-                  <FaPlay className="mr-2" /> Episodes
+                <Link href={`/episodes/${params.animeId}`} className="bg-blue-500 text-white py-2 px-4 rounded-lg flex items-center group relative">
+                  <FaPlay className="sm:mr-0" /> <span className="hidden sm:inline">Episodes</span>
+                  <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">Episodes</span>
                 </Link>
-                <Link href={`/recs/${params.animeId}`} className="bg-green-500 text-white py-2 px-4 rounded-lg flex items-center">
-                  <FaInfoCircle className="mr-2" /> Recommendations
+                <Link href={`/recs/${params.animeId}`} className="bg-green-500 text-white py-2 px-4 rounded-lg flex items-center group relative">
+                  <FaInfoCircle className="sm:mr-0" /> <span className="hidden sm:inline">Recommendations</span>
+                  <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">Recommendations</span>
                 </Link>
               </div>
             </div>
@@ -105,16 +104,16 @@ const AnimeDescription = ({ params }) => {
           <div className="bg-zinc-800 p-4 rounded-lg mb-6">
             <table className="w-full">
               <tbody>
-                <tr><td className="font-semibold">Type</td><td>{type}</td></tr>
-                <tr><td className="font-semibold">Episodes</td><td>{episodes ?? "unknown"}</td></tr>
-                <tr><td className="font-semibold">Status</td><td>{status}</td></tr>
-                <tr><td className="font-semibold">Aired</td><td>{fm.format(new Date(airedFrom))} - {airedTo ? fm.format(new Date(airedTo)) : "Continued"}</td></tr>
-                <tr><td className="font-semibold">Season</td><td>{season ?? "unknown"}</td></tr>
-                <tr><td className="font-semibold">Source</td><td>{source}</td></tr>
-                <tr><td className="font-semibold">Genre</td><td>{genres.map((genre) => genre.name).join(", ")}</td></tr>
-                <tr><td className="font-semibold">Studios</td><td>{studios.map((studio) => studio.name).join(", ")}</td></tr>
-                <tr><td className="font-semibold">Rating</td><td>{rating}</td></tr>
-                <tr><td className="font-semibold">Duration</td><td>{duration}</td></tr>
+                <tr><td className="font-semibold"><FaTv className="inline mr-2 md:hidden" /><span className="hidden md:inline">Type</span></td><td>{type}</td></tr>
+                <tr><td className="font-semibold"><FaPlay className="inline mr-2 md:hidden" /><span className="hidden md:inline">Episodes</span></td><td>{episodes ?? "unknown"}</td></tr>
+                <tr><td className="font-semibold"><FaCheckCircle className="inline mr-2 md:hidden" /><span className="hidden md:inline">Status</span></td><td>{status}</td></tr>
+                <tr><td className="font-semibold"><FaCalendarAlt className="inline mr-2 md:hidden" /><span className="hidden md:inline">Aired</span></td><td>{fm.format(new Date(airedFrom))} - {airedTo ? fm.format(new Date(airedTo)) : "Continued"}</td></tr>
+                <tr><td className="font-semibold"><FaFilm className="inline mr-2 md:hidden" /><span className="hidden md:inline">Season</span></td><td>{season ?? "unknown"}</td></tr>
+                <tr><td className="font-semibold"><FaBook className="inline mr-2 md:hidden" /><span className="hidden md:inline">Source</span></td><td>{source}</td></tr>
+                <tr><td className="font-semibold"><FaTheaterMasks className="inline mr-2 md:hidden" /><span className="hidden md:inline">Genre</span></td><td>{genres.map((genre) => genre.name).join(", ")}</td></tr>
+                <tr><td className="font-semibold"><FaBuilding className="inline mr-2 md:hidden" /><span className="hidden md:inline">Studios</span></td><td>{studios.map((studio) => studio.name).join(", ")}</td></tr>
+                <tr><td className="font-semibold"><FaExclamationCircle className="inline mr-2 md:hidden" /><span className="hidden md:inline">Rating</span></td><td>{rating}</td></tr>
+                <tr><td className="font-semibold"><FaClock className="inline mr-2 md:hidden" /><span className="hidden md:inline">Duration</span></td><td>{duration}</td></tr>
               </tbody>
             </table>
           </div>

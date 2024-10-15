@@ -99,29 +99,33 @@ const CharacterPage = ({ params, data }) => {
   } = characterData;
 
   return (
-    <div className="container mx-auto my-14 space-y-16 text-gray-300 px-4 md:px-10">
-      <div className="flex flex-col lg:flex-row gap-10">
-        <div className="flex flex-col items-center lg:items-start lg:w-1/3">
+    <div className="container mx-auto my-8 sm:my-14 space-y-8 sm:space-y-16 text-gray-300 px-4 sm:px-6 md:px-10">
+      <div className="flex flex-col sm:flex-row gap-6 sm:gap-10">
+        <div className="flex flex-col items-center sm:items-start sm:w-1/2 lg:w-1/3">
           <img
             ref={imageRef}
             src={image_url}
             alt={`${name} character image`}
-            className="rounded-lg w-full max-w-md"
+            className="rounded-lg w-full max-w-xs sm:max-w-sm"
           />
           <Link
             href={`/va/${params.id}`}
-            className="mt-4 flex items-center justify-center gap-2 text-yellow-400 p-3 border border-yellow-400 rounded-full hover:bg-yellow-400 hover:text-black transition duration-300 w-full max-w-md"
+            className="mt-4 flex items-center justify-center gap-2 text-yellow-400 p-3 border border-yellow-400 rounded-full hover:bg-yellow-400 hover:text-black transition duration-300 w-full max-w-xs sm:max-w-sm"
           >
             <FaMicrophone className="text-xl" />
             <div className="text-lg">Voice Actors</div>
           </Link>
         </div>
-        <div className="space-y-6 lg:w-2/3">
-          <h2 className="text-3xl md:text-5xl text-white font-bold">{name}</h2>
-          <div className="flex items-center gap-3 text-lg text-yellow-500">
+
+        <div className="space-y-4 sm:space-y-6 sm:w-1/2 lg:w-2/3">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl text-white font-bold">
+            {name}
+          </h2>
+          <div className="flex items-center gap-3 text-base sm:text-lg text-yellow-500">
             <FaRegStar /> {favorites} Favorites
           </div>
-          <p className="text-lg">{about}</p>
+
+          <p className="text-base sm:text-lg">{about}</p>
           <a
             href={url}
             target="_blank"
@@ -135,29 +139,33 @@ const CharacterPage = ({ params, data }) => {
 
       <div
         ref={detailsRef}
-        className="space-y-5 rounded-xl px-4 py-6 bg-zinc-800"
+        className="space-y-4 sm:space-y-5 rounded-xl px-4 py-4 sm:py-6 bg-zinc-800"
       >
-        <h2 className="text-3xl font-semibold">Character Details</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <h2 className="text-2xl sm:text-3xl font-semibold">
+          Character Details
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <div>
-            <p className="text-lg font-semibold">Name (Kanji)</p>
+            <p className="text-base sm:text-lg font-semibold">Name (Kanji)</p>
             <p>{name_kanji}</p>
           </div>
           <div>
-            <p className="text-lg font-semibold">Nicknames</p>
+            <p className="text-base sm:text-lg font-semibold">Nicknames</p>
             <p>{nicknames.join(", ")}</p>
           </div>
           <div>
-            <p className="text-lg font-semibold">Mal ID</p>
+            <p className="text-base sm:text-lg font-semibold">Mal ID</p>
             <p>{mal_id}</p>
           </div>
         </div>
       </div>
 
-      <div ref={charactersRef} className="space-y-10">
-        <h2 className="text-3xl font-semibold">Anime Starring {name}</h2>
+      <div ref={charactersRef} className="space-y-6 sm:space-y-10">
+        <h2 className="text-2xl sm:text-3xl font-semibold">
+          Anime Starring {name}
+        </h2>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4">
           {!animeData.length && "No Anime"}
           {animeData.map((character) => {
             const {
@@ -183,9 +191,14 @@ const CharacterPage = ({ params, data }) => {
                   className="absolute w-full h-full object-cover transform group-hover:scale-110 transition duration-300 ease-in-out"
                 />
                 <div className="absolute inset-0 bg-black opacity-50 group-hover:opacity-75 transition duration-300 ease-in-out"></div>
-                <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
-                  <h2 className="text-white text-lg font-bold text-center mb-2">{title}</h2>
-                  <p className="text-white text-sm text-center">{role}</p>
+
+                <div className="absolute inset-0 flex flex-col items-center justify-center p-2 sm:p-4">
+                  <h2 className="text-white text-sm sm:text-lg font-bold text-center mb-1 sm:mb-2">
+                    {title}
+                  </h2>
+                  <p className="text-white text-xs sm:text-sm text-center">
+                    {role}
+                  </p>
                 </div>
               </Link>
             );
@@ -194,7 +207,9 @@ const CharacterPage = ({ params, data }) => {
       </div>
 
       <div>
-        <h2 className="text-3xl font-semibold mb-8">Character Gallery</h2>
+        <h2 className="text-2xl sm:text-3xl font-semibold mb-6 sm:mb-8">
+          Character Gallery
+        </h2>
         <CharacterGallery characterId={mal_id} />
       </div>
     </div>
