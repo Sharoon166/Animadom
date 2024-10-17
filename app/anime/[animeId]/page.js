@@ -106,7 +106,7 @@ const AnimeDescription = ({ params }) => {
             />
             <div>
               <h1 className="text-2xl sm:text-3xl md:text-4xl text-white font-bold mb-2">
-                {`${title_english}||${title}`}
+                {title_english || title}
               </h1>
               <div className="flex items-center mb-2">
                 <FaRegStar className="text-yellow-500 mr-2" />
