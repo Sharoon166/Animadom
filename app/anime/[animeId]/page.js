@@ -73,6 +73,7 @@ const AnimeDescription = ({ params }) => {
   
   const {
     title_english,
+    title,
     episodes,
     aired: { from: airedFrom, to: airedTo },
     synopsis: description,
@@ -100,12 +101,12 @@ const AnimeDescription = ({ params }) => {
           <div className="flex items-center space-x-4">
             <img
               src={posterImage || "/poster404.jpg"}
-              alt={`${title_english} poster`}
+              alt={`${title_english} || ${title} poster`}
               className="w-24 h-36 sm:w-40 sm:h-60 object-cover rounded-lg shadow-lg"
             />
             <div>
               <h1 className="text-2xl sm:text-3xl md:text-4xl text-white font-bold mb-2">
-                {title_english}
+                {title_english}||{title}
               </h1>
               <div className="flex items-center mb-2">
                 <FaRegStar className="text-yellow-500 mr-2" />
