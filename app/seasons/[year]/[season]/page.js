@@ -37,7 +37,7 @@ return (
           <div key={anime.mal_id} className="m-4">
             <AnimeCard
               mal_id={anime.mal_id}
-              name={anime.title_english}
+              name={anime.title_english|| anime.title}
               imageUrl={anime.images.jpg.image_url}
               year={anime.year}
               genre={anime.genres.name}

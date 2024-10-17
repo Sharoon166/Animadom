@@ -37,13 +37,13 @@ const recs = ({ params }) => {
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6 md:gap-8 justify-items-center">
         {currentItems.map((recommendation) => {
           const { entry, url, votes } = recommendation;
-          const { mal_id, title_english, images } = entry;
+          const { mal_id, title_english,title, images } = entry;
           const imageUrl = images.jpg.image_url; 
           return (
             <Trending
               key={mal_id}
               mal_id={mal_id}
-              name={title_english}
+              name={title_english||title}
               imageUrl={imageUrl}
             />
           );

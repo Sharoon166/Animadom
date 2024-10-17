@@ -106,7 +106,7 @@ export default function Home() {
             <div key={anime.mal_id} className="m-4">
               <AnimeCard
                 mal_id={anime.mal_id}
-                name={anime.title_english}
+                name={anime.title_english || anime.title}
                 imageUrl={anime.images.jpg.image_url}
                 year={new Date(anime.aired.from).getFullYear()}
                 genre={anime.genres[0]?.name || 'N/A'}

@@ -37,6 +37,7 @@ function page({ params }) {
           const {
             mal_id,
             title_english,
+            title,
             images: {
               jpg: { image_url },
             },
@@ -46,7 +47,7 @@ function page({ params }) {
             <Trending
               key={mal_id}
               mal_id={mal_id}
-              name={title_english}
+              name={title_english || title}
               imageUrl={image_url}
               year={year}
             />
