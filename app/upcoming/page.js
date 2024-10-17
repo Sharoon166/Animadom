@@ -33,7 +33,7 @@ const Upcoming = () => {
                       <div key={anime.mal_id} className="m-4">
                           <AnimeCard
                               mal_id={anime.mal_id}
-                              name={anime.title}
+                              name={anime.title_english}
                               imageUrl={anime.images.jpg.image_url}
                           />
                       </div>

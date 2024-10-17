@@ -49,7 +49,7 @@
                 <AnimeCard
                   mal_id={anime.mal_id}
                   imageUrl={anime.images.jpg.image_url}
-                  name={anime.title}
+                  name={anime.title_english}
                   year={anime.year}
                   genre={anime.genres.map((genre) => genre.name).join(", ")}
                 />

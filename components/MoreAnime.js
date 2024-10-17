@@ -23,13 +23,13 @@ const MoreAnime = () => {
       <h2 id="top-anime-section" className="text-4xl font-bold text-white m-8">Top Anime</h2>
       <div className="flex flex-wrap justify-center items-center">
         {anime?.map((anime) => {
-          const { mal_id, images, title, year, genres } = anime;
+          const { mal_id, images, title_english, year, genres } = anime;
           return (
             <div key={mal_id} className="m-4">
               <AnimeCard
                 mal_id={mal_id}
                 imageUrl={images.jpg.image_url}
-                name={title}
+                name={title_english}
                 year={year}
                 genre={genres.map((genre) => genre.name).join(", ")}
               />

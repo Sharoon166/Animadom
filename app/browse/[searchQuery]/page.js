@@ -36,7 +36,7 @@ function page({ params }) {
         {searchResults.map((search) => {
           const {
             mal_id,
-            title,
+            title_english,
             images: {
               jpg: { image_url },
             },
@@ -46,7 +46,7 @@ function page({ params }) {
             <Trending
               key={mal_id}
               mal_id={mal_id}
-              name={title}
+              name={title_english}
               imageUrl={image_url}
               year={year}
             />

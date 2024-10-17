@@ -1,6 +1,20 @@
 "use client";
 import { useEffect, useState } from "react";
-import { FaRegStar, FaArrowRight, FaPlay, FaInfoCircle, FaTv, FaCalendarAlt, FaCheckCircle, FaFilm, FaBook, FaTheaterMasks, FaBuilding, FaExclamationCircle, FaClock } from "react-icons/fa";
+import {
+  FaRegStar,
+  FaArrowRight,
+  FaPlay,
+  FaInfoCircle,
+  FaTv,
+  FaCalendarAlt,
+  FaCheckCircle,
+  FaFilm,
+  FaBook,
+  FaTheaterMasks,
+  FaBuilding,
+  FaExclamationCircle,
+  FaClock,
+} from "react-icons/fa";
 import Loading from "@/loading";
 import Link from "next/link";
 
@@ -11,28 +25,35 @@ const fm = Intl.DateTimeFormat("en", {
 const AnimeDescription = ({ params }) => {
   const [animeData, setAnimeData] = useState();
   const [animeCharacters, setAnimeCharacters] = useState([]);
-  const [coverImage, setCoverImage] = useState('');
-  const [posterImage, setPosterImage] = useState('');
+  const [coverImage, setCoverImage] = useState("");
+  const [posterImage, setPosterImage] = useState("");
   const [animeImages, setAnimeImages] = useState([]);
 
   useEffect(() => {
     fetch(`https://api.jikan.moe/v4/anime/${parseInt(params.animeId)}`, {
       cache: "force-cache",
+      
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log(data?.data?.title);
+        console.log(params.animeId)
         setAnimeData(data?.data);
-        return fetch(`https://kitsu.io/api/edge/anime?filter[slug]=${data?.data?.title.toLowerCase().replace(/\s+/g, '-')}`);
+        return fetch(
+          `https://kitsu.io/api/edge/anime?filter[text]=${data?.data?.title
+            .toLowerCase()}`
+            
+        );
       })
       .then((res) => res.json())
       .then((kitsuData) => {
         if (kitsuData.data && kitsuData.data.length > 0) {
-          setCoverImage(kitsuData.data[0].attributes.coverImage?.large || '');
-          setPosterImage(kitsuData.data[0].attributes.posterImage?.large || '');
+          setCoverImage(kitsuData.data[0].attributes.coverImage?.large || kitsuData.data[0].attributes.coverImage?.original|| "");
+          setPosterImage(kitsuData.data[0].attributes.posterImage?.large ||kitsuData.data[0].attributes.posterImage?.original || "");
         }
       })
       .catch((err) => console.log(err));
-
+   
     fetch(`https://api.jikan.moe/v4/anime/${params.animeId}/characters`)
       .then((res) => res.json())
       .then((data) =>
@@ -49,9 +70,9 @@ const AnimeDescription = ({ params }) => {
   }, []);
 
   if (!animeData) return <Loading />;
-
+  
   const {
-    title,
+    title_english,
     episodes,
     aired: { from: airedFrom, to: airedTo },
     synopsis: description,
@@ -70,24 +91,48 @@ const AnimeDescription = ({ params }) => {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="relative mb-8">
-        <img src={coverImage || "/banner404.jpg"} alt="Anime Cover" className="w-full h-64 md:h-96 object-cover rounded-lg" />
+        <img
+          src={coverImage || "/banner404.jpg"}
+          alt="Anime Cover"
+          className="w-full h-64 md:h-96 object-cover rounded-lg"
+        />
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-end p-6">
           <div className="flex items-center space-x-4">
-            <img src={posterImage || "/poster404.jpg"} alt={`${title} poster`} className="w-24 h-36 sm:w-40 sm:h-60 object-cover rounded-lg shadow-lg" />
+            <img
+              src={posterImage || "/poster404.jpg"}
+              alt={`${title_english} poster`}
+              className="w-24 h-36 sm:w-40 sm:h-60 object-cover rounded-lg shadow-lg"
+            />
             <div>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl text-white font-bold mb-2">{title}</h1>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl text-white font-bold mb-2">
+                {title_english}
+              </h1>
               <div className="flex items-center mb-2">
                 <FaRegStar className="text-yellow-500 mr-2" />
-                <span className="text-yellow-500 font-semibold">{score} / 10</span>
+                <span className="text-yellow-500 font-semibold">
+                  {score} / 10
+                </span>
               </div>
               <div className="flex space-x-2">
-                <Link href={`/episodes/${params.animeId}`} className="bg-blue-500 text-white py-2 px-4 rounded-lg flex items-center group relative">
-                  <FaPlay className="sm:mr-0" /> <span className="hidden sm:inline">Episodes</span>
-                  <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">Episodes</span>
+                <Link
+                  href={`/episodes/${params.animeId}`}
+                  className="bg-blue-500 text-white py-2 px-4 rounded-lg flex items-center group relative"
+                >
+                  <FaPlay className="sm:mr-0" />{" "}
+                  <span className="hidden sm:inline">Episodes</span>
+                  <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    Episodes
+                  </span>
                 </Link>
-                <Link href={`/recs/${params.animeId}`} className="bg-green-500 text-white py-2 px-4 rounded-lg flex items-center group relative">
-                  <FaInfoCircle className="sm:mr-0" /> <span className="hidden sm:inline">Recommendations</span>
-                  <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">Recommendations</span>
+                <Link
+                  href={`/recs/${params.animeId}`}
+                  className="bg-green-500 text-white py-2 px-4 rounded-lg flex items-center group relative"
+                >
+                  <FaInfoCircle className="sm:mr-0" />{" "}
+                  <span className="hidden sm:inline">Recommendations</span>
+                  <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    Recommendations
+                  </span>
                 </Link>
               </div>
             </div>
@@ -104,16 +149,79 @@ const AnimeDescription = ({ params }) => {
           <div className="bg-zinc-800 p-4 rounded-lg mb-6">
             <table className="w-full">
               <tbody>
-                <tr><td className="font-semibold"><FaTv className="inline mr-2 md:hidden" /><span className="hidden md:inline">Type</span></td><td>{type}</td></tr>
-                <tr><td className="font-semibold"><FaPlay className="inline mr-2 md:hidden" /><span className="hidden md:inline">Episodes</span></td><td>{episodes ?? "unknown"}</td></tr>
-                <tr><td className="font-semibold"><FaCheckCircle className="inline mr-2 md:hidden" /><span className="hidden md:inline">Status</span></td><td>{status}</td></tr>
-                <tr><td className="font-semibold"><FaCalendarAlt className="inline mr-2 md:hidden" /><span className="hidden md:inline">Aired</span></td><td>{fm.format(new Date(airedFrom))} - {airedTo ? fm.format(new Date(airedTo)) : "Continued"}</td></tr>
-                <tr><td className="font-semibold"><FaFilm className="inline mr-2 md:hidden" /><span className="hidden md:inline">Season</span></td><td>{season ?? "unknown"}</td></tr>
-                <tr><td className="font-semibold"><FaBook className="inline mr-2 md:hidden" /><span className="hidden md:inline">Source</span></td><td>{source}</td></tr>
-                <tr><td className="font-semibold"><FaTheaterMasks className="inline mr-2 md:hidden" /><span className="hidden md:inline">Genre</span></td><td>{genres.map((genre) => genre.name).join(", ")}</td></tr>
-                <tr><td className="font-semibold"><FaBuilding className="inline mr-2 md:hidden" /><span className="hidden md:inline">Studios</span></td><td>{studios.map((studio) => studio.name).join(", ")}</td></tr>
-                <tr><td className="font-semibold"><FaExclamationCircle className="inline mr-2 md:hidden" /><span className="hidden md:inline">Rating</span></td><td>{rating}</td></tr>
-                <tr><td className="font-semibold"><FaClock className="inline mr-2 md:hidden" /><span className="hidden md:inline">Duration</span></td><td>{duration}</td></tr>
+                <tr>
+                  <td className="font-semibold">
+                    <FaTv className="inline mr-2 md:hidden" />
+                    <span className="hidden md:inline">Type</span>
+                  </td>
+                  <td>{type}</td>
+                </tr>
+                <tr>
+                  <td className="font-semibold">
+                    <FaPlay className="inline mr-2 md:hidden" />
+                    <span className="hidden md:inline">Episodes</span>
+                  </td>
+                  <td>{episodes ?? "unknown"}</td>
+                </tr>
+                <tr>
+                  <td className="font-semibold">
+                    <FaCheckCircle className="inline mr-2 md:hidden" />
+                    <span className="hidden md:inline">Status</span>
+                  </td>
+                  <td>{status}</td>
+                </tr>
+                <tr>
+                  <td className="font-semibold">
+                    <FaCalendarAlt className="inline mr-2 md:hidden" />
+                    <span className="hidden md:inline">Aired</span>
+                  </td>
+                  <td>
+                    {fm.format(new Date(airedFrom))} -{" "}
+                    {airedTo ? fm.format(new Date(airedTo)) : "Continued"}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="font-semibold">
+                    <FaFilm className="inline mr-2 md:hidden" />
+                    <span className="hidden md:inline">Season</span>
+                  </td>
+                  <td>{season ?? "unknown"}</td>
+                </tr>
+                <tr>
+                  <td className="font-semibold">
+                    <FaBook className="inline mr-2 md:hidden" />
+                    <span className="hidden md:inline">Source</span>
+                  </td>
+                  <td>{source}</td>
+                </tr>
+                <tr>
+                  <td className="font-semibold">
+                    <FaTheaterMasks className="inline mr-2 md:hidden" />
+                    <span className="hidden md:inline">Genre</span>
+                  </td>
+                  <td>{genres.map((genre) => genre.name).join(", ")}</td>
+                </tr>
+                <tr>
+                  <td className="font-semibold">
+                    <FaBuilding className="inline mr-2 md:hidden" />
+                    <span className="hidden md:inline">Studios</span>
+                  </td>
+                  <td>{studios.map((studio) => studio.name).join(", ")}</td>
+                </tr>
+                <tr>
+                  <td className="font-semibold">
+                    <FaExclamationCircle className="inline mr-2 md:hidden" />
+                    <span className="hidden md:inline">Rating</span>
+                  </td>
+                  <td>{rating}</td>
+                </tr>
+                <tr>
+                  <td className="font-semibold">
+                    <FaClock className="inline mr-2 md:hidden" />
+                    <span className="hidden md:inline">Duration</span>
+                  </td>
+                  <td>{duration}</td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -131,7 +239,7 @@ const AnimeDescription = ({ params }) => {
           ></iframe>
         </div>
       </div>
-      
+
       <div className="mt-12">
         <h2 className="text-2xl font-semibold mb-6">Main Characters</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
@@ -140,7 +248,9 @@ const AnimeDescription = ({ params }) => {
             const {
               character: {
                 mal_id,
-                images: { webp: { image_url } },
+                images: {
+                  webp: { image_url },
+                },
                 name,
               },
             } = character;
@@ -159,7 +269,9 @@ const AnimeDescription = ({ params }) => {
                     className="rounded-lg"
                   />
                 </div>
-                <h2 className="text-white text-sm font-bold text-center">{name}</h2>
+                <h2 className="text-white text-sm font-bold text-center">
+                  {name}
+                </h2>
               </Link>
             );
           })}
