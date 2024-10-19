@@ -1,6 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import AnimeCard from '@/components/Trending'
+import { useLanguage } from '@/components/useLanguage'
 
 const page = ({params}) => {
   const[seasons,setSeasons]=useState([])
@@ -27,7 +28,7 @@ const page = ({params}) => {
       setCurrentPage(newPage)
       window.scrollTo({ top: 0, behavior: 'smooth' })
   }
-
+const {useJapanese}=useLanguage()
 return (
   <div>
          <div className="">
@@ -37,7 +38,7 @@ return (
           <div key={anime.mal_id} className="m-4">
             <AnimeCard
               mal_id={anime.mal_id}
-              name={anime.title_english|| anime.title}
+              name={useJapanese ? anime.title : (anime.title_english || anime.title)}
               imageUrl={anime.images.jpg.image_url}
               year={anime.year}
               genre={anime.genres.name}

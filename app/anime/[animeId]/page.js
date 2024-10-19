@@ -17,6 +17,7 @@ import {
 } from "react-icons/fa";
 import Loading from "@/loading";
 import Link from "next/link";
+import { useLanguage } from "@/components/useLanguage";
 
 const fm = Intl.DateTimeFormat("en", {
   dateStyle: "long",
@@ -88,7 +89,7 @@ const AnimeDescription = ({ params }) => {
     source,
     status,
   } = animeData;
-
+const {useJapanese}=useLanguage()
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="relative mb-8">
@@ -105,8 +106,8 @@ const AnimeDescription = ({ params }) => {
               className="w-24 h-36 sm:w-40 sm:h-60 object-cover rounded-lg shadow-lg"
             />
             <div>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl text-white font-bold mb-2">
-                {title_english || title}
+              <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white font-bold mb-2">
+              {useJapanese ? title : (title_english || title)}
               </h1>
               <div className="flex items-center mb-2">
                 <FaRegStar className="text-yellow-500 mr-2" />

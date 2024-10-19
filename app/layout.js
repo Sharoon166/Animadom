@@ -2,6 +2,8 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { LanguageProvider } from '@/components/useLanguage';
+
 
 const poppins = Poppins({ subsets: ["latin"],weight:"400" });
 
@@ -12,15 +14,17 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-  
-      <body className={`${poppins.className}poppins.className bg-[#121212]  overflow-x-hidden `}>
-        <div className=" min-h-screen text-white">
-        <Navbar className='absolute'/>
-        {children}
-        </div>
-        <Footer/>
-        </body>
-
+      <body className={`${poppins.className}poppins.className bg-[#121212] overflow-x-hidden`}>
+        <LanguageProvider>
+          <div className="min-h-screen text-white">
+            <Navbar className='absolute'/>
+            {children}
+          </div>
+          <Footer/>
+        </LanguageProvider>
+      </body>
     </html>
   );
 }
+
+

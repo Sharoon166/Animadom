@@ -8,6 +8,7 @@ import AnimeCard from "@/components/Trending";
 import MoreAnime from "@/components/MoreAnime";
 import { FaArrowRight } from "react-icons/fa";
 import Link from "next/link";
+import { useLanguage } from "@/components/useLanguage";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,6 +18,9 @@ export default function Home() {
   const collectionRef = useRef(null);
   const moreAnimeRef = useRef(null);
   const [trendingAnime, setTrendingAnime] = useState([]);
+  
+  // Use the custom hook to manage language preference
+  const { useJapanese } = useLanguage();
 
   useEffect(() => {
     // Scroll to top on page load or refresh
@@ -106,7 +110,7 @@ export default function Home() {
             <div key={anime.mal_id} className="m-4">
               <AnimeCard
                 mal_id={anime.mal_id}
-                name={anime.title_english || anime.title}
+                name={useJapanese ? anime.title : (anime.title_english || anime.title)}
                 imageUrl={anime.images.jpg.image_url}
                 year={new Date(anime.aired.from).getFullYear()}
                 genre={anime.genres[0]?.name || 'N/A'}

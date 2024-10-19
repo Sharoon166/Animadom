@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Trending from "@/components/Trending";
 import Pagination from "@/components/Pagination";
+import { useLanguage } from "@/components/useLanguage";
 
 function page({ params }) {
   const { searchQuery } = params;
@@ -18,14 +19,15 @@ function page({ params }) {
         setSearchResults(data?.data);
         console.log(data.data);
       });
-  }, [searchQuery, currentPage]);
-
-  const totalPages = Math.ceil(searchResults.length / resultsPerPage);
-
-  const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+    }, [searchQuery, currentPage]);
+    
+    const totalPages = Math.ceil(searchResults.length / resultsPerPage);
+    
+    const handlePageChange = (newPage) => {
+      setCurrentPage(newPage);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+    const {useJapanese}=useLanguage();
 
   return (
     <div className="container mx-auto space-y-10 mb-20 px-4 sm:px-6 lg:px-8">
@@ -33,23 +35,17 @@ function page({ params }) {
         Search Results for "{searchQuery}"{" "}
       </h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-5 justify-items-center">
-        {searchResults.map((search) => {
-          const {
-            mal_id,
-            title_english,
-            title,
-            images: {
-              jpg: { image_url },
-            },
-            year,
-          } = search;
+        {searchResults.map((anime) => {
+       
           return (
             <Trending
-              key={mal_id}
-              mal_id={mal_id}
-              name={title_english || title}
-              imageUrl={image_url}
-              year={year}
+       
+            mal_id={anime.mal_id}
+            name={useJapanese ? anime.title : (anime.title_english || anime.title)}
+                                           imageUrl={anime.images.jpg.image_url}
+            year={new Date(anime.aired.from).getFullYear()}
+            genre={anime.genres[0]?.name || 'N/A'}
+     
             />
           );
         })}

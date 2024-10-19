@@ -4,6 +4,7 @@ import AnimeCard from '@/components/Trending'
 import Loading from '@/loading'
 import { motion, AnimatePresence } from "framer-motion"
 import Pagination from '@/components/Pagination'
+import { useLanguage } from '@/components/useLanguage'
 
 const now = () => {
       const [anime, setAnime] = useState([])
@@ -36,7 +37,7 @@ const now = () => {
       if (isLoading) {
           return <Loading />
       }
-
+      const { useJapanese } = useLanguage()
       return (
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
               <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white m-4 sm:m-8">Anime Airing Right Now</h1>
@@ -58,7 +59,7 @@ const now = () => {
                     >
                       <AnimeCard
                           mal_id={anime.mal_id}
-                          name={anime.title_english || anime.title}
+                          name={useJapanese ? anime.title : (anime.title_english || anime.title)}
                           imageUrl={anime.images.jpg.image_url}
                           year={new Date(anime.aired.from).getFullYear()}
                           genre={anime.genres[0]?.name || 'N/A'}

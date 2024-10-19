@@ -2,9 +2,11 @@
 import React, { useEffect, useState } from "react";
 import AnimeCard from "./Trending";
 import Link from "next/link";
+import { useLanguage } from "@/components/useLanguage";
 
 const MoreAnime = () => {
   const [anime, setAnime] = useState([]);
+  const { useJapanese } = useLanguage();
 
   useEffect(() => {
     fetchAnime();
@@ -23,13 +25,13 @@ const MoreAnime = () => {
       <h2 id="top-anime-section" className="text-4xl font-bold text-white m-8">Top Anime</h2>
       <div className="flex flex-wrap justify-center items-center">
         {anime?.map((anime) => {
-          const { mal_id, images, title_english, year, genres } = anime;
+          const { mal_id, images, title_english, title, year, genres } = anime;
           return (
             <div key={mal_id} className="m-4">
               <AnimeCard
                 mal_id={mal_id}
                 imageUrl={images.jpg.image_url}
-                name={title_english}
+                name={useJapanese ? title : (title_english || title)}
                 year={year}
                 genre={genres.map((genre) => genre.name).join(", ")}
               />
