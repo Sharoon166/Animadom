@@ -62,7 +62,7 @@ const Navbar = () => {
               <img src="/logo.png" type="img/ico" alt="Logo" />
             </Link>
           </div>
-          <ul className="gap-4 items-center hidden md:flex">
+          <ul className="gap-4 items-center hidden lg:flex">
             <Link href="/">
               <li className="hover:text-white">Home</li>
             </Link>
@@ -134,18 +134,18 @@ const Navbar = () => {
             </li>
           </ul>
           <div className="flex gap-4 items-center">
-            <Link href="/signup" className="hidden sm:block font-semibold px-4 py-2 rounded-full bg-zinc-800 hover:bg-zinc-800/50 transition-colors duration-300">
+            <Link href="/signup" className="hidden lg:block font-semibold px-4 py-2 rounded-full bg-zinc-800 hover:bg-zinc-800/50 transition-colors duration-300">
               Sign Up
             </Link>
-            <Link href="/login" className="hidden sm:block font-semibold px-4 py-2 rounded-full bg-zinc-800 hover:bg-zinc-800/50 transition-colors duration-300">
+            <Link href="/login" className="hidden lg:block font-semibold px-4 py-2 rounded-full bg-zinc-800 hover:bg-zinc-800/50 transition-colors duration-300">
               Log In
             </Link>
-            <Link href="https://mangadom.vercel.app" target="_blank" rel="noopener noreferrer" className="hidden md:block font-semibold px-4 py-2 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 transition-colors duration-300 text-white shadow-lg transform hover:scale-105 hover:rotate-1 active:scale-95 active:rotate-0">
+            <Link href="https://mangadom.vercel.app" target="_blank" rel="noopener noreferrer" className="hidden lg:block font-semibold px-4 py-2 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 transition-colors duration-300 text-white shadow-lg transform hover:scale-105 hover:rotate-1 active:scale-95 active:rotate-0">
               Mangadom
             </Link>
           </div>
           <button
-            className="md:hidden text-white focus:outline-none"
+            className="lg:hidden text-white focus:outline-none"
             onClick={toggleMenu}
           >
             {menuOpen ? <FaTimes size={24}  className="text-yellow-300" /> : <FaBars size={24} className="text-yellow-300"  />}
@@ -153,32 +153,55 @@ const Navbar = () => {
         </nav>
         <div
           className={`${
-            menuOpen ? "h-[420px]" : "h-0 overflow-hidden"
-          } transition-all duration-300 md:hidden `}
+            menuOpen ? "max-h-[320px]" : "max-h-0"
+          } transition-all duration-300 lg:hidden overflow-hidden`}
         >
-          <ul className="flex flex-col items-center gap-4 p-4">
-            <div className="flex justify-center gap-8 w-full">
-              <Link href="/">
-                <li className="hover:text-white flex items-center gap-2"><FaHome /></li>
+          <ul className="flex flex-wrap justify-center items-center gap-4 p-2">
+            <li className="flex flex-col items-center">
+              <Link href="/" className="hover:text-white flex flex-col items-center">
+                <FaHome size={20} />
+                <span className="text-xs mt-1">Home</span>
               </Link>
-              <Link href="/about">
-                <li className="hover:text-white flex items-center gap-2"><FaInfoCircle /></li>
+            </li>
+            <li className="flex flex-col items-center">
+              <Link href="/about" className="hover:text-white flex flex-col items-center">
+                <FaInfoCircle size={20} />
+                <span className="text-xs mt-1">About</span>
               </Link>
-              <Link href="/upcoming">
-                <li className="hover:text-white flex items-center gap-2"><FaCalendarAlt /></li>
+            </li>
+            <li className="flex flex-col items-center">
+              <Link href="/upcoming" className="hover:text-white flex flex-col items-center">
+                <FaCalendarAlt size={20} />
+                <span className="text-xs mt-1">Upcoming</span>
               </Link>
-              <Link href="/top_chars">
-                <li className="hover:text-white flex items-center gap-2"><FaUserAlt /></li>
+            </li>
+            <li className="flex flex-col items-center">
+              <Link href="/top_chars" className="hover:text-white flex flex-col items-center">
+                <FaUserAlt size={20} />
+                <span className="text-xs mt-1">Top Chars</span>
               </Link>
-            </div>
-            <li className="bg-gray-200/25 flex items-center justify-center px-2 rounded-full gap-1 relative w-full max-w-44">
+            </li>
+            <li>
+              <button 
+                onClick={handleToggleLanguage} 
+                className={`relative w-14 h-7 rounded-full transition-colors duration-300 focus:outline-none ${useJapanese ? 'bg-purple-600' : 'bg-pink-500'}`}
+              >
+                <span 
+                  className={`absolute left-1 top-1 w-5 h-5 bg-white rounded-full transition-transform duration-300 ${useJapanese ? 'transform translate-x-7' : ''}`}
+                ></span>
+                <span className={`absolute inset-0 flex items-center justify-center text-xs font-bold text-white ${useJapanese ? '-left-7' : 'left-7'}`}>
+                  {useJapanese ? 'JP' : 'EN'}
+                </span>
+              </button>
+            </li>
+            <li className="bg-gray-200/25 flex items-center justify-center px-2 rounded-full gap-1 relative w-full max-w-40">
               <FaSearch />
               <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search"
-                className="bg-transparent text-white p-2 outline-none w-full"
+                className="bg-transparent text-white p-1 outline-none w-full text-sm"
                 title="Type Slowly, it's a free API 💀"
               />
               {searchResults?.length > 0 && (
@@ -187,7 +210,7 @@ const Navbar = () => {
                 </button>
               )}
               <div
-                className="absolute top-12 divide-yellow-400 divide-y-2 left-0 z-40 bg-[#121212]/80 backdrop-blur-lg rounded-lg shadow-lg w-[300px] flex flex-col gap-2 max-h-96 overflow-y-auto"
+                className="absolute top-10 divide-yellow-400 divide-y-2 left-0 z-40 bg-[#121212]/80 backdrop-blur-lg rounded-lg shadow-lg w-[250px] flex flex-col gap-2 max-h-80 overflow-y-auto"
                 id="search-results"
                 onBlur={() => setSearch("")}
               >
@@ -200,41 +223,36 @@ const Navbar = () => {
                     <img
                       src={result.images.webp.small_image_url}
                       alt=""
-                      className="rounded-md"
+                      className="rounded-md w-10 h-14 object-cover"
                     />
-                    {useJapanese ? result.title_japanese || result.title : result.title}
+                    <span className="text-sm">{useJapanese ? result.title_japanese || result.title : result.title}</span>
                   </Link>
                 ))}
                 {searchResults.length > 0 && (
                   <Link
                     href={`/browse/${search}`}
-                    className="py-2 text-yellow-400 bg-slate-800 text-center text-lg"
+                    className="py-2 text-yellow-400 bg-slate-800 text-center text-sm"
                   >
                     See More Results
                   </Link>
                 )}
               </div>
             </li>
-            <button 
-              onClick={handleToggleLanguage} 
-              className={`relative w-16 h-8 rounded-full transition-colors duration-300 focus:outline-none ${useJapanese ? 'bg-purple-600' : 'bg-pink-500'}`}
-            >
-              <span 
-                className={`absolute left-1 top-1 w-6 h-6 bg-white rounded-full transition-transform duration-300 ${useJapanese ? 'transform translate-x-8' : ''}`}
-              ></span>
-              <span className={`absolute inset-0 flex items-center justify-center text-xs font-bold text-white ${useJapanese ? '-left-8' : 'left-8'}`}>
-                {useJapanese ? 'JP' : 'EN'}
-              </span>
-            </button>
-            <Link href="/signup" className="font-semibold px-4 py-2 rounded-full bg-zinc-800 hover:bg-zinc-800/50 transition-colors duration-300">
-              Sign Up
-            </Link>
-            <Link href="/login" className="font-semibold px-4 py-2 rounded-full bg-zinc-800 hover:bg-zinc-800/50 transition-colors duration-300">
-              Log In
-            </Link>
-            <Link href="https://mangadom.vercel.app" target="_blank" rel="noopener noreferrer" className="font-semibold px-4 py-2 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 transition-colors duration-300 text-white shadow-lg transform hover:scale-105 hover:rotate-1 active:scale-95 active:rotate-0">
-              Mangadom
-            </Link>
+            <li className="flex flex-col items-center">
+              <Link href="/signup" className="font-semibold px-3 py-1 rounded-full bg-zinc-800 hover:bg-zinc-800/50 transition-colors duration-300 text-sm">
+                Sign Up
+              </Link>
+            </li>
+            <li className="flex flex-col items-center">
+              <Link href="/login" className="font-semibold px-3 py-1 rounded-full bg-zinc-800 hover:bg-zinc-800/50 transition-colors duration-300 text-sm">
+                Log In
+              </Link>
+            </li>
+            <li className="flex flex-col items-center">
+              <Link href="https://mangadom.vercel.app" target="_blank" rel="noopener noreferrer" className="font-semibold px-3 py-1 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 transition-colors duration-300 text-white shadow-lg transform hover:scale-105 hover:rotate-1 active:scale-95 active:rotate-0 text-sm">
+                Mangadom
+              </Link>
+            </li>
           </ul>
         </div>
       </div>

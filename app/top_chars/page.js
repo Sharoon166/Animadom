@@ -33,7 +33,7 @@ const Page = () => {
       <h2 className="text-4xl font-bold text-white m-8">
         Top Characters by Favorites
       </h2>
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6 md:gap-8 justify-items-center">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3 sm:gap-6 md:gap-8 justify-items-center">
         {characters.map((char) => (
           <AnimeCard
             key={char.mal_id}

@@ -120,7 +120,7 @@ export default function Home() {
         </div>
 
         <Link
-          href="/now"
+          href="/airing"
           className="flex justify-center items-center text-center px-2 py-3 rounded-lg bg-slate-500 mx-auto w-20 hover:bg-slate-400 transition-all duration-200 text-yellow-400 hover:text-yellow-600 text-2xl font-bold m-10"
         >
           <FaArrowRight className=" text-2xl" />
