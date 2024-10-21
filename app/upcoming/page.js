@@ -34,7 +34,7 @@ const Upcoming = () => {
         <h1 className="text-4xl font-bold text-white m-8">
           {"Upcoming Anime"}
         </h1>
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6 md:gap-8 justify-items-center">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 sm:gap-6 md:gap-8 justify-items-center">
           {anime?.map((anime) => (
             <div key={anime.mal_id} className="m-4">
               <AnimeCard

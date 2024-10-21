@@ -19,36 +19,32 @@ function page({ params }) {
         setSearchResults(data?.data);
         console.log(data.data);
       });
-    }, [searchQuery, currentPage]);
+  }, [searchQuery, currentPage]);
     
-    const totalPages = Math.ceil(searchResults.length / resultsPerPage);
+  const totalPages = Math.ceil(searchResults.length / resultsPerPage);
     
-    const handlePageChange = (newPage) => {
-      setCurrentPage(newPage);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
-    const {useJapanese}=useLanguage();
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  const { useJapanese } = useLanguage();
 
   return (
-    <div className="container mx-auto space-y-10 mb-20 px-4 sm:px-6 lg:px-8">
-      <h2 className="text-xl sm:text-2xl mt-6 sm:mt-10 p-4 sm:p-8">
+    <div className="container mx-auto space-y-6 sm:space-y-10 mb-10 sm:mb-20 px-2 sm:px-4 md:px-6 lg:px-8">
+      <h2 className="text-lg sm:text-xl md:text-2xl mt-4 sm:mt-6 md:mt-10 p-2 sm:p-4 md:p-8">
         Search Results for "{searchQuery}"{" "}
       </h2>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-5 justify-items-center">
-        {searchResults.map((anime) => {
-       
-          return (
-            <Trending
-       
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-3 md:gap-4 lg:gap-5 justify-items-center">
+        {searchResults.map((anime) => (
+          <Trending
+            key={anime.mal_id}
             mal_id={anime.mal_id}
             name={useJapanese ? anime.title : (anime.title_english || anime.title)}
-                                           imageUrl={anime.images.jpg.image_url}
+            imageUrl={anime.images.jpg.image_url}
             year={new Date(anime.aired.from).getFullYear()}
             genre={anime.genres[0]?.name || 'N/A'}
-     
-            />
-          );
-        })}
+          />
+        ))}
       </div>
       <Pagination
         currentPage={currentPage}

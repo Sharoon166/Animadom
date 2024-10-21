@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import AnimeCard from "./Trending";
 import Link from "next/link";
 import { useLanguage } from "@/components/useLanguage";
+import { FaArrowRight } from "react-icons/fa";
 
 const MoreAnime = () => {
   const [anime, setAnime] = useState([]);
@@ -40,10 +41,11 @@ const MoreAnime = () => {
         })}
       </div>
       <div className="flex justify-center mt-8 mb-8">
-        <Link href="/top_anime">
-          <button className="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded-full transform hover:scale-105 transition duration-300 ease-in-out shadow-lg">
-            View All Top Anime
-          </button>
+        <Link
+          href="/top_anime"
+          className="flex justify-center items-center text-center px-2 py-3 rounded-lg bg-slate-500 mx-auto w-20 hover:bg-slate-400 transition-all duration-200 text-yellow-400 hover:text-yellow-600 text-2xl font-bold"
+        >
+          <FaArrowRight className="text-2xl" />
         </Link>
       </div>
     </>

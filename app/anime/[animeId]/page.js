@@ -18,6 +18,7 @@ import {
 import Loading from "@/loading";
 import Link from "next/link";
 import { useLanguage } from "@/components/useLanguage";
+import AnimeCard from "@/components/Trending";
 
 const fm = Intl.DateTimeFormat("en", {
   dateStyle: "long",
@@ -29,11 +30,11 @@ const AnimeDescription = ({ params }) => {
   const [coverImage, setCoverImage] = useState("");
   const [posterImage, setPosterImage] = useState("");
   const [animeImages, setAnimeImages] = useState([]);
+  const [similarAnime, setSimilarAnime] = useState([]);
 
   useEffect(() => {
     fetch(`https://api.jikan.moe/v4/anime/${parseInt(params.animeId)}`, {
       cache: "force-cache",
-      
     })
       .then((res) => res.json())
       .then((data) => {
@@ -43,7 +44,6 @@ const AnimeDescription = ({ params }) => {
         return fetch(
           `https://kitsu.io/api/edge/anime?filter[text]=${data?.data?.title
             .toLowerCase()}`
-            
         );
       })
       .then((res) => res.json())
@@ -51,6 +51,14 @@ const AnimeDescription = ({ params }) => {
         if (kitsuData.data && kitsuData.data.length > 0) {
           setCoverImage(kitsuData.data[0].attributes.coverImage?.large || kitsuData.data[0].attributes.coverImage?.original|| "");
           setPosterImage(kitsuData.data[0].attributes.posterImage?.large ||kitsuData.data[0].attributes.posterImage?.original || "");
+        }
+        // Fetch similar anime using Jikan API
+        return fetch(`https://api.jikan.moe/v4/anime/${params.animeId}/recommendations`);
+      })
+      .then((res) => res.json())
+      .then((similarData) => {
+        if (similarData.data) {
+          setSimilarAnime(similarData.data.slice(0, 10).map(item => item.entry));
         }
       })
       .catch((err) => console.log(err));
@@ -124,16 +132,6 @@ const {useJapanese}=useLanguage()
                   <span className="hidden sm:inline">Episodes</span>
                   <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     Episodes
-                  </span>
-                </Link>
-                <Link
-                  href={`/recs/${params.animeId}`}
-                  className="bg-green-500 text-white py-2 px-4 rounded-lg flex items-center group relative"
-                >
-                  <FaInfoCircle className="sm:mr-0" />{" "}
-                  <span className="hidden sm:inline">Recommendations</span>
-                  <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    Recommendations
                   </span>
                 </Link>
               </div>
@@ -300,6 +298,20 @@ const {useJapanese}=useLanguage()
                 className="rounded-lg"
               />
             </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-12">
+        <h2 className="text-2xl font-semibold mb-6">More Like This</h2>
+        <div className="flex flex-wrap gap-6 items-center justify-center">
+          {similarAnime?.map((anime) => (
+            <AnimeCard
+              key={anime.mal_id}
+              mal_id={anime.mal_id}
+              name={anime.title}
+              imageUrl={anime.images.jpg.image_url}
+            />
           ))}
         </div>
       </div>

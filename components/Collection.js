@@ -1,5 +1,7 @@
 import React from "react";
 import { animegenres } from "@/constants";
+import Link from "next/link";
+import { FaArrowRight } from "react-icons/fa";
 
 const Collection = () => {
   return (
@@ -17,6 +19,14 @@ const Collection = () => {
           />
         ))}
       </div>
+      <div className="flex justify-center">
+        <Link href="/collections"
+        
+          className="flex justify-center items-center text-center px-2 py-3 rounded-lg bg-slate-500 mx-auto w-20 hover:bg-slate-400 transition-all duration-200 text-yellow-400 hover:text-yellow-600 text-2xl font-bold m-10"
+        >
+          <FaArrowRight className=" text-2xl" />
+        </Link>
+      </div>
     </div>
   );
 };
@@ -29,22 +39,27 @@ const Collectioncard = ({ name1, name2, img1, img2, img3 }) => {
         <div>{name2}</div>
       </h3>
       <div className="flex justify-center *:-mr-10 *:w-1/3 *:min-w-sm mx-auto translate-y-12">
-        <img
-          src={img1}
-          alt={name2}
-          className="-rotate-12 rounded-md group-hover:-translate-x-8 group-hover:-translate-y-7 group-hover:scale-90 transition-all duration-150"
-
-        />
-        <img
-          src={img2}
-          alt={name2}
-          className="-rotate-6 rounded-md group-hover:rotate-0 group-hover:-translate-y-11 transition-all duration-150 group-hover:scale-90"
-        />
-        <img
-          src={img3}
-          alt={name2}
-          className="-rotate-3 rounded-md group-hover:translate-x-8 group-hover:-translate-y-7 group-hover:scale-90 transition-all duration-150 group-hover:rotate-3"
-        />
+        <Link href={`/anime/${img1.malId}`}>
+          <img
+            src={img1.url}
+            alt={name2}
+            className="-rotate-12 rounded-md group-hover:-translate-x-8 group-hover:-translate-y-7 group-hover:scale-90 transition-all duration-150"
+          />
+        </Link>
+        <Link href={`/anime/${img2.malId}`}>
+          <img
+            src={img2.url}
+            alt={name2}
+            className="-rotate-6 rounded-md group-hover:rotate-0 group-hover:-translate-y-11 transition-all duration-150 group-hover:scale-90"
+          />
+        </Link>
+        <Link href={`/anime/${img3.malId}`}>
+          <img
+            src={img3.url}
+            alt={name2}
+            className="-rotate-3 rounded-md group-hover:translate-x-8 group-hover:-translate-y-7 group-hover:scale-90 transition-all duration-150 group-hover:rotate-3"
+          />
+        </Link>
       </div>
     </div>
   );

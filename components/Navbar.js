@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { FaSearch, FaRegTimesCircle, FaBars, FaTimes, FaHome, FaInfoCircle, FaCalendarAlt, FaUserAlt } from "react-icons/fa";
+import { FaSearch, FaRegTimesCircle, FaBars, FaTimes, FaHome, FaInfoCircle, FaCalendarAlt, FaUserAlt, FaBookmark } from "react-icons/fa";
 import React, { useEffect, useState } from "react";
 import { usePathname, useRouter } from 'next/navigation';
 import { useLanguage } from '@/components/useLanguage';
@@ -72,6 +72,8 @@ const Navbar = () => {
     }
   };
 
+  const isActive = (path) => pathname === path;
+
   return (
     <>
       <div>
@@ -85,16 +87,19 @@ const Navbar = () => {
           </div>
           <ul className="gap-4 items-center hidden lg:flex">
             <Link href="/">
-              <li className="hover:text-white">Home</li>
+              <li className={`hover:text-white ${isActive('/') ? 'text-yellow-400 font-bold' : ''}`}>Home</li>
             </Link>
             <Link href="/about">
-              <li className="hover:text-white">About</li>
+              <li className={`hover:text-white ${isActive('/about') ? 'text-yellow-400 font-bold' : ''}`}>About</li>
             </Link>
             <li>
-              <Link href="/upcoming" className="hover:text-white">Upcoming</Link>
+              <Link href="/upcoming" className={`hover:text-white ${isActive('/upcoming') ? 'text-yellow-400 font-bold' : ''}`}>Upcoming</Link>
             </li>
             <li>
-              <Link href="/top_chars" className="hover:text-white">Top Characters</Link>
+              <Link href="/top_chars" className={`hover:text-white ${isActive('/top_chars') ? 'text-yellow-400 font-bold' : ''}`}>Top Characters</Link>
+            </li>
+            <li>
+              <Link href="/collections" className={`hover:text-white ${isActive('/collections') ? 'text-yellow-400 font-bold' : ''}`}>Collections</Link>
             </li>
             <li className="bg-gray-200/25 flex items-center justify-center px-2 rounded-full gap-1 relative">
               <FaSearch />
@@ -185,27 +190,33 @@ const Navbar = () => {
           </button>
           <ul className="flex flex-col items-start gap-4 p-4 mt-16">
             <li className="w-full">
-              <Link href="/" className="hover:text-white flex items-center gap-2">
+              <Link href="/" className={`hover:text-white flex items-center gap-2 ${isActive('/') ? 'text-yellow-400 font-bold' : ''}`}>
                 <FaHome size={20} />
                 <span>Home</span>
               </Link>
             </li>
             <li className="w-full">
-              <Link href="/about" className="hover:text-white flex items-center gap-2">
+              <Link href="/about" className={`hover:text-white flex items-center gap-2 ${isActive('/about') ? 'text-yellow-400 font-bold' : ''}`}>
                 <FaInfoCircle size={20} />
                 <span>About</span>
               </Link>
             </li>
             <li className="w-full">
-              <Link href="/upcoming" className="hover:text-white flex items-center gap-2">
+              <Link href="/upcoming" className={`hover:text-white flex items-center gap-2 ${isActive('/upcoming') ? 'text-yellow-400 font-bold' : ''}`}>
                 <FaCalendarAlt size={20} />
                 <span>Upcoming</span>
               </Link>
             </li>
             <li className="w-full">
-              <Link href="/top_chars" className="hover:text-white flex items-center gap-2">
+              <Link href="/top_chars" className={`hover:text-white flex items-center gap-2 ${isActive('/top_chars') ? 'text-yellow-400 font-bold' : ''}`}>
                 <FaUserAlt size={20} />
                 <span>Top Characters</span>
+              </Link>
+            </li>
+            <li className="w-full">
+              <Link href="/collection" className={`hover:text-white flex items-center gap-2 ${isActive('/collection') ? 'text-yellow-400 font-bold' : ''}`}>
+                <FaBookmark size={20} />
+                <span>Collection</span>
               </Link>
             </li>
             <li className="w-full">
