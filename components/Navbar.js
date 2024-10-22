@@ -214,9 +214,9 @@ const Navbar = () => {
               </Link>
             </li>
             <li className="w-full">
-              <Link href="/collection" className={`hover:text-white flex items-center gap-2 ${isActive('/collection') ? 'text-yellow-400 font-bold' : ''}`}>
+              <Link href="/collections" className={`hover:text-white flex items-center gap-2 ${isActive('/collections') ? 'text-yellow-400 font-bold' : ''}`}>
                 <FaBookmark size={20} />
-                <span>Collection</span>
+                <span>Collections</span>
               </Link>
             </li>
             <li className="w-full">
