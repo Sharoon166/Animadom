@@ -29,7 +29,7 @@ const AboutUs = () => {
           experience that combines my passion with learning. The inspiration for
           the design and layout was taken from the creative and visually
           appealing works on Dribble, which motivated me to bring this vision to
-          life. Special thanks to the Jikan API for providing the rich and
+          life. Special thanks to the Jikan API and Kitsu API for providing the rich and
           comprehensive anime data that powers this site, making it possible to
           offer detailed information on various anime series, characters, and
           more. By integrating these elements, I aimed to create a platform that
@@ -56,6 +56,18 @@ const AboutUs = () => {
               Jikan API
               <span className="inline-block rounded-md p-1 m-1 text-center size-8 sm:size-10 bg-indigo-800">
                 J
+              </span>
+            </a>
+          </p>
+          <p className="text-xl sm:text-2xl">
+            <a
+              href="https://kitsu.docs.apiary.io"
+              target="_blank"
+              className="hover:underline"
+            >
+              Kitsu API
+              <span className="inline-block rounded-md p-1 m-1 text-center size-8 sm:size-10 bg-orange-600">
+                K
               </span>
             </a>
           </p>

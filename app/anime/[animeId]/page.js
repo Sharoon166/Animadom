@@ -24,6 +24,7 @@ const fm = Intl.DateTimeFormat("en", {
   dateStyle: "long",
 });
 
+
 const AnimeDescription = ({ params }) => {
   const [animeData, setAnimeData] = useState();
   const [animeCharacters, setAnimeCharacters] = useState([]);
@@ -32,37 +33,74 @@ const AnimeDescription = ({ params }) => {
   const [animeImages, setAnimeImages] = useState([]);
   const [similarAnime, setSimilarAnime] = useState([]);
 
+  const fetchAniListData = async (title) => {
+    console.log(title)
+    const query = `
+      query ($search: String) {
+        Media(search: $search, type: ANIME) {
+          coverImage {
+            large
+            extraLarge
+          }
+          bannerImage
+        }
+      }
+    `;
+
+    const variables = {
+      search: title,
+    };
+
+    try {
+      const response = await fetch('https://graphql.anilist.co', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          query,
+          variables,
+        }),
+      });
+
+      const { data } = await response.json();
+      if (data.Media) {
+        setCoverImage(data.Media.bannerImage || "");
+        setPosterImage(data.Media.coverImage.extraLarge || data.Media.coverImage.large || "");
+      }
+    } catch (error) {
+      console.error('Error fetching AniList data:', error);
+    }
+  };
+
   useEffect(() => {
     fetch(`https://api.jikan.moe/v4/anime/${parseInt(params.animeId)}`, {
       cache: "force-cache",
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data?.data?.title);
-        console.log(params.animeId)
         setAnimeData(data?.data);
-        return fetch(
-          `https://kitsu.io/api/edge/anime?filter[text]=${data?.data?.title
-            .toLowerCase()}`
-        );
-      })
-      .then((res) => res.json())
-      .then((kitsuData) => {
-        if (kitsuData.data && kitsuData.data.length > 0) {
-          setCoverImage(kitsuData.data[0].attributes.coverImage?.large || kitsuData.data[0].attributes.coverImage?.original|| "");
-          setPosterImage(kitsuData.data[0].attributes.posterImage?.large ||kitsuData.data[0].attributes.posterImage?.original || "");
-        }
+        const title = data?.data?.title;
+
+        // Fetch images from AniList
+        fetchAniListData(title);
+
         // Fetch similar anime using Jikan API
-        return fetch(`https://api.jikan.moe/v4/anime/${params.animeId}/recommendations`);
+        return fetch(
+          `https://api.jikan.moe/v4/anime/${params.animeId}/recommendations`
+        );
       })
       .then((res) => res.json())
       .then((similarData) => {
         if (similarData.data) {
-          setSimilarAnime(similarData.data.slice(0, 10).map(item => item.entry));
+          setSimilarAnime(
+            similarData.data.slice(0, 10).map((item) => item.entry)
+          );
         }
       })
       .catch((err) => console.log(err));
-   
+
+    // Fetch characters and images from Jikan API
     fetch(`https://api.jikan.moe/v4/anime/${params.animeId}/characters`)
       .then((res) => res.json())
       .then((data) =>
@@ -76,10 +114,10 @@ const AnimeDescription = ({ params }) => {
       .then((res) => res.json())
       .then((data) => setAnimeImages(data?.data || []))
       .catch((err) => console.log(err));
-  }, []);
+  }, [params.animeId]);
 
   if (!animeData) return <Loading />;
-  
+  const { useJapanese } = useLanguage();
   const {
     title_english,
     title,
@@ -97,9 +135,10 @@ const AnimeDescription = ({ params }) => {
     source,
     status,
   } = animeData;
-const {useJapanese}=useLanguage()
+
   return (
     <div className="container mx-auto px-4 py-8">
+      {/* Other parts of your component remain the same */}
       <div className="relative mb-8">
         <img
           src={coverImage || "/banner404.jpg"}
@@ -110,7 +149,7 @@ const {useJapanese}=useLanguage()
           <div className="flex items-center space-x-4">
             <img
               src={posterImage || "/poster404.jpg"}
-              alt={`${title_english} || ${title} poster`}
+              alt={title_english || title }
               className="w-24 h-36 sm:w-40 sm:h-60 object-cover rounded-lg shadow-lg"
             />
             <div>
