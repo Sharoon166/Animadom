@@ -15,16 +15,67 @@
     const name1 = searchParams.get('name');
 
     useEffect(() => {
-      fetch(
-        `https://api.jikan.moe/v4/anime?genres=${name}&page=${currentPage}`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          setAnimes(data.data || []);
-          setTotalPages(Math.ceil(data.pagination.items.total / animesPerPage));
-         
-        });
+      const fetchAnimes = async () => {
+        const query = `
+          query ($genre: String, $page: Int, $perPage: Int) {
+            Page(page: $page, perPage: $perPage) {
+              pageInfo {
+                total
+                currentPage
+                lastPage
+                hasNextPage
+                perPage
+              }
+              media(genre: $genre, type: ANIME, sort: POPULARITY_DESC) {
+                id
+                title {
+                  romaji
+                  english
+                  native
+                }
+                coverImage {
+                  large
+                }
+                startDate {
+                  year
+                }
+                genres
+                idMal
+              }
+            }
+          }
+        `;
+
+        const variables = {
+          genre: name,
+          page: currentPage,
+          perPage: animesPerPage
+        };
+
+        try {
+          const response = await fetch('https://graphql.anilist.co', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+              query: query,
+              variables: variables
+            })
+          });
+
+          const data = await response.json();
+          setAnimes(data.data.Page.media);
+          setTotalPages(data.data.Page.pageInfo.lastPage);
+        } catch (error) {
+          console.error('Error fetching data: ', error);
+        }
+      };
+
+      fetchAnimes();
     }, [currentPage, name]);
+
     const paginate = (pageNumber) => {
       setCurrentPage(pageNumber);
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -45,20 +96,20 @@
           <AnimatePresence>
             {animes.map((anime) => (
               <motion.div
-                key={anime.mal_id}
+                key={anime.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
               >
                 <AnimeCard
-                  mal_id={anime.mal_id}
-                  imageUrl={anime.images.jpg.image_url}
+                  mal_id={anime.idMal}
+                  imageUrl={anime.coverImage.large}
                   name={
-                    useJapanese ? anime.title : anime.title_english || anime.title
+                    useJapanese ? anime.title.native : anime.title.english || anime.title.romaji
                   }
-                  year={anime.year}
-                  genre={anime.genres.map((genre) => genre.name).join(", ")}
+                  year={anime.startDate.year}
+                  genre={anime.genres.join(", ")}
                 />
               </motion.div>
             ))}

@@ -6,10 +6,10 @@ import Link from 'next/link';
 import Loading from '@/loading';
 
 const CollectionCard = ({ name, images, id, backgroundImage }) => (
-  <Link href={`/collection/${encodeURIComponent(id)}?name=${encodeURIComponent(name)}`}>
+  <Link href={`/collection/${encodeURIComponent(name)}?name=${encodeURIComponent(name)}`}>
     <div className="rounded-xl bg-gradient-to-br from-zinc-800 to-zinc-900 p-4 sm:p-6 overflow-hidden w-full max-w-md mx-auto cursor-pointer group relative h-72 sm:h-80 shadow-lg hover:shadow-xl transition-all duration-300">
       <div 
-        className="absolute inset-0 bg-cover bg-center opacity-30 transition-opacity duration-300 group-hover:opacity-50" 
+        className="absolute inset-0 bg-cover bg-center opacity-30 transition-opacity duration-300 group-hover:opacity-50"
         style={{ backgroundImage: `url(${backgroundImage})` }}
       />
       <div className="relative z-10 h-full flex flex-col justify-between">
@@ -44,7 +44,6 @@ const fetchGenresAndAnime = async () => {
     const kitsuData = await kitsuResponse.json();
     
     const images = kitsuData.data?.map(anime => anime.attributes.posterImage.medium) || [];
-
     const getRandomImage = () => images[Math.floor(Math.random() * images.length)] || `https://via.placeholder.com/150x225?text=${encodeURIComponent(genre?.name)}`;
 
     return {
