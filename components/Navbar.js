@@ -98,9 +98,6 @@ const Navbar = () => {
             <li>
               <Link href="/top_chars" className={`hover:text-white ${isActive('/top_chars') ? 'text-yellow-400 font-bold' : ''}`}>Top Characters</Link>
             </li>
-            <li>
-              <Link href="/collections" className={`hover:text-white ${isActive('/collections') ? 'text-yellow-400 font-bold' : ''}`}>Collections</Link>
-            </li>
             <li className="bg-gray-200/25 flex items-center justify-center px-2 rounded-full gap-1 relative">
               <FaSearch />
               <input
