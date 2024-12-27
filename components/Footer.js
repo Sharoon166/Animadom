@@ -1,61 +1,39 @@
-import React from "react";
-import Link from "next/link";
-import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin } from "react-icons/fa";
+import Image from "next/image";
+import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaHeart } from "react-icons/fa";
+
+const socialLinks = [
+  { icon: FaFacebook, href: "#", hoverColor: "hover:text-blue-500" },
+  { icon: FaInstagram, href: "#", hoverColor: "hover:text-pink-500" },
+  { icon: FaTwitter, href: "#", hoverColor: "hover:text-sky-500" },
+  { icon: FaLinkedin, href: "#", hoverColor: "hover:text-blue-700" },
+];
+
 const Footer = () => {
   return (
-    <div>
-      <div className="flex justify-evenly items-center bg-[#121212] mt-8 border-t text-white flex-col md:flex-row gap-3">
-        <div className="size-24 overflow-hidden invert">
-          <Link href="/" className="text-2xl">
-            <img src="/logo.png" alt="" />
-          </Link>
-        </div>
-        <ul className="opacity-70 flex items-center justify-center gap-4">
-          <li>Terms & Privacy</li>
-          <li>Contact</li>
-        </ul>
-        <ul className="flex items-center justify-center gap-4 text-2xl">
-          <li className="hover:text-blue-800 transition-colors duration-100">
-            {" "}
-            <Link href="#">
-              <FaFacebook />
-            </Link>
-          </li>
-          <li className="hover:text-red-800 transition-colors duration-100">
-            {" "}
-            <Link href="#">
-              <FaInstagram />
-            </Link>
-          </li>
-          <li className="hover:text-blue-800 transition-colors duration-100">
-            {" "}
-            <Link href="#">
-              <FaTwitter />
-            </Link>
-          </li>
-          <li className="hover:text-blue-800 transition-colors duration-100">
-            {" "}
-            <Link href="#">
-              <FaLinkedin />
-            </Link>
-          </li>
-        </ul>
-      </div>
-     
+    <footer className="pt-8">
+      <div className="container mx-auto">
+       
 
-      <div className="text-white text-sm text-center">
-        
-        <p className=" ">
-          © 2024. All rights reserved. Website designed and developed in{" "}
-          <img
-            src="/next.svg"
-            alt=""
-            className="size-14 mx-2 invert inline-block"
-          />
-          by Haider & Sharoon.
-        </p>
+        {/* Copyright Section */}
+        <div className="border-t border-zinc-800 py-6 px-4">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 text-sm text-gray-400">
+            <p className="flex items-center gap-2">
+              © 2024. All rights reserved.
+            </p>
+            <p className="flex items-center gap-2">
+              Made with <FaHeart className="text-red-500 animate-pulse" /> by Haider & Sharoon using
+              <Image
+                src="/next.svg"
+                alt="Next.js"
+                width={56}
+                height={56}
+                className="invert mx-2"
+              />
+            </p>
+          </div>
+        </div>
       </div>
-    </div>
+    </footer>
   );
 };
 

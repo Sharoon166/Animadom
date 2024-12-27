@@ -19,11 +19,11 @@ import Loading from "@/loading";
 import Link from "next/link";
 import { useLanguage } from "@/components/useLanguage";
 import AnimeCard from "@/components/Trending";
+import Button from "@/components/Button";
 
 const fm = Intl.DateTimeFormat("en", {
   dateStyle: "long",
 });
-
 
 const AnimeDescription = ({ params }) => {
   const [animeData, setAnimeData] = useState();
@@ -34,7 +34,6 @@ const AnimeDescription = ({ params }) => {
   const [similarAnime, setSimilarAnime] = useState([]);
 
   const fetchAniListData = async (title) => {
-    console.log(title)
     const query = `
       query ($search: String) {
         Media(search: $search, type: ANIME) {
@@ -52,10 +51,10 @@ const AnimeDescription = ({ params }) => {
     };
 
     try {
-      const response = await fetch('https://graphql.anilist.co', {
-        method: 'POST',
+      const response = await fetch("https://graphql.anilist.co", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           query,
@@ -66,10 +65,12 @@ const AnimeDescription = ({ params }) => {
       const { data } = await response.json();
       if (data.Media) {
         setCoverImage(data.Media.bannerImage || "");
-        setPosterImage(data.Media.coverImage.extraLarge || data.Media.coverImage.large || "");
+        setPosterImage(
+          data.Media.coverImage.extraLarge || data.Media.coverImage.large || ""
+        );
       }
     } catch (error) {
-      console.error('Error fetching AniList data:', error);
+      console.error("Error fetching AniList data:", error);
     }
   };
 
@@ -80,7 +81,7 @@ const AnimeDescription = ({ params }) => {
       .then((res) => res.json())
       .then((data) => {
         setAnimeData(data?.data);
-        const title = data?.data?.title;
+        const title = data?.data?.title_english;
 
         // Fetch images from AniList
         fetchAniListData(title);
@@ -149,12 +150,12 @@ const AnimeDescription = ({ params }) => {
           <div className="flex items-center space-x-4">
             <img
               src={posterImage || "/poster404.jpg"}
-              alt={title_english || title }
+              alt={title_english || title}
               className="w-24 h-36 sm:w-40 sm:h-60 object-cover rounded-lg shadow-lg"
             />
             <div>
               <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white font-bold mb-2">
-              {useJapanese ? title : (title_english || title)}
+                {useJapanese ? title : title_english || title}
               </h1>
               <div className="flex items-center mb-2">
                 <FaRegStar className="text-yellow-500 mr-2" />
@@ -280,7 +281,13 @@ const AnimeDescription = ({ params }) => {
       </div>
 
       <div className="mt-12">
+        <div className="flex justify-between items-center mb-6">
+
         <h2 className="text-2xl font-semibold mb-6">Main Characters</h2>
+        <Button href={`/all_chars/${params.animeId}`}>
+        View All Characters
+        </Button> 
+        </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
           {!animeCharacters.length && "No Characters"}
           {animeCharacters.map((character) => {
@@ -315,14 +322,7 @@ const AnimeDescription = ({ params }) => {
             );
           })}
         </div>
-        <Link
-          href={`/all_chars/${params.animeId}`}
-          className="flex justify-center items-center mt-6 px-4 py-2 rounded-lg bg-slate-500 mx-auto w-40"
-        >
-          <span className="mr-2">View All</span>
-          <FaArrowRight className="text-yellow-400" />
-        </Link>
-      </div>
+         </div>
 
       <div className="mt-12">
         <h2 className="text-2xl font-semibold mb-6">Anime Gallery</h2>

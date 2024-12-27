@@ -1,26 +1,40 @@
 import React from "react";
 import { animegenres } from "@/constants";
 import Link from "next/link";
+import Button from "./Button";
 
 const Collection = () => {
-  return (
-    <div className="mt-10 space-y-10">
-      <h1 className="text-4xl font-bold text-white">Featured Collections</h1>
-      <div className="flex gap-10 flex-wrap justify-center">
-        {animegenres.map((genre) => (
-          <Collectioncard
-            key={genre.id}
-            name1={genre.name1}
-            name2={genre.name2}
-            img1={genre.img1}
-            img2={genre.img2}
-            img3={genre.img3}
-          />
-        ))}
+    
+    return (
+      <div className="mt-10 space-y-10">
+        <div className="flex flex-col md:flex-row justify-between items-center ">        <div className="relative mb-6 md:mb-0">
+                <h1 className="text-3xl md:text-4xl font-bold text-white tracking-widest">
+                  Featured
+                  <span className="bg-gradient-to-r from-pink-400 via-purple-500 to-indigo-600 text-transparent bg-clip-text ml-2 md:ml-4 animate-gradient text-shadow-xl">
+                    Collections
+                  </span>
+                </h1>
+                <div className="absolute -bottom-3 left-0 w-1/3 h-1 bg-gradient-to-r from-pink-400 via-purple-500 to-indigo-600"></div>
+              </div>      <Button href="/collections" className="mt-5">
+          View More Collections
+        </Button>
+        </div>
+        <div className="flex gap-10 flex-wrap justify-center">
+          {animegenres.map((genre) => (
+            <Collectioncard
+              key={genre.id}
+              name1={genre.name1}
+              name2={genre.name2}
+              img1={genre.img1}
+              img2={genre.img2}
+              img3={genre.img3}
+            />
+          ))}
+        </div>
+       
       </div>
-    </div>
-  );
-};
+    );
+  };
 
 const Collectioncard = ({ name1, name2, img1, img2, img3 }) => {
   return (

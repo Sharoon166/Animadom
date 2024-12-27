@@ -16,7 +16,6 @@ const Page = () => {
       .then((data) => {
         setCharacters(data.data || []);
         setTotalPages(Math.ceil(data.pagination.items.total / charactersPerPage));
-        console.log(data.data);
       });
   }, [currentPage]);
 
@@ -30,10 +29,16 @@ const Page = () => {
       <div className="w-full px-4">
         <Search />
       </div>
-      <h2 className="text-4xl font-bold text-white m-8">
-        Top Characters by Favorites
-      </h2>
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3 sm:gap-6 md:gap-8 justify-items-center">
+      <div className="relative mb-6 md:mb-0">
+                <h1 className="text-3xl p-6 md:text-4xl font-bold text-white tracking-widest">
+                  Top Characters
+                  <span className="bg-gradient-to-r from-pink-400 via-purple-500 to-indigo-600 text-transparent bg-clip-text ml-2 md:ml-4 animate-gradient text-shadow-xl">
+                    By Favourites
+                  </span>
+                </h1>
+               
+              </div>
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-6 md:gap-8 justify-items-center">
         {characters.map((char) => (
           <AnimeCard
             key={char.mal_id}

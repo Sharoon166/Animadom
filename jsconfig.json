@@ -5,5 +5,5 @@
     },
     "baseUrl": "."
   },
-  "include": ["**/*.js", "**/*.jsx"]
+  "include": ["**/*.js", "**/*.jsx", "next.config.mjs"]
 }

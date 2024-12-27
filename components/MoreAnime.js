@@ -4,6 +4,7 @@ import AnimeCard from "./Trending";
 import Link from "next/link";
 import { useLanguage } from "@/components/useLanguage";
 import { FaArrowRight } from "react-icons/fa";
+import Button from "./Button";
 
 const MoreAnime = () => {
   const [anime, setAnime] = useState([]);
@@ -23,7 +24,23 @@ const MoreAnime = () => {
 
   return (
     <>
-      <h2 id="top-anime-section" className="text-4xl font-bold text-white m-8">Top Anime</h2>
+      <div className="flex flex-col md:flex-row justify-between items-center ">
+        <div className="relative mb-4 md:mb-0">
+          {" "}
+          <h1 className="text-3xl md:text-4xl font-bold text-white tracking-widest">
+            Top Rated
+            <span className="bg-gradient-to-r from-pink-400 via-purple-500 to-indigo-600 text-transparent bg-clip-text ml-2 md:ml-4 animate-gradient text-shadow-xl">
+              Anime
+            </span>
+          </h1>
+          <div className="absolute -bottom-3 left-0 w-1/3 h-1 bg-gradient-to-r from-pink-400 via-purple-500 to-indigo-600"></div>
+        </div>
+
+        <Button href="/top_anime">
+          <span className="mr-2 font-medium">View All</span>
+        </Button>
+      </div>
+
       <div className="flex flex-wrap justify-center items-center">
         {anime?.map((anime) => {
           const { mal_id, images, title_english, title, year, genres } = anime;
@@ -32,21 +49,13 @@ const MoreAnime = () => {
               <AnimeCard
                 mal_id={mal_id}
                 imageUrl={images.jpg.image_url}
-                name={useJapanese ? title : (title_english || title)}
+                name={useJapanese ? title : title_english || title}
                 year={year}
                 genre={genres.map((genre) => genre.name).join(", ")}
               />
             </div>
           );
         })}
-      </div>
-      <div className="flex justify-center mt-8 mb-8">
-        <Link
-          href="/top_anime"
-          className="flex justify-center items-center text-center px-2 py-3 rounded-lg bg-slate-500 mx-auto w-20 hover:bg-slate-400 transition-all duration-200 text-yellow-400 hover:text-yellow-600 text-2xl font-bold"
-        >
-          <FaArrowRight className="text-2xl" />
-        </Link>
       </div>
     </>
   );

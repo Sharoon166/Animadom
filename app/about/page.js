@@ -20,9 +20,16 @@ const AboutUs = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center py-10 px-4 sm:px-6 md:px-8">
-      <div ref={aboutRef} className="max-w-4xl mx-auto space-y-8">
-        <h1 className="text-3xl sm:text-4xl font-bold text-center">About Us</h1>
-        <p className="text-base sm:text-lg text-gray-300">
+      <div ref={aboutRef} className="max-w-4xl mx-auto space-y-8 text-center">
+      <div className="relative mb-6 md:mb-0">
+                <h1 className="text-3xl p-4 md:text-4xl font-bold text-white tracking-widest">
+                  About
+                  <span className="bg-gradient-to-r from-pink-400 via-purple-500 to-indigo-600 text-transparent bg-clip-text ml-2 md:ml-4 animate-gradient text-shadow-xl">
+                    US
+                  </span>
+                </h1>
+               
+              </div>        <p className="text-base sm:text-lg text-gray-300">
           I created this website because of my love for anime and my desire to
           build something that I enjoy. This project serves as a fantastic
           practice for honing my skills in Next.js, providing a hands-on

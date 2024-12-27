@@ -24,7 +24,6 @@ const now = () => {
               .then((data) => {
                   setAnime(data.data)
                   setTotalPages(Math.ceil(data.pagination?.items.total / animesPerPage))
-                  console.log(data.data)
                   setIsLoading(false)
               })
       }
@@ -40,7 +39,15 @@ const now = () => {
       const { useJapanese } = useLanguage()
       return (
           <div className="container mx-auto p-4 sm:p-6 md:p-8 lg:p-10"> 
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white m-4 mx-auto">Anime Airing Right Now</h1>
+             <div className="relative mb-6 md:mb-0">
+                <h1 className="text-3xl p-4 md:text-4xl font-bold text-white tracking-widest">
+                  Airing
+                  <span className="bg-gradient-to-r from-pink-400 via-purple-500 to-indigo-600 text-transparent bg-clip-text ml-2 md:ml-4 animate-gradient text-shadow-xl">
+                    Anime
+                  </span>
+                </h1>
+                 
+              </div>
               <motion.div 
                 className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-5 sm:gap-2 mx-auto"
                 initial={{ opacity: 0 }}

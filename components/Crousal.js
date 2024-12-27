@@ -27,7 +27,7 @@ const ResponsiveCarousel = () => {
   return (
     <div className="py-8 px-4 md:px-8 -mt-48">
       <div className="container mx-auto">
-        <h1 className="text-3xl md:text-4xl font-bold text-white mb-6 md:mb-8 ">
+        <h1 className="text-3xl md:text-4xl font-bold text-[white] mb-6 md:mb-8  ">
           Top Anime
         </h1>
         <Swiper

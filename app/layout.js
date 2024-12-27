@@ -3,7 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { LanguageProvider } from '@/components/useLanguage';
-
+import Providers from "./providers";
 
 const poppins = Poppins({ subsets: ["latin"],weight:"400" });
 
@@ -18,7 +18,9 @@ export default function RootLayout({ children }) {
         <LanguageProvider>
           <div className="min-h-screen text-white">
             <Navbar className='absolute'/>
+            <Providers>
             {children}
+            </Providers>
           </div>
           <Footer/>
         </LanguageProvider>
