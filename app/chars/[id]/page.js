@@ -1,216 +1,199 @@
 "use client";
-import React, { useEffect, useState, useRef } from "react";
-import { FaRegStar, FaMicrophone } from "react-icons/fa";
-import Loading from "@/loading";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { FaRegStar, FaMicrophone, FaShare } from "react-icons/fa";
 import Link from "next/link";
+import Loading from "@/loading";
 import dynamic from "next/dynamic";
-import Pagination from "@/components/Pagination";
+import Button from "@/components/Button";
 
 const CharacterGallery = dynamic(
   () => import("@/components/CharacterGallery"),
-  {
-    ssr: false,
-  }
+  { ssr: false }
 );
 
-gsap.registerPlugin(ScrollTrigger);
 
-const fm = Intl.DateTimeFormat("en", {
-  dateStyle: "long",
-});
 
-const CharacterPage = ({ params, data }) => {
-  console.log(params.id);
-  const [characterData, setCharacterData] = useState();
+const CharacterPage = ({ params }) => {
+  const [characterData, setCharacterData] = useState(null);
   const [animeData, setAnimeData] = useState([]);
-  const charactersRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [anilistImage, setAnilistImage] = useState(null);
 
   useEffect(() => {
-    fetch(`https://api.jikan.moe/v4/characters/${params.id}`)
-      .then((res) => res.json())
-      .then((data) => setCharacterData(data?.data));
+    const fetchData = async () => {
+      try {
+        const [charResponse, animeResponse] = await Promise.all([
+          fetch(`https://api.jikan.moe/v4/characters/${params.id}`),
+          fetch(`https://api.jikan.moe/v4/characters/${params.id}/anime`),
+        ]);
 
-    fetch(`https://api.jikan.moe/v4/characters/${params.id}/anime`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data?.data) {
-          setAnimeData(data.data);
+        const [charData, animeData] = await Promise.all([
+          charResponse.json(),
+          animeResponse.json(),
+        ]);
+
+        setCharacterData(charData.data);
+        setAnimeData(animeData.data || []);
+
+        // Fetch Anilist image after character data is available
+        if (charData.data) {
+          const anilistImageUrl = await fetchAnilistData(charData.data.name);
+          setAnilistImage(anilistImageUrl);
         }
-        console.log(data.data);
-      });
-  }, []);
 
-  const detailsRef = useRef(null);
-  const imageRef = useRef(null);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setIsLoading(false);
+      }
+    };
 
-  useEffect(() => {
-    if (data && data.length > 0) {
-      setCharacterData(data[0]);
-      gsap.fromTo(
-        imageRef.current,
-        { opacity: 0, y: -100 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: imageRef.current,
-            start: "top center+=100",
-            toggleActions: "play pause resume reverse",
-          },
+    fetchData();
+  }, [params.id]);
+
+  const fetchAnilistData = async (characterName) => {
+    const query = `
+      query ($name: String) {
+        Character(search: $name) {
+          image {
+            large
+          }
         }
-      );
+      }
+    `;
 
-      gsap.fromTo(
-        detailsRef.current,
-        { opacity: 0, x: 100 },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 1,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: detailsRef.current,
-            start: "top 90%",
-            end: "bottom 20%",
-            toggleActions: "play pause resume reverse",
-          },
-        }
-      );
-    }
-  }, [data]);
+    const response = await fetch("https://graphql.anilist.co", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query,
+        variables: { name: characterName },
+      }),
+    });
 
-  if (!characterData) return <Loading />;
+    const data = await response.json();
+    return data.data?.Character?.image?.large;
+  };
 
-  const {
-    name,
-    name_kanji,
-    nicknames,
-    favorites,
-    about,
-    mal_id,
-    url,
-    images: {
-      webp: { image_url },
-    },
-  } = characterData;
+  if (isLoading) return <Loading />;
+  if (!characterData) return null;
 
   return (
-    <div className="container mx-auto my-8 sm:my-14 space-y-8 sm:space-y-16 text-gray-300 px-4 sm:px-6 md:px-10">
-      <div className="flex flex-col sm:flex-row gap-6 sm:gap-10">
-        <div className="flex flex-col items-center sm:items-start sm:w-1/2 lg:w-1/3">
-          <img
-            ref={imageRef}
-            src={image_url}
-            alt={`${name} character image`}
-            className="rounded-lg w-full max-w-xs sm:max-w-sm"
-          />
-          <Link
-            href={`/va/${params.id}`}
-            className="mt-4 flex items-center justify-center gap-2 text-yellow-400 p-3 border border-yellow-400 rounded-full hover:bg-yellow-400 hover:text-black transition duration-300 w-full max-w-xs sm:max-w-sm"
-          >
-            <FaMicrophone className="text-xl" />
-            <div className="text-lg">Voice Actors</div>
-          </Link>
+    <div className="min-h-screen">
+  <div className="relative flex justify-center items-center py-8 ">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+      className="container mx-auto px-6 flex flex-col md:flex-row items-center gap-8"
+    >
+      <div className="w-64 h-80 relative overflow-hidden rounded-xl">
+        <img 
+          src={anilistImage || characterData.images.webp.image_url}
+          alt={characterData.name}
+          className="w-full h-full object-cover"
+        />
+      </div>
+      
+      <div className="flex-1">
+        <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
+          {characterData.name}
+        </h1>
+        <div className="flex flex-wrap items-center gap-6 text-gray-300 mb-8">
+          <span className="flex items-center gap-2 text-lg">
+            <FaRegStar className="text-amber-400" />
+            {characterData.favorites.toLocaleString()} Favorites
+          </span>
+          {characterData.name_kanji && (
+            <span className="text-xl font-medium text-gray-400">
+              {characterData.name_kanji}
+            </span>
+          )}
         </div>
 
-        <div className="space-y-4 sm:space-y-6 sm:w-1/2 lg:w-2/3">
-          <h2 className="text-2xl sm:text-3xl md:text-5xl text-white font-bold">
-            {name}
-          </h2>
-          <div className="flex items-center gap-3 text-base sm:text-lg text-yellow-500">
-            <FaRegStar /> {favorites} Favorites
-          </div>
-
-          <p className="text-base sm:text-lg">{about}</p>
-          <a
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block text-blue-500 hover:underline border border-blue-500 rounded-full px-4 py-2 transition duration-300 hover:bg-blue-500 hover:text-white"
-          >
-            More Info on MyAnimeList
-          </a>
+        <div className="flex flex-wrap gap-4">
+        <Button
+        href={`/va/${characterData.mal_id}`}
+        >Voice Actors</Button>
+         
         </div>
       </div>
+    </motion.div>
+  </div>
 
-      <div
-        ref={detailsRef}
-        className="space-y-4 sm:space-y-5 rounded-xl px-4 py-4 sm:py-6 bg-zinc-800"
-      >
-        <h2 className="text-2xl sm:text-3xl font-semibold">
-          Character Details
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div>
-            <p className="text-base sm:text-lg font-semibold">Name (Kanji)</p>
-            <p>{name_kanji}</p>
-          </div>
-          <div>
-            <p className="text-base sm:text-lg font-semibold">Nicknames</p>
-            <p>{nicknames.join(", ")}</p>
-          </div>
-          <div>
-            <p className="text-base sm:text-lg font-semibold">Mal ID</p>
-            <p>{mal_id}</p>
-          </div>
-        </div>
-      </div>
 
-      <div ref={charactersRef} className="space-y-6 sm:space-y-10">
-        <h2 className="text-2xl sm:text-3xl font-semibold">
-          Anime Starring {name}
-        </h2>
+      <div className="container mx-auto px-6  relative z-10 pb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="lg:col-span-2 space-y-8"
+          >
+            <div className="bg-white/5 backdrop-blur-xl rounded-3xl p-8 shadow-xl border border-white/10">
+              <h2 className="text-2xl font-bold text-white mb-6">About</h2>
+              <p className="text-gray-300 leading-relaxed whitespace-pre-line">
+                {characterData.about}
+              </p>
+            </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4">
-          {!animeData.length && "No Anime"}
-          {animeData.map((character) => {
-            const {
-              role,
-              anime: {
-                mal_id,
-                images: {
-                  webp: { image_url },
-                },
-                title,
-              },
-            } = character;
-            return (
-              <Link
-                key={mal_id}
-                href={`/anime/${mal_id}`}
-                className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition duration-300 ease-in-out"
-                style={{ paddingBottom: "150%" }}
-              >
-                <img
-                  src={image_url}
-                  alt={title}
-                  className="absolute w-full h-full object-cover transform group-hover:scale-110 transition duration-300 ease-in-out"
-                />
-                <div className="absolute inset-0 bg-black opacity-50 group-hover:opacity-75 transition duration-300 ease-in-out"></div>
+            <div className="bg-white/5 backdrop-blur-xl rounded-3xl p-8 shadow-xl border border-white/10">
+              <h2 className="text-2xl font-bold text-white mb-6">Gallery</h2>
+              <CharacterGallery characterId={params.id} />
+            </div>
+          </motion.div>
 
-                <div className="absolute inset-0 flex flex-col items-center justify-center p-2 sm:p-4">
-                  <h2 className="text-white text-sm sm:text-lg font-bold text-center mb-1 sm:mb-2">
-                    {title}
-                  </h2>
-                  <p className="text-white text-xs sm:text-sm text-center">
-                    {role}
-                  </p>
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="space-y-6"
+          >
+            <div className="bg-white/5 backdrop-blur-xl rounded-3xl p-6 shadow-xl border border-white/10">
+              <h2 className="text-xl font-bold text-white mb-4">
+                Anime Appearances
+              </h2>
+              <div className="space-y-4">
+                {animeData.slice(0, 5).map((item) => (
+                  <Link
+                    key={item.anime.mal_id}
+                    href={`/anime/${item.anime.mal_id}`}
+                    className="group flex items-center gap-4 p-3 rounded-xl hover:bg-white/10 transition-all"
+                  >
+                    <img
+                      src={item.anime.images.webp.image_url}
+                      alt={item.anime.title}
+                      className="w-16 h-20 rounded-lg object-cover group-hover:ring-2 ring-yellow-500 transition-all"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-white font-medium truncate group-hover:text-indigo-400 transition-colors">
+                        {item.anime.title}
+                      </h3>
+                      <p className="text-gray-400 text-sm mt-1">{item.role}</p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {characterData.nicknames?.length > 0 && (
+              <div className="bg-white/5 backdrop-blur-xl rounded-3xl p-6 shadow-xl border border-white/10">
+                <h2 className="text-xl font-bold text-white mb-4">Nicknames</h2>
+                <div className="flex flex-wrap gap-2">
+                  {characterData.nicknames.map((nickname) => (
+                    <span
+                      key={nickname}
+                      className="px-4 py-2 bg-white/10 rounded-lg text-sm text-white hover:bg-white/20 transition-colors"
+                    >
+                      {nickname}
+                    </span>
+                  ))}
                 </div>
-              </Link>
-            );
-          })}
+              </div>
+            )}
+          </motion.div>
         </div>
-      </div>
-
-      <div>
-        <h2 className="text-2xl sm:text-3xl font-semibold mb-6 sm:mb-8">
-          Character Gallery
-        </h2>
-        <CharacterGallery characterId={mal_id} />
       </div>
     </div>
   );

@@ -1,11 +1,13 @@
 "use client";
 import React, { useEffect, useState, useRef } from "react";
-import { FaRegStar, FaInfoCircle, FaBirthdayCake, FaIdCard } from "react-icons/fa";
+import { FaRegStar } from "react-icons/fa";
 import Loading from "@/loading";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-import Card from "@/components/CharCard";
+
 import Link from "next/link";
+import { motion } from "framer-motion";
+import Button from "@/components/Button";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,6 +17,7 @@ const fm = Intl.DateTimeFormat("en", {
 
 const CharacterPage = ({ params, data }) => {
   const [characterData, setCharacterData] = useState();
+  const [visibleAppearances, setVisibleAppearances] = useState(5);
   const charactersRef = useRef(null);
 
   useEffect(() => {
@@ -23,46 +26,9 @@ const CharacterPage = ({ params, data }) => {
       .then((data) => setCharacterData(data?.data));
   }, [params.id]);
 
-  const detailsRef = useRef(null);
-  const imageRef = useRef(null);
-
-  useEffect(() => {
-    if (data && data.length > 0) {
-      setCharacterData(data[0]);
-      gsap.fromTo(
-        imageRef.current,
-        { opacity: 0, scale: 0.8 },
-        {
-          opacity: 1,
-          scale: 1,
-          duration: 1,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: imageRef.current,
-            start: "top center+=100",
-            toggleActions: "play pause resume reverse",
-          },
-        }
-      );
-
-      gsap.fromTo(
-        detailsRef.current,
-        { opacity: 0, y: 50 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: detailsRef.current,
-            start: "top 90%",
-            end: "bottom 20%",
-            toggleActions: "play pause resume reverse",
-          },
-        }
-      );
-    }
-  }, [data]);
+  const loadMoreAppearances = () => {
+    setVisibleAppearances(prev => prev + 5);
+  };
 
   if (!characterData) return <Loading />;
 
@@ -78,77 +44,106 @@ const CharacterPage = ({ params, data }) => {
   } = characterData;
 
   return (
-    <div className="container mx-auto my-8 sm:my-14 px-4 sm:px-6 lg:px-8">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 justify-items-center sm:justify-items-start">
-        <div className="sm:col-span-1 lg:col-span-1">
-          <img
-            ref={imageRef}
-            src={image_url}
-            alt={`${name} character image`}
-            className="rounded-lg w-full h-auto object-cover shadow-lg"
-          />
-        </div>
-        <div className="sm:col-span-1 lg:col-span-2 space-y-4 sm:space-y-6">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl text-white font-bold">{name}</h1>
-          <div className="flex items-center gap-3 text-base sm:text-lg text-yellow-500">
-            <FaRegStar /> <span>{favorites} Favorites</span>
-          </div>
-          <p className="text-gray-300 text-base sm:text-lg leading-relaxed">{about}</p>
-          <a
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block bg-blue-500 text-white px-4 sm:px-6 py-2 rounded-full hover:bg-blue-600 transition duration-300"
-          >
-            <FaInfoCircle className="inline mr-2" /> More Info on MyAnimeList
-          </a>
-        </div>
-      </div>
-
-      <div ref={detailsRef} className="mt-8 sm:mt-12 bg-zinc-800 rounded-xl p-4 sm:p-6 shadow-lg">
-        <h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-white mb-4 sm:mb-6">Character Details</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          <div className="flex items-center gap-3">
-            <FaIdCard className="text-gray-300" />
-            <div>
-              <p className="text-xs sm:text-sm text-gray-400">Another Name</p>
-              <p className="text-base sm:text-lg text-gray-200">{alternate_names.join(", ")}</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <FaIdCard className="text-gray-300" />
-            <div>
-              <p className="text-xs sm:text-sm text-gray-400">Mal ID</p>
-              <p className="text-base sm:text-lg text-gray-200">{mal_id}</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <FaBirthdayCake className="text-gray-300" />
-            <div>
-              <p className="text-xs sm:text-sm text-gray-400">Birthday</p>
-              <p className="text-base sm:text-lg text-gray-200">{fm.format(new Date(birthday))}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div ref={charactersRef} className="mt-12 sm:mt-16">
-        <h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-white mb-6 sm:mb-8">
-          Anime Characters Voiced by {name}
-        </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6 justify-items-center sm:justify-items-start">
-          {!characterData.voices.length && (
-            <p className="col-span-full text-center text-gray-400">No Characters</p>
-          )}
-          {characterData.voices.map((character) => (
-            <Card
-              key={character.character.mal_id}
-              id={character.character.mal_id}
-              name={character.character.name}
-              imageUrl={character.character.images.jpg.image_url}
-              favs={character.role}
+    <div className="min-h-screen">
+      <div className="relative flex justify-center items-center py-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="container mx-auto px-6 flex flex-col md:flex-row items-center gap-8"
+        >
+          <div className="w-64 h-80 relative overflow-hidden rounded-xl">
+            <img 
+              src={image_url}
+              alt={`${name} character image`}
+              className="w-full h-full object-cover"
             />
-          ))}
+          </div>
+          <div className="flex-1">
+            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
+              {name}
+            </h1>
+            <div className="flex flex-wrap items-center gap-6 text-gray-300 mb-8">
+              <span className="flex items-center gap-2 text-lg">
+                <FaRegStar className="text-amber-400" />
+                {favorites.toLocaleString()} Favorites
+              </span>
+            </div>
+            <Button href={url}>More Details</Button>
+          </div>
+        </motion.div>
+      </div>
+
+      <div className="container mx-auto px-6 relative z-10 pb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="lg:col-span-2 space-y-8"
+          >
+            <div className="bg-white/5 backdrop-blur-xl rounded-3xl p-8 shadow-xl border border-white/10">
+              <h2 className="text-2xl font-bold text-white mb-6">About</h2>
+              <p className="text-gray-300 leading-relaxed whitespace-pre-line">
+                {about}
+              </p>
+            </div>
+
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="space-y-6"
+          >
+            <div className="bg-white/5 backdrop-blur-xl rounded-3xl p-6 shadow-xl border border-white/10">
+              <h2 className="text-xl font-bold text-white mb-4">Anime Appearances</h2>
+              <div className="space-y-4">
+                {characterData.voices?.slice(0, visibleAppearances).map((item) => (
+                  <Link
+                    key={item.character.mal_id}
+                    href={`/anime/${item.character.mal_id}`}
+                    className="group flex items-center gap-4 p-3 rounded-xl hover:bg-white/10 transition-all"
+                  >
+                    <img
+                      src={item.character.images.jpg.image_url}
+                      alt={item.character.name}
+                      className="w-16 h-20 rounded-lg object-cover group-hover:ring-2 ring-yellow-500 transition-all"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-white font-medium truncate group-hover:text-indigo-400 transition-colors">
+                        {item.character.name}
+                      </h3>
+                      <p className="text-gray-400 text-sm mt-1">{item.role}</p>
+                    </div>
+                  </Link>
+                ))}
+                {characterData.voices?.length > visibleAppearances && (
+                  <button
+                    onClick={loadMoreAppearances}
+                    className="w-full mt-4 px-4 py-2 bg-white/10 rounded-lg text-white hover:bg-white/20 transition-colors"
+                  >
+                    Load More
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {characterData.nicknames?.length > 0 && (
+              <div className="bg-white/5 backdrop-blur-xl rounded-3xl p-6 shadow-xl border border-white/10">
+                <h2 className="text-xl font-bold text-white mb-4">Nicknames</h2>
+                <div className="flex flex-wrap gap-2">
+                  {characterData.nicknames.map((nickname) => (
+                    <span
+                      key={nickname}
+                      className="px-4 py-2 bg-white/10 rounded-lg text-sm text-white hover:bg-white/20 transition-colors"
+                    >
+                      {nickname}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </motion.div>
         </div>
       </div>
     </div>
