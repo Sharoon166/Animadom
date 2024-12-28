@@ -101,7 +101,7 @@ const CharacterPage = ({ params, data }) => {
                 {characterData.voices?.slice(0, visibleAppearances).map((item) => (
                   <Link
                     key={item.character.mal_id}
-                    href={`/anime/${item.character.mal_id}`}
+                    href={`/chars/${item.character.mal_id}`}
                     className="group flex items-center gap-4 p-3 rounded-xl hover:bg-white/10 transition-all"
                   >
                     <img
