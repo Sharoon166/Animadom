@@ -7,15 +7,17 @@ const Collection = () => {
     
     return (
       <div className="mt-10 space-y-10">
-        <div className="flex flex-col md:flex-row justify-between items-center ">        <div className="relative mb-6 md:mb-0">
-                <h1 className="text-3xl md:text-4xl font-bold text-white tracking-widest">
-                  Featured
-                  <span className="bg-gradient-to-r from-pink-400 via-purple-500 to-indigo-600 text-transparent bg-clip-text ml-2 md:ml-4 animate-gradient text-shadow-xl">
-                    Collections
-                  </span>
-                </h1>
-                <div className="absolute -bottom-3 left-0 w-1/3 h-1 bg-gradient-to-r from-pink-400 via-purple-500 to-indigo-600"></div>
-              </div>      <Button href="/collections" className="mt-5">
+        <div className="flex flex-col md:flex-row justify-between items-center ">   
+                <div className="relative mb-6 m-4 md:mb-0">
+                  <h1 className="text-3xl md:text-4xl  font-bold text-white tracking-widest">
+                    Featured
+                    <span className="bg-gradient-to-r from-pink-400 via-purple-500 to-indigo-600 text-transparent bg-clip-text ml-2 md:ml-4 animate-gradient text-shadow-xl">
+                      Collections
+                    </span>
+                  </h1>
+                  <div className="absolute -bottom-3 left-0 w-full md:w-1/3 h-1 bg-gradient-to-r from-pink-400 via-purple-500 to-indigo-600"></div>
+                </div>   
+                 <Button href="/collections" className="mt-5">
           View More Collections
         </Button>
         </div>

@@ -6,8 +6,7 @@ import Collection from "@/components/Collection";
 import Carousel from "@/components/Crousal";
 import AnimeCard from "@/components/Trending";
 import MoreAnime from "@/components/MoreAnime";
-import { FaArrowRight } from "react-icons/fa";
-import Link from "next/link";
+
 import { useLanguage } from "@/components/useLanguage";
 import Button from "@/components/Button";
 
@@ -43,20 +42,7 @@ export default function Home() {
     );
 
     // Carousel animation
-    gsap.fromTo(
-      carouselRef.current,
-      { x: "-100%", opacity: 0 },
-      {
-        x: "0%",
-        opacity: 1,
-        duration: 1.5,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: carouselRef.current,
-          start: "top center+=100",
-        },
-      }
-    );
+  
 
     // Collection animation
     gsap.fromTo(
@@ -78,7 +64,7 @@ export default function Home() {
     fetch("https://api.jikan.moe/v4/seasons/now")
       .then((response) => response.json())
       .then((data) => {
-        setTrendingAnime(data.data.slice(0, 10)); // Limiting to 10 anime for example
+        setTrendingAnime(data.data.slice(0, 10));
       })
       .catch((error) => console.error("Error fetching trending anime:", error));
   }, []);
@@ -95,8 +81,8 @@ export default function Home() {
           muted
         ></video>
       </div>
-      <div className="container mx-auto px-10 space-y-32 pb-20">
-        <div ref={carouselRef}>
+      <div >
+        <div>
           <Carousel />
         </div>
         <div ref={collectionRef}>

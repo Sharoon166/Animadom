@@ -2,10 +2,10 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { LanguageProvider } from '@/components/useLanguage';
-import Providers from "./providers";
+import { LanguageProvider } from "@/components/useLanguage";
+import { Toaster } from 'react-hot-toast';
 
-const poppins = Poppins({ subsets: ["latin"],weight:"400" });
+const poppins = Poppins({ subsets: ["latin"], weight: "400" });
 
 export const metadata = {
   title: "Animadom",
@@ -14,19 +14,18 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${poppins.className}poppins.className bg-[#121212] overflow-x-hidden`}>
+      <body
+        className={`${poppins.className}poppins.className bg-[#121212] overflow-x-hidden`}
+      >
         <LanguageProvider>
           <div className="min-h-screen text-white">
-            <Navbar className='absolute'/>
-            <Providers>
+            <Navbar className="absolute" />
             {children}
-            </Providers>
+            <Toaster />
           </div>
-          <Footer/>
+          <Footer />
         </LanguageProvider>
       </body>
     </html>
   );
 }
-
-

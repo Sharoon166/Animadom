@@ -21,3 +21,16 @@ body {
   border-radius: 100px;
   background-color: rgb(177, 177, 28);
 }
+
+.btn-primary {
+  @apply px-4 py-2 rounded-full bg-yellow-400 text-black font-semibold hover:bg-yellow-500 transition-colors;
+}
+
+.btn-secondary {
+  @apply px-4 py-2 rounded-full bg-zinc-800 text-white font-semibold hover:bg-zinc-700 transition-colors;
+}
+
+.btn-gradient {
+  @apply px-4 py-2 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold 
+  hover:from-pink-600 hover:to-purple-700 transition-all transform hover:scale-105 active:scale-95;
+}

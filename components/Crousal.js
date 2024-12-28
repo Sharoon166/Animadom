@@ -1,76 +1,129 @@
 import React, { useState, useEffect } from "react";
 import { topAnime } from "@/constants";
-import { Swiper, SwiperSlide } from "swiper/react";
-import Card from "./Card";
-import "swiper/css";
-import SwiperCore, {
-  Autoplay,
-  EffectFade,
-  Navigation,
-  Pagination,
-  Keyboard,
-} from "swiper/core";
-
-SwiperCore.use([Autoplay, EffectFade, Navigation, Pagination, Keyboard]);
+import Link from "next/link";
 
 const ResponsiveCarousel = () => {
-  const [animeData, setAnimeData] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [slidesPerView, setSlidesPerView] = useState(4);
+
+  const handleResize = () => {
+    if (window.innerWidth < 640) {
+      setSlidesPerView(1);
+    } else if (window.innerWidth < 768) {
+      setSlidesPerView(2);
+    } else if (window.innerWidth < 1024) {
+      setSlidesPerView(3);
+    } else {
+      setSlidesPerView(4);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      setAnimeData(topAnime);
-    };
-
-    fetchData();
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const nextSlide = () => {
+    setCurrentIndex((prev) =>
+      prev === topAnime.length - slidesPerView ? 0 : prev + 1
+    );
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prev) =>
+      prev === 0 ? topAnime.length - slidesPerView : prev - 1
+    );
+  };
+
+  useEffect(() => {
+    const timer = setInterval(nextSlide, 5000);
+    return () => clearInterval(timer);
+  }, [slidesPerView]);
+
+  const slideWidth = 100 / slidesPerView;
+
   return (
-    <div className="py-8 px-4 md:px-8 -mt-48">
-      <div className="container mx-auto">
-        <h1 className="text-3xl md:text-4xl font-bold text-[white] mb-6 md:mb-8  ">
-          Top Anime
-        </h1>
-        <Swiper
-          spaceBetween={30}
-          slidesPerView={1}
-          autoplay={{ delay: 5000 }}
-          effect="fade"
-          fadeEffect={{ crossFade: true }}
-          navigation
-          pagination={{ clickable: true }}
-          keyboard
-          loop
-          className="relative"
-          breakpoints={{
-            640: {
-              slidesPerView: 2,
-              spaceBetween: 40,
-            },
-            768: {
-              slidesPerView: 3,
-              spaceBetween: 50,
-            },
-            1024: {
-              slidesPerView: 4,
-              spaceBetween: 60,
-            },
-          }}
-        >
-          {animeData.map((anime, index) => (
-            <SwiperSlide key={index} className="relative">
-              <div className="w-full h-96 md:h-80 lg:h-96 overflow-hidden rounded-lg shadow-lg">
-                <img
-                  src={anime.image}
-                  alt={anime.title}
-                  className="w-full h-full object-cover object-center transition-opacity duration-500 hover:opacity-75"
-                />
-              </div>
-              <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-                <Card {...anime} />
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+    <div className="py-8 -mt-48">
+      <div className="container mx-auto px-4">
+        <div className="relative max-w-7xl mx-auto">
+          <div className="overflow-hidden">
+            <div
+              className="flex transition-transform duration-500 ease-out"
+              style={{
+                transform: `translateX(-${currentIndex * slideWidth}%)`,
+              }}
+            >
+              {topAnime.map((anime, index) => (
+                <Link
+                  href={`/anime/${anime.id}`}
+                  key={index}
+                  className={`w-[${slideWidth}%] flex-shrink-0 px-2`}
+                  style={{ width: `${slideWidth}%` }}
+                >
+                  <div className="relative aspect-[3/4] rounded-lg overflow-hidden group cursor-pointer">
+                    <img
+                      src={anime.imageUrl}
+                      alt={anime.name}
+                      className="w-full h-full object-cover transform group-hover:scale-105 transition-all duration-300 ease-out"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
+                      <div className="absolute bottom-0 left-0 right-0 p-3">
+                        <p className="text-sm font-medium text-white/90 mb-1">
+                          {anime.name}
+                        </p>
+                        <div className="flex items-center">
+                          <span className="text-yellow-400 text-xs">★</span>
+                          <span className="text-xs text-white/80 ml-1">
+                            {anime.rating}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <button
+            onClick={prevSlide}
+            className="absolute -left-3 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 p-1.5 rounded-full transition-colors"
+          >
+            <svg
+              className="w-4 h-4 text-white"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+          </button>
+
+          <button
+            onClick={nextSlide}
+            className="absolute -right-3 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 p-1.5 rounded-full transition-colors"
+          >
+            <svg
+              className="w-4 h-4 text-white"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -24,22 +24,25 @@ const MoreAnime = () => {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row justify-between items-center ">
-        <div className="relative mb-4 md:mb-0">
-          {" "}
-          <h1 className="text-3xl md:text-4xl font-bold text-white tracking-widest">
-            Top Rated
-            <span className="bg-gradient-to-r from-pink-400 via-purple-500 to-indigo-600 text-transparent bg-clip-text ml-2 md:ml-4 animate-gradient text-shadow-xl">
-              Anime
-            </span>
-          </h1>
-          <div className="absolute -bottom-3 left-0 w-1/3 h-1 bg-gradient-to-r from-pink-400 via-purple-500 to-indigo-600"></div>
-        </div>
+       <div className="relative flex flex-col md:flex-row justify-between items-center mx-4 md:mx-8 my-8 md:my-16 group">
+              <div className="relative mb-6 md:mb-0">
+                <h1 className="text-3xl md:text-4xl font-bold text-white tracking-widest">
+                  Top Rated
+                  <span className="bg-gradient-to-r from-pink-400 via-purple-500 to-indigo-600 text-transparent bg-clip-text ml-2 md:ml-4 animate-gradient text-shadow-xl">
+                    Anime
+                  </span>
+                </h1>
+                <div className="absolute -bottom-3 left-0 w-1/3 h-1 bg-gradient-to-r from-pink-400 via-purple-500 to-indigo-600"></div>
+              </div>
 
-        <Button href="/top_anime">
-          <span className="mr-2 font-medium">View All</span>
-        </Button>
-      </div>
+              <Button
+                href="/airing"
+              >
+                <span className="mr-2 font-medium text-sm md:text-base">
+                  Discover More
+                </span>
+              </Button>
+            </div>
 
       <div className="flex flex-wrap justify-center items-center">
         {anime?.map((anime) => {
