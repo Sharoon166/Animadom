@@ -79,6 +79,7 @@ const SearchResults = ({ params }) => {
       .split("-")
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join("-");
+      console.log(formattedQuery)
 
     try {
       const [animeData] = await Promise.all([
@@ -88,7 +89,7 @@ const SearchResults = ({ params }) => {
           body: JSON.stringify({
             query: queries.anime,
             variables: { 
-              search: query, 
+              search: formattedQuery, 
               page: currentPage.anime 
             },
           }),
@@ -118,7 +119,7 @@ const SearchResults = ({ params }) => {
           body: JSON.stringify({
             query: queries.genres,
             variables: { 
-              genre: query,
+              genre: formattedQuery,
               page: currentPage.genres 
             },
           }),
