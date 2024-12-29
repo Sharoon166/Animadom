@@ -36,7 +36,7 @@ const MoreAnime = () => {
               </div>
 
               <Button
-                href="/airing"
+                href="/top_anime"
               >
                 <span className="mr-2 font-medium text-sm md:text-base">
                   Discover More
