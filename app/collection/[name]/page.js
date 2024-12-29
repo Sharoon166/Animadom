@@ -1,13 +1,18 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { FaArrowLeft, FaHome } from "react-icons/fa";
+import Link from "next/link";
 import AnimeCard from "@/components/Trending";
 import Pagination from "@/components/Pagination";
-import Loading from "@/loading"; // Add loading component
+import Loading from "@/loading";
 
 const Collection = ({ params }) => {
+  const router = useRouter();
   const [animeList, setAnimeList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
+
   const itemsPerPage = 24;
   const genreName = params.name;
   const formattedGenre = decodeURIComponent(genreName)
@@ -84,8 +89,37 @@ const Collection = ({ params }) => {
   const totalPages = Math.ceil(animeList.length / itemsPerPage);
 
   if (isLoading) {
-    return <Loading />;
+    return (<Loading />);}
+
+  if (animeList.length === 0) {
+    return (
+      <div className="flex justify-center flex-col gap-4 items-center min-h-screen">
+        <img
+          src="/404.png"
+          alt=""
+          className="object-cover object-center w-full invert md:w-1/3 m-auto"
+        />
+        <h2 className="text-yellow-500 text-2xl text-center px-4">
+          No anime found in this category
+        </h2>
+        <div className="flex gap-4">
+          <button
+            onClick={() => router.back()}
+            className="text-yellow-500 flex items-center gap-2 text-xl px-4 py-2 border-yellow-600 border rounded-lg hover:bg-yellow-600 hover:text-[#121212] font-mono transition-colors duration-150"
+          >
+            <FaArrowLeft /> Back
+          </button>
+          <Link
+            href="/"
+            className="text-yellow-500 flex items-center gap-2 text-xl px-4 py-2 border-yellow-600 border rounded-lg hover:bg-yellow-600 hover:text-[#121212] font-mono transition-colors duration-150"
+          >
+            <FaHome /> Home
+          </Link>
+        </div>
+      </div>
+    );
   }
+
 
   return (
     <div className="mt-10">
