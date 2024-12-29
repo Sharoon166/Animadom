@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import AnimeCard from "@/components/CharCard";
-import Search from "@/components/CharSearch";
 import Pagination from "@/components/Pagination";
 
 const Page = () => {
@@ -26,9 +25,6 @@ const Page = () => {
 
   return (
     <div className="container mx-auto">
-      <div className="w-full px-4">
-        <Search />
-      </div>
       <div className="relative mb-6 md:mb-0">
                 <h1 className="text-3xl p-6 md:text-4xl font-bold text-white tracking-widest">
                   Top Characters
@@ -38,7 +34,7 @@ const Page = () => {
                 </h1>
                
               </div>
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-6 md:gap-8 justify-items-center">
+      <div className="flex flex-wrap gap-6 justify-center mt-10">
         {characters.map((char) => (
           <AnimeCard
             key={char.mal_id}
