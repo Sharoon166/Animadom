@@ -274,7 +274,7 @@ const SearchResults = ({ params }) => {
                   results.genres.map((anime) => (
                     <AnimeCard
                       key={anime.idMal}
-                      mal_id={anime.id}
+                      mal_id={anime.idMal}
                       name={anime.title.romaji}
                       imageUrl={anime.coverImage.large}
                       year={anime.startDate?.year}
