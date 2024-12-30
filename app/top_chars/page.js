@@ -14,7 +14,7 @@ const Page = () => {
       .then((res) => res.json())
       .then((data) => {
         setCharacters(data.data || []);
-        setTotalPages(Math.ceil(data.pagination.items.total / charactersPerPage));
+        setTotalPages(Math.ceil(data.pagination?.items.total / charactersPerPage));
       });
   }, [currentPage]);
 

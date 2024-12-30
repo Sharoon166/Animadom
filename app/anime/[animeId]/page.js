@@ -15,7 +15,6 @@ const AnimeDescription = ({ params }) => {
   const [posterImage, setPosterImage] = useState("");
   const [animeImages, setAnimeImages] = useState([]);
   const [similarAnime, setSimilarAnime] = useState([]);
-  const [streamingLinks, setStreamingLinks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [animeDetails, setAnimeDetails] = useState({
     startDate: null,
@@ -35,7 +34,6 @@ const AnimeDescription = ({ params }) => {
           `https://api.jikan.moe/v4/anime/${params.animeId}/characters`,
           `https://api.jikan.moe/v4/anime/${params.animeId}/pictures`,
           `https://api.jikan.moe/v4/anime/${params.animeId}/recommendations`,
-          `https://api.jikan.moe/v4/anime/${params.animeId}/streaming`,
         ];
 
         const responses = await Promise.all(
@@ -146,7 +144,6 @@ const AnimeDescription = ({ params }) => {
         );
         setAnimeImages(picsData.data || []);
         setSimilarAnime(recsData.data?.slice(0, 10).map((item) => item.entry));
-        setStreamingLinks(streamData.data || []);
 
         if (animeData.data?.title) {
           await fetchAniListData(animeData.data.title);
@@ -240,83 +237,112 @@ const AnimeDescription = ({ params }) => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Main Content Column */}
-            <div className="lg:col-span-2 space-y-8">
-              {/* Stats Grid */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 mb-8">
-                {/* Score Card */}
-                <div className="group relative bg-gradient-to-br from-zinc-800/90 via-zinc-900 to-black p-6 rounded-xl border border-zinc-700/30 hover:border-yellow-500/50 transition-all duration-300">
-                  <div className="absolute inset-0 bg-yellow-500/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <div className="absolute top-0 right-0 w-24 h-24 bg-yellow-500/10 rounded-full blur-2xl group-hover:bg-yellow-500/20 transition-colors duration-300" />
-                  <div className="relative">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="p-2 bg-yellow-500/10 rounded-lg group-hover:bg-yellow-500/20 transition-colors duration-300">
-                        <FaRegStar className="text-yellow-500 text-lg" />
-                      </div>
-                      <h3 className="text-zinc-400 text-base font-medium">
-                        Rating
-                      </h3>
+            <div className="lg:col-span-2 mt-8 space-y-8">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <div className="bg-zinc-800/40 backdrop-blur-sm rounded-2xl p-6 hover:bg-zinc-800/60 transition-all duration-300">
+                  <div className="flex flex-col items-center gap-3">
+                    <FaRegStar className="text-yellow-500 text-2xl" />
+                    <div className="text-center">
+                      <span className="text-2xl font-bold">{score}</span>
+                      <span className="text-zinc-400 text-sm">/10</span>
                     </div>
-                    <p className="text-2xl font-bold text-white group-hover:text-yellow-500 transition-colors duration-300">
-                      {score}/10
-                    </p>
                   </div>
                 </div>
-
                 <Link href={`/episodes/${params.animeId}`}>
-                  <div className="group relative bg-gradient-to-br from-zinc-800/90 via-zinc-900 to-black p-6 rounded-xl border border-zinc-700/30 hover:border-blue-500/50 transition-all duration-300">
-                    <div className="absolute inset-0 bg-blue-500/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div className="absolute top-0 right-0 w-24 h-24 bg-blue-500/10 rounded-full blur-2xl group-hover:bg-blue-500/20 transition-colors duration-300" />
-                    <div className="relative">
-                      <div className="flex items-center gap-3 mb-3">
-                        <div className="p-2 bg-blue-500/10 rounded-lg group-hover:bg-blue-500/20 transition-colors duration-300">
-                          <FaPlay className="text-blue-500 text-lg" />
-                        </div>
-                        <h3 className="text-zinc-400 text-base font-medium">
+                  <div className="bg-zinc-800/40 backdrop-blur-sm rounded-2xl p-6 hover:bg-zinc-800/60 transition-all duration-300">
+                    <div className="flex flex-col items-center gap-3">
+                      <FaPlay className="text-blue-500 text-2xl" />
+                      <div className="text-center">
+                        <span className="text-xl font-medium">
+                          {episodes || "TBA"}
+                        </span>
+                        <span className="text-zinc-400 text-sm block">
                           Episodes
-                        </h3>
+                        </span>
                       </div>
-                      <p className="text-2xl font-bold text-white group-hover:text-blue-500 transition-colors duration-300">
-                        {episodes || "TBA"}
-                      </p>
                     </div>
                   </div>
                 </Link>
 
-                {/* Type Card */}
-                <div className="group relative bg-gradient-to-br from-zinc-800/90 via-zinc-900 to-black p-6 rounded-xl border border-zinc-700/30 hover:border-purple-500/50 transition-all duration-300">
-                  <div className="absolute inset-0 bg-purple-500/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <div className="absolute top-0 right-0 w-24 h-24 bg-purple-500/10 rounded-full blur-2xl group-hover:bg-purple-500/20 transition-colors duration-300" />
-                  <div className="relative">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="p-2 bg-purple-500/10 rounded-lg group-hover:bg-purple-500/20 transition-colors duration-300">
-                        <FaFilm className="text-purple-500 text-lg" />
-                      </div>
-                      <h3 className="text-zinc-400 text-base font-medium">
-                        Type
-                      </h3>
+                <div className="bg-zinc-800/40 backdrop-blur-sm rounded-2xl p-6 hover:bg-zinc-800/60 transition-all duration-300">
+                  <div className="flex flex-col items-center gap-3">
+                    <FaFilm className="text-purple-500 text-2xl" />
+                    <div className="text-center">
+                      <span className="text-xl font-medium">{type}</span>
+                      <span className="text-zinc-400 text-sm block">Type</span>
                     </div>
-                    <p className="text-2xl font-bold text-white group-hover:text-purple-500 transition-colors duration-300">
-                      {type}
-                    </p>
                   </div>
                 </div>
 
-                {/* Status Card */}
-                <div className="group relative bg-gradient-to-br from-zinc-800/90 via-zinc-900 to-black p-6 rounded-xl border border-zinc-700/30 hover:border-green-500/50 transition-all duration-300">
-                  <div className="absolute inset-0 bg-green-500/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <div className="absolute top-0 right-0 w-24 h-24 bg-green-500/10 rounded-full blur-2xl group-hover:bg-green-500/20 transition-colors duration-300" />
-                  <div className="relative">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="p-2 bg-green-500/10 rounded-lg group-hover:bg-green-500/20 transition-colors duration-300">
-                        <FaCheckCircle className="text-green-500 text-lg" />
-                      </div>
-                      <h3 className="text-zinc-400 text-base font-medium">
+                <div className="bg-zinc-800/40 backdrop-blur-sm rounded-2xl p-6 hover:bg-zinc-800/60 transition-all duration-300">
+                  <div className="flex flex-col items-center gap-3">
+                    <FaCheckCircle className="text-green-500 text-2xl" />
+                    <div className="text-center">
+                      <span className="text-xl font-medium">{status}</span>
+                      <span className="text-zinc-400 text-sm block">
                         Status
-                      </h3>
+                      </span>
                     </div>
-                    <p className="text-2xl font-bold text-white group-hover:text-green-500 transition-colors duration-300">
-                      {status}
-                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Additional Info */}
+              <div className="bg-zinc-800/40 backdrop-blur-sm rounded-2xl p-8 mb-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold text-zinc-200 mb-4">
+                      Studios
+                    </h3>
+                    
+                    <div className="flex flex-wrap gap-3">
+                      {animeDetails.studios.map((studio, index) => (
+                        <Link href={`/studio/${studio.name}`}
+                        key={index}
+                        className={`text-sm px-4 py-2 rounded-xl transition-all duration-300 ${
+                          studio.isAnimationStudio
+                          ? "bg-purple-500/30 text-purple-200 border border-purple-500/40 hover:bg-purple-500/40"
+                          : "bg-zinc-700/60 text-zinc-300 hover:bg-zinc-700/80"
+                        }`}
+                        >
+                          {studio.name}
+                       
+                      </Link>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold text-zinc-200 mb-4">
+                      Broadcast
+                    </h3>
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-3 bg-zinc-700/30 p-4 rounded-xl">
+                        <span className="text-zinc-400">Started:</span>
+                        <span className="font-medium">{`${animeDetails.startDate?.year}/${animeDetails.startDate?.month}/${animeDetails.startDate?.day}`}</span>
+                      </div>
+                      {animeDetails.nextEpisode && (
+                        <div className="flex items-center gap-3 bg-blue-500/20 p-4 rounded-xl">
+                          <span className="text-blue-300">
+                            Next Episode {animeDetails.nextEpisode.episode}:
+                          </span>
+                          <span className="text-blue-200 font-medium">
+                            {Math.floor(
+                              animeDetails.nextEpisode.timeUntilAiring / 86400
+                            )}{" "}
+                            days
+                          </span>
+                        </div>
+                      )}
+                      <div className="flex items-center gap-3 bg-zinc-700/30 p-4 rounded-xl">
+                        <span className="text-zinc-400">Ended:</span>
+                        <span className="font-medium">
+                          {animeDetails.endDate?.year
+                            ? `${animeDetails.endDate.year}/${animeDetails.endDate.month}/${animeDetails.endDate.day}`
+                            : "Ongoing"}
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -329,75 +355,6 @@ const AnimeDescription = ({ params }) => {
                 <h2 className="text-2xl font-semibold mb-4">Synopsis</h2>
                 <p className="text-zinc-300 leading-relaxed">{description}</p>
               </motion.section>
-
-              {/* Broadcast & Studios Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {/* Broadcast Info */}
-                <div className="group relative bg-gradient-to-br from-zinc-800/90 via-zinc-900 to-black p-6 rounded-xl border border-zinc-700/30 hover:border-blue-500/50 transition-all duration-300">
-                  <div className="absolute inset-0 bg-blue-500/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <div className="absolute top-0 right-0 w-24 h-24 bg-blue-500/10 rounded-full blur-2xl group-hover:bg-blue-400/40" />
-                  <h2 className="text-2xl font-semibold mb-6 relative">
-                    Broadcast Details
-                  </h2>
-                  <div className="space-y-4 relative">
-                    <div className="flex items-center gap-3">
-                      <span className="text-zinc-400">Start Date:</span>
-                      <span className="text-white">
-                        {`${animeDetails.startDate?.year}/${animeDetails.startDate?.month}/${animeDetails.startDate?.day}`}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <span className="text-zinc-400">End Date:</span>
-                      <span className="text-white">
-                        {animeDetails.endDate?.year
-                          ? `${animeDetails.endDate.year}/${animeDetails.endDate.month}/${animeDetails.endDate.day}`
-                          : "Ongoing"}
-                      </span>
-                    </div>
-                    {animeDetails.nextEpisode && (
-                      <div className="mt-6 p-4 bg-blue-500/10 rounded-lg backdrop-blur-sm">
-                        <h3 className="text-blue-400 font-medium mb-2">
-                          Next Episode
-                        </h3>
-                        <p className="text-white">
-                          Episode {animeDetails.nextEpisode.episode}
-                        </p>
-                        <p className="text-sm text-zinc-400">
-                          Airing in{" "}
-                          {Math.floor(
-                            animeDetails.nextEpisode.timeUntilAiring / 86400
-                          )}{" "}
-                          days
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* Studios */}
-                <div className="group relative bg-gradient-to-br from-zinc-800/90 via-zinc-900 to-black p-6 rounded-xl border border-zinc-700/30 hover:border-purple-500/50 transition-all duration-300">
-                  <div className="absolute inset-0 bg-purple-500/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <div className="absolute top-0 right-0 w-24 h-24 bg-purple-500/10 rounded-full blur-2xl group-hover:bg-purple-400/40" />
-                  <h2 className="text-2xl font-semibold mb-6 relative">
-                    Production Studios
-                  </h2>
-                  <div className="flex flex-wrap gap-3 relative">
-                    {animeDetails.studios.map((studio, index) => (
-                      <motion.span
-                        key={index}
-                        whileHover={{ scale: 1.05 }}
-                        className={`px-4 py-2 rounded-full backdrop-blur-sm ${
-                          studio.isAnimationStudio
-                            ? "bg-purple-500/20 text-purple-300 border border-purple-500/30"
-                            : "bg-zinc-700/50 text-zinc-300 border border-zinc-600/30"
-                        }`}
-                      >
-                        {studio.name}
-                      </motion.span>
-                    ))}
-                  </div>
-                </div>
-              </div>
 
               <section className="mb-12">
                 <div className="flex justify-between items-center mb-8">
@@ -412,10 +369,7 @@ const AnimeDescription = ({ params }) => {
                       key={char.character.mal_id}
                       href={`/chars/${char.character.mal_id}`}
                     >
-                      <motion.div
-                        whileHover={{ scale: 1.05 }}
-                        className="relative group h-[320px] rounded-[2rem] cursor-pointer perspective-1000"
-                      >
+                      <motion.div className="relative group h-[320px] rounded-[2rem] cursor-pointer perspective-1000">
                         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-zinc-900/50 to-zinc-900 rounded-[2rem] backdrop-blur-xl" />
                         <div className="absolute -z-20 inset-0 bg-gradient-to-r from-indigo-500/20 via-purple-500/20 to-pink-500/20 rounded-[2rem] blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
@@ -437,7 +391,6 @@ const AnimeDescription = ({ params }) => {
                   ))}
                 </div>
               </section>
-
               {/* Similar Anime Section */}
               <section className="mb-12">
                 <div className="flex justify-between items-center mb-8">
@@ -464,15 +417,25 @@ const AnimeDescription = ({ params }) => {
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  className="bg-white/5 backdrop-blur-xl rounded-2xl p-4 border border-white/10"
+                  className="bg-gradient-to-br from-zinc-800/40 to-zinc-900/40 backdrop-blur-xl rounded-2xl p-6 border border-zinc-700/50 shadow-xl"
                 >
-                  <h2 className="text-lg font-semibold mb-3">Tags</h2>
-                  <div className="flex flex-wrap gap-2">
+                  <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                    <span>
+                      Tags
+                    </span>
+                  </h2>
+
+                  <div className="flex flex-wrap gap-3">
                     {animeDetails.tags.slice(0, 12).map((tag, index) => (
                       <Link href={`/collection/${tag.name}`} key={index}>
                         <motion.span
-                          whileHover={{ scale: 1.05 }}
-                          className="inline-block px-3 py-1 text-sm bg-zinc-800/50 hover:bg-zinc-700/50 rounded-full text-zinc-300 transition-colors duration-300"
+                          whileHover={{
+                            backgroundColor: "rgba(139, 92, 246, 0.2)",
+                          }}
+                          whileTap={{ scale: 0.95 }}
+                          className="inline-block px-4 py-2 text-sm bg-zinc-800/70 hover:bg-violet-500/20 
+                     rounded-xl text-zinc-200 border border-zinc-700/50 hover:border-violet-500/30 
+                     transition-colors duration-300 cursor-pointer shadow-lg"
                         >
                           {tag.name}
                         </motion.span>
@@ -480,12 +443,13 @@ const AnimeDescription = ({ params }) => {
                     ))}
                   </div>
                 </motion.div>
+
                 {/* Reviews Preview */}
                 {animeDetails.reviews.length > 0 && (
                   <motion.div
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    className="bg-white/5 backdrop-blur-xl rounded-3xl p-6 border border-white/10"
+                    className="bg-gradient-to-br from-zinc-800/40 to-zinc-900/40 backdrop-blur-xl rounded-2xl p-6 border border-zinc-700/50 shadow-xl"
                   >
                     <h2 className="text-xl font-semibold mb-4">
                       Latest Reviews

@@ -13,7 +13,7 @@ const heroVariants = {
   animate: {
     scale: 1,
     opacity: 1,
-    transition: { duration: 2, ease: "easeOut" }
+    transition: { duration: 3, ease: "easeOut" }
   }
 };
 
@@ -22,7 +22,7 @@ const carouselVariants = {
   animate: {
     x: 0,
     opacity: 1,
-    transition: { duration: 1, ease: "easeOut" }
+    transition: { duration: 2, ease: "easeOut" }
   }
 };
 
