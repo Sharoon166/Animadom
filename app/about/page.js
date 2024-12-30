@@ -77,7 +77,7 @@ const AboutUs = () => {
           <div className="group">
             <div className="bg-gray-800/40 p-6 sm:p-8 rounded-xl sm:rounded-2xl backdrop-blur-sm border border-gray-700 hover:border-gray-600 transition-all">
               <img src="/sharoon.png" alt="Sharoon" 
-                   className="w-24 h-24 sm:w-32 sm:h-32 rounded-full mx-auto mb-4 sm:mb-6 border-2 border-gray-700 group-hover:border-gray-500 transition-all" />
+                   className="w-24 h-24 sm:w-32 sm:h-32 rounded-full mx-auto mb-4 sm:mb-6 border-2 border-gray-700 group-hover:border-gray-500 transition-all object-cover object-center" />
               <h2 className="text-xl sm:text-2xl font-bold text-center mb-2 sm:mb-4">Sharoon</h2>
               <p className="text-sm sm:text-base text-gray-400 text-center mb-4">Full Stack Developer</p>
               <p className="text-sm sm:text-base text-gray-400 text-center mb-4 sm:mb-6">
@@ -95,7 +95,7 @@ const AboutUs = () => {
           <div className="group">
             <div className="bg-gray-800/40 p-6 sm:p-8 rounded-xl sm:rounded-2xl backdrop-blur-sm border border-gray-700 hover:border-gray-600 transition-all">
               <img src="/haider.jpg" alt="Haider" 
-                   className="w-24 h-24 sm:w-32 sm:h-32 rounded-full mx-auto mb-4 sm:mb-6 border-2 border-gray-700 group-hover:border-gray-500 transition-all" />
+                   className="w-24 h-24 sm:w-32 sm:h-32 rounded-full mx-auto mb-4 sm:mb-6 border-2 border-gray-700 group-hover:border-gray-500 transition-all object-cover object-center" />
               <h2 className="text-xl sm:text-2xl font-bold text-center mb-2 sm:mb-4">Haider</h2>
               <p className="text-sm sm:text-base text-gray-400 text-center mb-4">Full Stack Developer</p>
               <p className="text-sm sm:text-base text-gray-400 text-center mb-4 sm:mb-6">
