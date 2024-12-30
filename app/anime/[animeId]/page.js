@@ -161,8 +161,8 @@ const AnimeDescription = ({ params }) => {
     fetchAllData();
   }, [params.animeId]);
 
-  if (isLoading) return <Loading />;
   const { useJapanese } = useLanguage();
+  if (!animeData) return <Loading />;
 
   const {
     title_english,
@@ -407,7 +407,7 @@ const AnimeDescription = ({ params }) => {
                   </Button>
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 p-4">
-                  {animeCharacters.map((char) => (
+                  {animeCharacters?.map((char) => (
                     <Link
                       key={char.character.mal_id}
                       href={`/chars/${char.character.mal_id}`}

@@ -6,20 +6,24 @@ import Link from "next/link";
 import AnimeCard from "@/components/Trending";
 import Pagination from "@/components/Pagination";
 import Loading from "@/loading";
+import { LanguageProvider, useLanguage } from "@/components/useLanguage";
 
-const Collection = ({ params }) => {
+const CollectionContent = ({ params }) => {
   const router = useRouter();
+  const { useJapanese } = useLanguage();
   const [animeList, setAnimeList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
+  const [totalItems, setTotalItems] = useState(0);
 
   const itemsPerPage = 24;
-  const genreName = params.name;
-  const formattedGenre = decodeURIComponent(genreName)
-  .replace(/\s+/g, " ")
-  .split("-")
-  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-  .join("-");
+  const searchTerm = params.name;
+  const formattedTerm = decodeURIComponent(searchTerm)
+    .replace(/\s+/g, " ")
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join("-");
+
   const handlePageChange = (pageNumber) => {
     setIsLoading(true);
     setCurrentPage(pageNumber);
@@ -29,26 +33,56 @@ const Collection = ({ params }) => {
   useEffect(() => {
     let isMounted = true;
 
-    const fetchAnimeByGenre = async () => {
+    const fetchAnime = async () => {
       try {
         const query = `
-            query ($genre: String) {
-              Page(page: ${currentPage}, perPage: ${itemsPerPage}) {
-                media(genre: $genre, type: ANIME, sort: POPULARITY_DESC) {
-                  idMal
-                  title {
-                    romaji
-                  }
-                  coverImage {
-                    large
-                  }
-                  startDate {
-                    year
-                  }
+          query ($term: String) {
+            byGenre: Page(page: ${currentPage}, perPage: ${itemsPerPage}) {
+              pageInfo {
+                total
+                perPage
+                currentPage
+                lastPage
+                hasNextPage
+              }
+              media(genre: $term, type: ANIME, sort: POPULARITY_DESC) {
+                idMal
+                title {
+                  romaji
+                  native
+                }
+                coverImage {
+                  large
+                }
+                startDate {
+                  year
                 }
               }
             }
-          `;
+            byTag: Page(page: ${currentPage}, perPage: ${itemsPerPage}) {
+              pageInfo {
+                total
+                perPage
+                currentPage
+                lastPage
+                hasNextPage
+              }
+              media(tag: $term, type: ANIME, sort: POPULARITY_DESC) {
+                idMal
+                title {
+                  romaji
+                  native
+                }
+                coverImage {
+                  large
+                }
+                startDate {
+                  year
+                }
+              }
+            }
+          }
+        `;
 
         const response = await fetch("https://graphql.anilist.co", {
           method: "POST",
@@ -57,20 +91,40 @@ const Collection = ({ params }) => {
           },
           body: JSON.stringify({
             query,
-            variables: { genre: formattedGenre },
+            variables: { term: formattedTerm },
           }),
         });
         const { data } = await response.json();
 
         if (isMounted) {
-          const formattedData = data.Page.media.map((anime) => ({
-            mal_id: anime.idMal,
-            title: anime.title.romaji,
-            images: { jpg: { large_image_url: anime.coverImage.large } },
-            year: anime.startDate.year,
-          }));
+          const formatAnimeData = (animeList) =>
+            animeList.map((anime) => ({
+              mal_id: anime.idMal,
+              title: useJapanese ? anime.title.native : anime.title.romaji,
+              images: { jpg: { large_image_url: anime.coverImage.large } },
+              year: anime.startDate.year,
+            }));
 
-          setAnimeList(formattedData);
+          const genreResults = formatAnimeData(data.byGenre.media);
+          const tagResults = formatAnimeData(data.byTag.media);
+
+          const combinedResults = [...genreResults, ...tagResults].reduce(
+            (acc, current) => {
+              const x = acc.find((item) => item.mal_id === current.mal_id);
+              if (!x) {
+                return acc.concat([current]);
+              }
+              return acc;
+            },
+            []
+          );
+
+          const totalGenre = data.byGenre.pageInfo.total || 0;
+          const totalTag = data.byTag.pageInfo.total || 0;
+          const maxTotal = Math.max(totalGenre, totalTag);
+
+          setTotalItems(maxTotal);
+          setAnimeList(combinedResults);
           setIsLoading(false);
         }
       } catch (error) {
@@ -79,17 +133,18 @@ const Collection = ({ params }) => {
       }
     };
 
-    fetchAnimeByGenre();
+    fetchAnime();
 
     return () => {
       isMounted = false;
     };
-  }, [genreName, currentPage, itemsPerPage]);
+  }, [searchTerm, currentPage, itemsPerPage, useJapanese]);
 
-  const totalPages = Math.ceil(animeList.length / itemsPerPage);
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   if (isLoading) {
-    return (<Loading />);}
+    return <Loading />;
+  }
 
   if (animeList.length === 0) {
     return (
@@ -120,12 +175,11 @@ const Collection = ({ params }) => {
     );
   }
 
-
   return (
     <div className="mt-10">
       <div className="relative mb-6 md:mb-0">
         <h1 className="text-3xl p-4 md:text-4xl font-bold text-white tracking-widest">
-          {formattedGenre}
+          {formattedTerm}
           <span className="bg-gradient-to-r from-pink-400 via-purple-500 to-indigo-600 text-transparent bg-clip-text ml-2 md:ml-4 animate-gradient text-shadow-xl">
             Anime
           </span>
@@ -139,16 +193,26 @@ const Collection = ({ params }) => {
             name={anime.title}
             imageUrl={anime.images.jpg.large_image_url}
             year={anime.year}
-            genre={genreName}
+            searchTerm={searchTerm}
           />
         ))}
       </div>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
+      {totalPages > 1 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      )}
     </div>
+  );
+};
+
+const Collection = (props) => {
+  return (
+    <LanguageProvider>
+      <CollectionContent {...props} />
+    </LanguageProvider>
   );
 };
 

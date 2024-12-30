@@ -81,7 +81,7 @@ const Navbar = () => {
   const handleToggleLanguage = () => {
     toggleLanguage();
     customToast.success(
-      `Now displaying in ${useJapanese ? "Japanese" : "English"}`
+      `Now displaying in ${useJapanese ? "English" : "Japanese"}`
     );
   };
 
