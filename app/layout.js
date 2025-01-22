@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
         <LanguageProvider>
           <ClientLayout>
             <div className="min-h-screen text-white">
-              <Navbar className="absolute" />
+              <Navbar />
               {children}
               <Toaster />
             </div>

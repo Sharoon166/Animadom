@@ -99,7 +99,7 @@ const Navbar = () => {
   return (
     <>
       <Toaster />
-      <nav className="relative top-0 z-50 text-gray-300 backdrop-blur-md flex items-center px-4 py-4 bg-gradient-to-b from-[#121212]/60 via-[#121212]/40 to-transparent">
+      <nav className=" text-gray-300 backdrop-blur-md flex items-center px-4 py-4 bg-gradient-to-b from-[#121212]/60 via-[#121212]/40 to-transparent">
         {/* Logo */}
         <Link href="/" className="rounded-full overflow-hidden size-16 invert">
           <img

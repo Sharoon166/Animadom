@@ -66,7 +66,7 @@ export default function Home() {
 
   return (
     <motion.div initial="initial" animate="animate">
-      <motion.div 
+      {/* <motion.div 
         variants={heroVariants}
         className="-m-[5rem] mx-auto overflow-hidden relative shadow-[0_20px_80px_#888] pointer-events-none 2xl:w-screen 2xl:max-w-none"
       >
@@ -77,7 +77,7 @@ export default function Home() {
           loop
           muted
         />
-      </motion.div>
+      </motion.div> */}
 
       <motion.div variants={carouselVariants}>
         <Carousel />
@@ -115,7 +115,7 @@ export default function Home() {
       </motion.div>
 
       <motion.div 
-        className="flex flex-wrap justify-center items-center"
+        className="flex justify-center flex-wrap"
         variants={cardContainerVariants}
       >
         {trendingAnime.map((anime) => (

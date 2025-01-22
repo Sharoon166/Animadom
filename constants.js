@@ -4,44 +4,59 @@ export const topAnime = [
     name: "Fullmetal Alchemist: Brotherhood",
     rating: "9.2",
     imageUrl: "/fmab.jpg",
+    titleImage: "/fmab_name.webp",
+    description: "Two brothers lose their bodies in an alchemical ritual gone wrong. Now they must journey to find the Philosopher's Stone to restore what was lost."
   },
   {
     id: 9253,
     name: "Steins;Gate",
     rating: "9.1",
     imageUrl: "/s;g.jpg",
+    titleImage: "/s;g_name.png",
+    description: "A self-proclaimed mad scientist discovers a way to alter the past using a microwave and bananas, leading to dire consequences."
   },
   {
     id: 16498,
     name: "Attack on Titan",
     rating: "8.9",
     imageUrl: "/aot.jpg",
+    titleImage: "/aot_name.png",
+    description: "Humanity lives inside cities surrounded by enormous walls due to the Titans, gigantic humanoid creatures who devour humans seemingly without reason."
   },
   {
     id: 1535,
     name: "Death Note",
     rating: "8.6",
     imageUrl: "/DN.jpg",
+    titleImage: "/DN_name.png",
+    description: "A high school student discovers a supernatural notebook that allows him to kill anyone by writing the victim's name while picturing their face."
   },
   {
     id: 1735,
     name: "Naruto: Shippuden",
     rating: "8.3",
     imageUrl: "/naruto.avif",
+    titleImage: "/naruto_name.png",
+    description: "Naruto Uzumaki seeks to become the strongest ninja in his village while dealing with powerful threats to the shinobi world."
   },
   {
     id: 44511,
     name: "Chainsaw Man",
     rating: "8.3",
     imageUrl: "/chainsaw-man.jpg",
+    titleImage: "/csm_name.png",
+    description: "A teenage boy living a harsh life becomes a devil hunter, gaining the ability to transform into Chainsaw Man after merging with his devil pet."
   },
   {
     id: 21,
     name: "One Piece",
     rating: "8.3",
     imageUrl: "/onepiece.jpg",
+    titleImage: "/one_piece_name.png",
+    description: "Monkey D. Luffy and his pirate crew explore a world of endless oceans, seeking the ultimate treasure, the One Piece, to become the Pirate King."
   },
 ];
+
 
 export const animegenres = [
   {
