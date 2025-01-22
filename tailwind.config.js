@@ -7,6 +7,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      screens: {
+        'xs': '480px'
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
@@ -46,6 +49,5 @@ module.exports = {
         '-2': '-2',
       },
     },
-  },
-  plugins: [],
+  },  plugins: [],
 };
