@@ -1,0 +1,166 @@
+.anime-card {
+  position: relative;
+  width: 100%;
+  height: 320px;
+}
+
+.card-container {
+  position: absolute;
+  inset: 0;
+  background: #333;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.1);
+  transition: transform 0.7s;
+}
+
+.anime-card:hover .card-image {
+  transform: scale(1);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent, rgba(51, 51, 51, 0.5), rgba(34, 34, 34, 0.9));
+  transition: backdrop-filter 0.5s;
+}
+
+.anime-card:hover .overlay {
+  backdrop-filter: blur(2px);
+}
+
+.card-content {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 16px;
+  transform: translateY(24px);
+  transition: transform 0.5s ease-in-out;
+}
+
+.anime-card:hover .card-content {
+  transform: translateY(0);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+  opacity: 0;
+  transition: opacity 0.5s;
+  transition-delay: 0.1s;
+}
+
+.anime-card:hover .tags {
+  opacity: 1;
+}
+
+.tag {
+  padding: 4px 8px;
+  font-size: 12px;
+  background: rgba(68, 68, 68, 0.3);
+  color: #e0e0e0;
+  border-radius: 8px;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(68, 68, 68, 0.2);
+  cursor: pointer;
+}
+
+.tag:hover {
+  background: rgba(85, 85, 85, 0.3);
+}
+
+.title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #e0e0e0;
+  margin-bottom: 12px;
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.button-container {
+  opacity: 0;
+  transition: opacity 0.5s;
+  transition-delay: 0.2s;
+}
+
+.anime-card:hover .button-container {
+  opacity: 1;
+}
+
+.more-button {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  background: #444;
+  color: #e0e0e0;
+  font-weight: bold;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.more-button:hover {
+  background: #555;
+}
+
+/* Responsive Breakpoints */
+@media (min-width: 480px) {
+  .anime-card {
+    width: 200px;
+  }
+}
+
+@media (min-width: 640px) {
+  .anime-card {
+    width: 240px;
+    height: 380px;
+  }
+  
+  .card-container {
+    border-radius: 12px;
+  }
+  
+  .tag {
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+  
+  .title {
+    font-size: 18px;
+  }
+  
+  .more-button {
+    padding: 10px;
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 768px) {
+  .anime-card {
+    width: 280px;
+  }
+  
+  .title {
+    font-size: 20px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .anime-card {
+    width: 300px;
+  }
+}
