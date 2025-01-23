@@ -9,14 +9,13 @@ import AnimeCard from "@/components/Trending";
 import Button from "@/components/Button";
 
 const AnimeDescription = ({ params }) => {
-  const [animeData, setAnimeData] = useState();
+  const [animeData, setAnimeData] = useState(null);
   const [animeCharacters, setAnimeCharacters] = useState([]);
-  const [coverImage, setCoverImage] = useState("");
-  const [posterImage, setPosterImage] = useState("");
-  const [animeImages, setAnimeImages] = useState([]);
   const [similarAnime, setSimilarAnime] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [animeDetails, setAnimeDetails] = useState({
+    coverImage: "",
+    posterImage: "",
     startDate: null,
     endDate: null,
     nextEpisode: null,
@@ -27,139 +26,120 @@ const AnimeDescription = ({ params }) => {
   });
 
   useEffect(() => {
-    const fetchAllData = async () => {
-      try {
-        const endpoints = [
-          `https://api.jikan.moe/v4/anime/${params.animeId}`,
-          `https://api.jikan.moe/v4/anime/${params.animeId}/characters`,
-          `https://api.jikan.moe/v4/anime/${params.animeId}/pictures`,
-          `https://api.jikan.moe/v4/anime/${params.animeId}/recommendations`,
-        ];
+    const fetchJikanData = async () => {
+      const responses = await Promise.all([
+        fetch(`https://api.jikan.moe/v4/anime/${params.animeId}`),
+        fetch(`https://api.jikan.moe/v4/anime/${params.animeId}/characters`),
+        fetch(`https://api.jikan.moe/v4/anime/${params.animeId}/recommendations`),
+      ]);
 
-        const responses = await Promise.all(
-          endpoints.map((endpoint) => fetch(endpoint).then((res) => res.json()))
-        );
+      const [animeResponse, charsResponse, recsResponse] = await Promise.all(
+        responses.map(res => res.json())
+      );
 
-        const fetchAniListData = async (title) => {
-          const query = `
-            query ($search: String) {
-              Media(search: $search, type: ANIME) {
-                coverImage {
-                  large
-                  extraLarge
-                  color
-                }
-                bannerImage
-                averageScore
-                popularity
-                trending
-                startDate {
-                  year
-                  month
-                  day
-                }
-                endDate {
-                  year
-                  month
-                  day
-                }
-                nextAiringEpisode {
-                  airingAt
-                  timeUntilAiring
-                  episode
-                }
-                rankings {
-                  rank
-                  type
-                  context
-                }
-                stats {
-                  scoreDistribution {
-                    score
-                    amount
-                  }
-                  statusDistribution {
-                    status
-                    amount
-                  }
-                }
-                reviews {
-                  nodes {
-                    summary
-                    score
-                    rating
-                  }
-                }
-                trailer {
-                  id
-                  site
-                  thumbnail
-                }
-                tags {
-                  name
-                  rank
-                }
-                studios {
-                  nodes {
-                    name
-                    isAnimationStudio
-                  }
-                }
+      return {
+        animeData: animeResponse.data,
+        characters: charsResponse.data,
+        recommendations: recsResponse.data
+      };
+    };
+
+    const fetchAniListData = async (malId) => {
+      const query = `
+        query ($idMal: Int) {
+          Media(idMal: $idMal, type: ANIME) {
+            coverImage {
+              extraLarge
+              large
+            }
+            bannerImage
+            startDate {
+              year
+              month
+              day
+            }
+            endDate {
+              year
+              month
+              day
+            }
+            nextAiringEpisode {
+              airingAt
+              timeUntilAiring
+              episode
+            }
+            reviews {
+              nodes {
+                summary
+                score
+                rating
               }
             }
-          `;
-
-          const response = await fetch("https://graphql.anilist.co", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ query, variables: { search: title } }),
-          });
-
-          const { data } = await response.json();
-          if (data.Media) {
-            setCoverImage(data.Media.bannerImage || "");
-            setPosterImage(
-              data.Media.coverImage.extraLarge ||
-                data.Media.coverImage.large ||
-                ""
-            );
-            setAnimeDetails({
-              startDate: data.Media.startDate,
-              endDate: data.Media.endDate,
-              nextEpisode: data.Media.nextAiringEpisode,
-              reviews: data.Media.reviews?.nodes || [],
-              trailer: data.Media.trailer,
-              tags: data.Media.tags,
-              studios: data.Media.studios?.nodes || [],
-            });
+            trailer {
+              id
+              site
+              thumbnail
+            }
+            tags {
+              name
+              rank
+            }
+            studios {
+              nodes {
+                name
+                isAnimationStudio
+              }
+            }
           }
-        };
+        }
+      `;
 
-        const [animeData, charsData, picsData, recsData, streamData] =
-          responses;
+      const response = await fetch("https://graphql.anilist.co", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          query,
+          variables: { idMal: parseInt(malId) }
+        }),
+      });
 
-        setAnimeData(animeData.data);
-        setAnimeCharacters(
-          charsData.data?.filter((char) => char.role === "Main")
-        );
-        setAnimeImages(picsData.data || []);
-        setSimilarAnime(recsData.data?.slice(0, 10).map((item) => item.entry));
+      const { data } = await response.json();
+      return data?.Media;
+    };
 
-        if (animeData.data?.title) {
-          await fetchAniListData(animeData.data.title);
+    const loadAllData = async () => {
+      try {
+        const jikanData = await fetchJikanData();
+        setAnimeData(jikanData.animeData);
+        setAnimeCharacters(jikanData.characters?.filter(char => char.role === "Main") || []);
+        setSimilarAnime(jikanData.recommendations?.slice(0, 10).map(item => item.entry) || []);
+
+        const anilistData = await fetchAniListData(params.animeId);
+        if (anilistData) {
+          setAnimeDetails({
+            coverImage: anilistData.bannerImage || "",
+            posterImage: anilistData.coverImage?.extraLarge || anilistData.coverImage?.large || "",
+            startDate: anilistData.startDate,
+            endDate: anilistData.endDate,
+            nextEpisode: anilistData.nextAiringEpisode,
+            reviews: anilistData.reviews?.nodes || [],
+            trailer: anilistData.trailer,
+            tags: anilistData.tags || [],
+            studios: anilistData.studios?.nodes || [],
+          });
         }
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error loading anime data:", error);
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchAllData();
+    loadAllData();
   }, [params.animeId]);
 
   const { useJapanese } = useLanguage();
-  if (!animeData) return <Loading />;
+  if (isLoading || !animeData) return <Loading />;
 
   const {
     title_english,
@@ -172,6 +152,7 @@ const AnimeDescription = ({ params }) => {
     type,
     status,
   } = animeData;
+
 
   return (
     <AnimatePresence>
@@ -186,7 +167,7 @@ const AnimeDescription = ({ params }) => {
             initial={{ scale: 1.1 }}
             animate={{ scale: 1 }}
             transition={{ duration: 0.5 }}
-            src={coverImage || "/banner404.jpg"}
+            src={animeDetails.coverImage || "/banner404.jpg"}
             alt={title_english || title}
             className="absolute w-full h-full object-cover"
             style={{ filter: "brightness(0.6)" }}
@@ -198,7 +179,7 @@ const AnimeDescription = ({ params }) => {
                 initial={{ y: 100, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.2 }}
-                src={posterImage || "/poster404.jpg"}
+                src={animeDetails.posterImage || "/poster404.jpg"}
                 alt={title_english || title}
                 className="w-32 h-48 md:w-48 md:h-72 rounded-xl shadow-2xl object-cover"
               />

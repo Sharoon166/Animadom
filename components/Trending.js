@@ -1,36 +1,47 @@
 import React from "react";
 import Link from "next/link";
-import './trending.css';
 
 const AnimeCard = ({ mal_id, name, imageUrl, year, genre }) => {
   return (
-    <div className="anime-card">
-      <div className="card-container">
-        <img 
-          src={imageUrl} 
+    <div className="group relative w-full max-w-[350px] min-w-[200px] h-[320px] sm:h-[400px] transition-all mx-auto rounded-xl overflow-hidden shadow-lg hover:shadow-2xl">
+      {/* Image Container */}
+      <div className="absolute inset-0">
+        <img
+          src={imageUrl}
           alt={name}
-          className="card-image"
+          className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
         />
-        
-        <div className="overlay" />
-        
-        <div className="card-content">
-          <div className="tags">
-            <Link href={`/seasons/${year}/winter`}>
-              <span className="tag">{year}</span>
-            </Link>
-            <Link href={`/collection/${genre}`}>
-              <span className="tag">{genre}</span>
-            </Link>
-          </div>
-          
-          <h2 className="title">{name}</h2>
-          
-          <div className="button-container">
-            <Link href={`/anime/${mal_id}`}>
-              <button className="more-button">More</button>
-            </Link>
-          </div>
+      </div>
+
+      {/* Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#000000]/40 to-[#000000]/90 transition-all duration-500" />
+
+      {/* Content Container */}
+      <div className="absolute inset-0 flex flex-col justify-end p-4 sm:p-6">
+        {/* Year and Genre */}
+        <div className="flex gap-2 mb-2">
+          <Link href={`/seasons/${year}/winter`}>
+            <span className="text-xs sm:text-sm bg-[#ffffff]/20 backdrop-blur-sm px-2 py-1 rounded-md text-[#e0e0e0] hover:bg-[#ffffff]/30 transition-all">
+              {year}
+            </span>
+          </Link>
+          <span className="text-xs sm:text-sm bg-[#ffffff]/20 backdrop-blur-sm px-2 py-1 rounded-md text-[#e0e0e0]">
+            {genre}
+          </span>
+        </div>
+
+        {/* Anime Title */}
+        <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-[#e0e0e0] mb-3 leading-tight line-clamp-2 hover:underline cursor-pointer">
+          {name}
+        </h2>
+
+        {/* View Details Button */}
+        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
+          <Link href={`/anime/${mal_id}`}>
+            <button className="w-full py-2 sm:py-2.5 bg-[#ffffff]/20 backdrop-blur-sm text-[#e0e0e0] text-sm sm:text-base font-semibold rounded-lg hover:bg-[#ffffff]/30 transition-all duration-300 ease-in-out shadow-sm">
+              View Details
+            </button>
+          </Link>
         </div>
       </div>
     </div>

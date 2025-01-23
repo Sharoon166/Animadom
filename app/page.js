@@ -8,7 +8,7 @@ import MoreAnime from "@/components/MoreAnime";
 import { useLanguage } from "@/components/useLanguage";
 import Button from "@/components/Button";
 
-const heroVariants = {
+const carouselVariants = {
   initial: { scale: 1.2, opacity: 0 },
   animate: {
     scale: 1,
@@ -17,14 +17,7 @@ const heroVariants = {
   }
 };
 
-const carouselVariants = {
-  initial: { x: -1000, opacity: 0 },
-  animate: {
-    x: 0,
-    opacity: 1,
-    transition: { duration: 2, ease: "easeOut" }
-  }
-};
+
 
 const cardContainerVariants = {
   initial: { opacity: 0 },
@@ -66,18 +59,7 @@ export default function Home() {
 
   return (
     <motion.div initial="initial" animate="animate">
-      {/* <motion.div 
-        variants={heroVariants}
-        className="-m-[5rem] mx-auto overflow-hidden relative shadow-[0_20px_80px_#888] pointer-events-none 2xl:w-screen 2xl:max-w-none"
-      >
-        <video
-          src="/main_page.mp4"
-          className="object-cover object-center min-h-[75vh] w-full"
-          autoPlay
-          loop
-          muted
-        />
-      </motion.div> */}
+    
 
       <motion.div variants={carouselVariants}>
         <Carousel />
