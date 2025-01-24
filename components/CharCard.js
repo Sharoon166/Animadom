@@ -9,7 +9,7 @@ const CharCard = ({ id, name, imageUrl, favs, nicks }) => {
   const cardRef = useRef(null);
 
   return (
-    <div ref={cardRef} className="group relative w-full xs:w-[200px] sm:w-[240px] md:w-[280px] lg:w-[300px] h-[320px] sm:h-[380px] transition-all">
+    <div ref={cardRef} className="group relative  w-full max-w-[200px] sm:max-w-[350px] min-w-[200px] h-[240px] sm:h-[400px]  transition-all">
       <div className="absolute inset-0 bg-[#333] rounded-xl shadow-lg overflow-hidden">
         <img 
           src={imageUrl} 

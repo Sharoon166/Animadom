@@ -76,9 +76,9 @@ const MoreAnime = () => {
         </Button>
       </div>
 
-      <div className="flex flex-wrap justify-center items-center">
+      <div className="flex flex-wrap justify-center items-center gap-4">
         {animes.map((anime) => (
-          <div key={anime.idMal} className="m-4">
+          <div key={anime.idMal} >
             <AnimeCard
               mal_id={anime.idMal}
               imageUrl={anime.coverImage.large}

@@ -1,5 +1,13 @@
 export const topAnime = [
   {
+    id: 21,
+    name: "One Piece",
+    rating: "8.3",
+    imageUrl: "/onepiece.jpg",
+    titleImage: "/one_piece_name.png",
+    description: "Monkey D. Luffy and his pirate crew explore a world of endless oceans, seeking the ultimate treasure, the One Piece, to become the Pirate King."
+  },
+  {
     id: 5114,
     name: "Fullmetal Alchemist: Brotherhood",
     rating: "9.2",
@@ -7,6 +15,15 @@ export const topAnime = [
     titleImage: "/fmab_name.webp",
     description: "Two brothers lose their bodies in an alchemical ritual gone wrong. Now they must journey to find the Philosopher's Stone to restore what was lost."
   },
+  {
+    id: 14719,
+    name: "JoJo's Bizarre Adventure",
+    rating: "8.4",
+    imageUrl: "/jojo.jpg",
+    titleImage: "/jojo_name.png",
+    description: "The Joestar family faces bizarre foes and adventures across generations, with each part featuring a new protagonist and unique Stand abilities."
+  },
+  
   {
     id: 9253,
     name: "Steins;Gate",
@@ -48,12 +65,44 @@ export const topAnime = [
     description: "A teenage boy living a harsh life becomes a devil hunter, gaining the ability to transform into Chainsaw Man after merging with his devil pet."
   },
   {
-    id: 21,
-    name: "One Piece",
-    rating: "8.3",
-    imageUrl: "/onepiece.jpg",
-    titleImage: "/one_piece_name.png",
-    description: "Monkey D. Luffy and his pirate crew explore a world of endless oceans, seeking the ultimate treasure, the One Piece, to become the Pirate King."
+    id: 918,
+    name: "Gintama",
+    rating: "8.9",
+    imageUrl: "/gintama.jpg",
+    titleImage: "/gintama_name.png",
+    description: "In an alternate Edo-period Japan, samurai coexist with aliens. Follow Gintoki Sakata and his friends in their hilarious and action-packed adventures."
+  },
+  {
+    id: 37521,
+    name: "Vinland Saga",
+    rating: "8.8",
+    imageUrl: "/vinland.jpg",
+    titleImage: "/vinalnd_name.png",
+    description: "Thorfinn, a young Viking, seeks revenge for his father's death while exploring themes of war, honor, and peace."
+  },
+  {
+    id: 1482,
+    name: "High School DxD",
+    rating: "7.6",
+    imageUrl: "/dxd.jpg",
+    titleImage: "/dxd_name.webp",
+    description: "Issei Hyoudou, a high school student killed by a girl on his first date, is resurrected as a devil and enters the world of supernatural beings."
+  },
+  {
+    id: 33255,
+    name: "The Disastrous Life of Saiki K.",
+    rating: "8.4",
+    imageUrl: "/saiki.png",
+    titleImage: "/saiki_name.png",
+    description: "Saiki Kusuo, a psychic teenager, tries to live a normal life while dealing with eccentric friends and chaotic situations."
+  },
+  {
+    id: 269,
+    name: "Bleach",
+    rating: "8.1",
+    imageUrl: "/bleach.jpg",
+    titleImage: "/bleach_name.png",
+    description: "Ichigo Kurosaki, a high schooler with the ability to see ghosts, becomes a Soul Reaper and protects humanity from supernatural threats."
   },
 ];
 

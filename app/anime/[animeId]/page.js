@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useLanguage } from "@/components/useLanguage";
 import AnimeCard from "@/components/Trending";
 import Button from "@/components/Button";
+import Image from "next/image";
 
 const AnimeDescription = ({ params }) => {
   const [animeData, setAnimeData] = useState(null);

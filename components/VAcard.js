@@ -9,7 +9,7 @@ const VACard = ({ mal_id, name, imageUrl, language, roles }) => {
   const cardRef = useRef(null);
 
   return (
-    <div ref={cardRef} className="group relative w-[240px] sm:w-[260px] md:w-[280px] h-[380px] transition-all">
+    <div ref={cardRef} className="group relative w-full max-w-[200px] sm:max-w-[350px] min-w-[200px] h-[240px] sm:h-[400px]  transition-all">
       <div className="absolute inset-0 bg-[#333] rounded-xl shadow-lg overflow-hidden">
         <img 
           src={imageUrl} 
