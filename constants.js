@@ -5,7 +5,8 @@ export const topAnime = [
     rating: "8.3",
     imageUrl: "/onepiece.jpg",
     titleImage: "/one_piece_name.png",
-    description: "Monkey D. Luffy and his pirate crew explore a world of endless oceans, seeking the ultimate treasure, the One Piece, to become the Pirate King."
+    description:
+      "Monkey D. Luffy and his pirate crew explore a world of endless oceans, seeking the ultimate treasure, the One Piece, to become the Pirate King.",
   },
   {
     id: 5114,
@@ -13,7 +14,8 @@ export const topAnime = [
     rating: "9.2",
     imageUrl: "/fmab.jpg",
     titleImage: "/fmab_name.webp",
-    description: "Two brothers lose their bodies in an alchemical ritual gone wrong. Now they must journey to find the Philosopher's Stone to restore what was lost."
+    description:
+      "Two brothers lose their bodies in an alchemical ritual gone wrong. Now they must journey to find the Philosopher's Stone to restore what was lost.",
   },
   {
     id: 14719,
@@ -21,16 +23,27 @@ export const topAnime = [
     rating: "8.4",
     imageUrl: "/jojo.jpg",
     titleImage: "/jojo_name.png",
-    description: "The Joestar family faces bizarre foes and adventures across generations, with each part featuring a new protagonist and unique Stand abilities."
+    description:
+      "The Joestar family faces bizarre foes and adventures across generations, with each part featuring a new protagonist and unique Stand abilities.",
   },
-  
+  {
+    id: 12345,
+    name: "Domekano",
+    rating: "8.5",
+    imageUrl: "/domekano.png",
+    titleImage: "/domekano_name.png",
+    description:
+      "A heartwarming story about a girl who discovers the joys of life and friendship while navigating the challenges of adolescence.",
+  },
+
   {
     id: 9253,
     name: "Steins;Gate",
     rating: "9.1",
     imageUrl: "/s;g.jpg",
     titleImage: "/s;g_name.png",
-    description: "A self-proclaimed mad scientist discovers a way to alter the past using a microwave and bananas, leading to dire consequences."
+    description:
+      "A self-proclaimed mad scientist discovers a way to alter the past using a microwave and bananas, leading to dire consequences.",
   },
   {
     id: 16498,
@@ -38,15 +51,27 @@ export const topAnime = [
     rating: "8.9",
     imageUrl: "/aot.jpg",
     titleImage: "/aot_name.png",
-    description: "Humanity lives inside cities surrounded by enormous walls due to the Titans, gigantic humanoid creatures who devour humans seemingly without reason."
+    description:
+      "Humanity lives inside cities surrounded by enormous walls due to the Titans, gigantic humanoid creatures who devour humans seemingly without reason.",
   },
+  {
+      id: 12346,
+      name: "Shokugeki no Soma",
+      rating: "8.6",
+      imageUrl: "/shokugeki.png",
+      titleImage: "/shokugeki_name.png",
+      description:
+        "Soma Yukihira enrolls in an elite culinary school where students engage in intense cooking battles to prove their skills and rise to the top.",
+    },
+  
   {
     id: 1535,
     name: "Death Note",
     rating: "8.6",
     imageUrl: "/DN.jpg",
     titleImage: "/DN_name.png",
-    description: "A high school student discovers a supernatural notebook that allows him to kill anyone by writing the victim's name while picturing their face."
+    description:
+      "A high school student discovers a supernatural notebook that allows him to kill anyone by writing the victim's name while picturing their face.",
   },
   {
     id: 1735,
@@ -54,7 +79,8 @@ export const topAnime = [
     rating: "8.3",
     imageUrl: "/naruto.avif",
     titleImage: "/naruto_name.png",
-    description: "Naruto Uzumaki seeks to become the strongest ninja in his village while dealing with powerful threats to the shinobi world."
+    description:
+      "Naruto Uzumaki seeks to become the strongest ninja in his village while dealing with powerful threats to the shinobi world.",
   },
   {
     id: 44511,
@@ -62,7 +88,8 @@ export const topAnime = [
     rating: "8.3",
     imageUrl: "/chainsaw-man.jpg",
     titleImage: "/csm_name.png",
-    description: "A teenage boy living a harsh life becomes a devil hunter, gaining the ability to transform into Chainsaw Man after merging with his devil pet."
+    description:
+      "A teenage boy living a harsh life becomes a devil hunter, gaining the ability to transform into Chainsaw Man after merging with his devil pet.",
   },
   {
     id: 918,
@@ -70,7 +97,8 @@ export const topAnime = [
     rating: "8.9",
     imageUrl: "/gintama.jpg",
     titleImage: "/gintama_name.png",
-    description: "In an alternate Edo-period Japan, samurai coexist with aliens. Follow Gintoki Sakata and his friends in their hilarious and action-packed adventures."
+    description:
+      "In an alternate Edo-period Japan, samurai coexist with aliens. Follow Gintoki Sakata and his friends in their hilarious and action-packed adventures.",
   },
   {
     id: 37521,
@@ -78,7 +106,8 @@ export const topAnime = [
     rating: "8.8",
     imageUrl: "/vinland.jpg",
     titleImage: "/vinalnd_name.png",
-    description: "Thorfinn, a young Viking, seeks revenge for his father's death while exploring themes of war, honor, and peace."
+    description:
+      "Thorfinn, a young Viking, seeks revenge for his father's death while exploring themes of war, honor, and peace.",
   },
   {
     id: 1482,
@@ -86,7 +115,8 @@ export const topAnime = [
     rating: "7.6",
     imageUrl: "/dxd.jpg",
     titleImage: "/dxd_name.webp",
-    description: "Issei Hyoudou, a high school student killed by a girl on his first date, is resurrected as a devil and enters the world of supernatural beings."
+    description:
+      "Issei Hyoudou, a high school student killed by a girl on his first date, is resurrected as a devil and enters the world of supernatural beings.",
   },
   {
     id: 33255,
@@ -94,7 +124,8 @@ export const topAnime = [
     rating: "8.4",
     imageUrl: "/saiki.png",
     titleImage: "/saiki_name.png",
-    description: "Saiki Kusuo, a psychic teenager, tries to live a normal life while dealing with eccentric friends and chaotic situations."
+    description:
+      "Saiki Kusuo, a psychic teenager, tries to live a normal life while dealing with eccentric friends and chaotic situations.",
   },
   {
     id: 269,
@@ -102,10 +133,19 @@ export const topAnime = [
     rating: "8.1",
     imageUrl: "/bleach.jpg",
     titleImage: "/bleach_name.png",
-    description: "Ichigo Kurosaki, a high schooler with the ability to see ghosts, becomes a Soul Reaper and protects humanity from supernatural threats."
+    description:
+      "Ichigo Kurosaki, a high schooler with the ability to see ghosts, becomes a Soul Reaper and protects humanity from supernatural threats.",
+  },
+  {
+    id: 12345,
+    name: "Shangri-La Frontier",
+    rating: "8.5",
+    imageUrl: "/shangrila.jpeg",
+    titleImage: "/shangrila_name.jpeg",
+    description:
+      "A gamer with a knack for playing bad games takes on the ultimate challenge in a new VRMMO, facing off against powerful foes and uncovering hidden secrets.",
   },
 ];
-
 
 export const animegenres = [
   {
