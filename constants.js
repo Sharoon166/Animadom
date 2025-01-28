@@ -27,7 +27,7 @@ export const topAnime = [
       "The Joestar family faces bizarre foes and adventures across generations, with each part featuring a new protagonist and unique Stand abilities.",
   },
   {
-    id: 12345,
+    id: 37982,
     name: "Domekano",
     rating: "8.5",
     imageUrl: "/domekano.png",
@@ -55,15 +55,15 @@ export const topAnime = [
       "Humanity lives inside cities surrounded by enormous walls due to the Titans, gigantic humanoid creatures who devour humans seemingly without reason.",
   },
   {
-      id: 12346,
-      name: "Shokugeki no Soma",
-      rating: "8.6",
-      imageUrl: "/shokugeki.png",
-      titleImage: "/shokugeki_name.png",
-      description:
-        "Soma Yukihira enrolls in an elite culinary school where students engage in intense cooking battles to prove their skills and rise to the top.",
-    },
-  
+    id: 28171,
+    name: "Shokugeki no Soma",
+    rating: "8.6",
+    imageUrl: "/shokugeki.png",
+    titleImage: "/shokugeki_name.png",
+    description:
+      "Soma Yukihira enrolls in an elite culinary school where students engage in intense cooking battles to prove their skills and rise to the top.",
+  },
+
   {
     id: 1535,
     name: "Death Note",
@@ -137,7 +137,7 @@ export const topAnime = [
       "Ichigo Kurosaki, a high schooler with the ability to see ghosts, becomes a Soul Reaper and protects humanity from supernatural threats.",
   },
   {
-    id: 12345,
+    id: 52347,
     name: "Shangri-La Frontier",
     rating: "8.5",
     imageUrl: "/shangrila.jpeg",
